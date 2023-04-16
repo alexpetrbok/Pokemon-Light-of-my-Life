@@ -1,0 +1,195 @@
+Trainer Name: Ash
+Before battle dialog: "I want to be the very best, like no one ever was!"
+After battle dialog: "That was a great battle! Thank you for the experience."
+Pokemon: Pikachu, Bulbasaur
+
+Trainer Name: Misty
+Before battle dialog: "You'd better be ready, because I'm not holding back!"
+After battle dialog: "Wow, you're really strong! I'll have to train harder."
+Pokemon: Starmie, Psyduck
+
+Trainer Name: Brock
+Before battle dialog: "I may be a rock type trainer, but I can adapt to any situation."
+After battle dialog: "Great battle! I learned a lot from you."
+Pokemon: Onix, Geodude
+
+Trainer Name: Gary
+Before battle dialog: "I've been training for this moment for a long time, let's go!"
+After battle dialog: "I lost, but I'll come back stronger next time."
+Pokemon: Blastoise, Eevee, Fearow
+
+Trainer Name: Dawn
+Before battle dialog: "I've worked hard to get here, let's see what you've got."
+After battle dialog: "That was a great battle! I'll have to train harder."
+Pokemon: Piplup, Buneary, Pachirisu
+
+Trainer Name: Red
+Before battle dialog: "I've traveled the world and trained with the best, let's see if you can keep up."
+After battle dialog: "That was a great battle! I'm proud of my team."
+Pokemon: Charizard, Venusaur, Blastoise, Pikachu, Jolteon, Snorlax
+
+Trainer Name: Jake
+Before battle dialog: "I've got a few tricks up my sleeve, let's see what you've got."
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Charmeleon, Machop
+
+Trainer Name: Samantha
+Before battle dialog: "I've been training for this moment for a long time, let's go!"
+After battle dialog: "Great battle! I'll have to train harder."
+Pokemon: Vaporeon, Gloom
+
+Trainer Name: Michael
+Before battle dialog: "I've got a well-rounded team, ready for any challenge."
+After battle dialog: "That was a great battle! Thanks for the experience."
+Pokemon: Gyarados, Alakazam
+
+Trainer Name: Emily
+Before battle dialog: "I may be new to this, but I'm ready to give it my all."
+After battle dialog: "I lost, but I'll come back stronger next time."
+Pokemon: Jigglypuff, Clefairy
+
+Trainer Name: Ryan
+Before battle dialog: "I've trained hard to get here, let's see what you've got."
+After battle dialog: "That was a great battle! I learned a lot from you."
+Pokemon: Gengar, Haunter
+
+Trainer Name: Jessica
+Before battle dialog: "I may not look tough, but don't underestimate me."
+After battle dialog: "Wow, you're really strong! I'll have to train harder."
+Pokemon: Dragonite, Charizard
+
+Trainer Name: David
+Before battle dialog: "I've got a team of powerful Pokemon, let's see if you can handle it."
+After battle dialog: "Great battle! I'm proud of my team."
+Pokemon: Mewtwo, Mew
+
+Trainer Name: Sarah
+Before battle dialog: "I've traveled the world and trained with the best, let's see if you can keep up."
+After battle dialog: "That was a great battle! Thank you for the experience."
+Pokemon: Blastoise, Venusaur, Charizard
+
+Trainer Name: Matthew
+Before battle dialog: "I've got a few surprises in store, let's see what you've got."
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Pidgeot, Fearow
+
+Trainer Name: Rebecca
+Before battle dialog: "I've been training for this moment for a long time, let's go!"
+After battle dialog: "Great battle! I'll have to train harder."
+Pokemon: Wigglytuff, Clefable
+
+Trainer Name: Jonathan
+Before battle dialog: "I've got a well-rounded team, ready for any challenge."
+After battle dialog: "That was a great battle! Thanks for the experience."
+Pokemon: Raichu, Jolteon
+
+Trainer Name: Natalie
+Before battle dialog: "I may be new to this, but I'm ready to give it my all."
+After battle dialog: "I lost, but I'll come back stronger next time."
+Pokemon: Dragonair, Dragonite
+
+Trainer Name: Mark
+Before battle dialog: "I've caught Pokemon from all around the world, let's see how you fare against them"
+After battle dialog: "That was a great battle! I'll have to keep training."
+Pokemon: Garchomp, Dragapult, Rillaboom
+
+Trainer Name: Rachel
+Before battle dialog: "I've got a diverse team, ready for any challenge"
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Toxtricity, Drednaw, Sandaconda
+
+Trainer Name: John
+Before battle dialog: "I've trained with the best trainers, let's see if you can keep up"
+After battle dialog: "Great battle! I'm proud of my team."
+Pokemon: Zacian, Eternatus, Cinderace
+
+Trainer Name: Karen
+Before battle dialog: "I may be new to this, but I've got some hidden gems on my team"
+After battle dialog: "I lost, but I'll come back stronger next time."
+Pokemon: Falinks, Indeedee, Copperajah
+
+Trainer Name: James
+Before battle dialog: "I've got a well-rounded team, ready for any challenge"
+After battle dialog: "That was a great battle! Thanks for the experience."
+Pokemon: Dragapult, Obstagoon, Corviknight
+
+Trainer Name: Susan
+Before battle dialog: "I've traveled the world and caught many rare Pokemon, let's see if you can handle them"
+After battle dialog: "That was a great battle! I'll have to keep training."
+Pokemon: Eternatus, Dracozolt, Arctozolt
+
+Trainer Name: Kevin
+Before battle dialog: "I've got some powerful and unique Pokemon, let's see if you can handle them"
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Appletun, Toxtricity, Rillaboom
+
+Trainer Name: Lisa
+Before battle dialog: "I've been training for this moment for a long time, let's go!"
+After battle dialog: "Great battle! I'll have to train harder."
+Pokemon: Inteleon, Dragapult, Cinderace
+
+Trainer Name: Robert
+Before battle dialog: "I've got a diverse team, ready for any challenge"
+After battle dialog: "That was a great battle! Thanks for the experience."
+Pokemon: Urshifu, Rillaboom, Cinderace
+
+Trainer Name: Jennifer
+Before battle dialog: "I've caught Pokemon from all around the world, let's see how you fare against them"
+After battle dialog: "That was a great battle! I'll have to keep training."
+Pokemon: Dracovish, Dracozolt, Arctozolt
+
+Trainer Name: William
+Before battle dialog: "I've trained with the best trainers, let's see if you can keep up"
+After battle dialog: "Great battle! I'm proud of my team."
+Pokemon: Hatterene, Indeedee, Dragapult
+
+Trainer Name: Amanda
+Before battle dialog: "Wow, the view from here is amazing! Have you seen it yet?"
+After battle dialog: "That was a great battle! Let's take a moment to appreciate the nature around us."
+Pokemon: Leafeon, Roserade
+
+Trainer Name: Nicholas
+Before battle dialog: "I just caught this little guy yesterday, isn't he the cutest?"
+After battle dialog: "That was a great battle! I'm glad my new Pokemon got to battle."
+Pokemon: Sobble, Grookey
+
+Trainer Name: Lauren
+Before battle dialog: "I'm on a journey to catch all the different types of Pokemon. Have you seen many different types?"
+After battle dialog: "That was a great battle! I learned a lot from you."
+Pokemon: Jirachi, Porygon
+
+Trainer Name: Andrew
+Before battle dialog: "I've been traveling for a while, where are you headed?"
+After battle dialog: "That was a great battle! Let's exchange travel stories sometime."
+Pokemon: Lucario, Galarian Darmanitan
+
+Trainer Name: Stephanie
+Before battle dialog: "I'm trying to complete my Pokedex, have you seen any rare Pokemon lately?"
+After battle dialog: "That was a great battle! Thanks for the experience."
+Pokemon: Magnezone, Probopass
+
+Trainer Name: Elizabeth
+Before battle dialog: "I just caught this little guy yesterday, isn't he the cutest?"
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Rookidee, Corvisquire
+
+Trainer Name: Joshua
+Before battle dialog: "I'm on a journey to catch all the different types of Pokemon. Have you seen many different types?"
+After battle dialog: "Great battle! I'm proud of my team."
+Pokemon: Toxtricity, Duraludon
+
+Trainer Name: Megan
+Before battle dialog: "I've been traveling for a while, where are you headed?"
+After battle dialog: "That was a great battle! Let's exchange travel stories sometime."
+Pokemon: Toxel, Toxtricity
+
+Trainer Name: Christopher
+Before battle dialog: "I'm trying to complete my Pokedex, have you seen any rare Pokemon lately?"
+After battle dialog: "That was a great battle! I'll have to keep training."
+Pokemon: Hatterene, Indeedee
+
+Trainer Name: Danielle
+Before battle dialog: "Wow, the view from here is amazing! Have you seen it yet?"
+After battle dialog: "That was a tough battle, but I'll be back stronger next time."
+Pokemon: Alcremie, Milcery
+

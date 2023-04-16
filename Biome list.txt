@@ -1,0 +1,57 @@
+Amazon Rainforest: This biome would include dense jungle, swamps, and rivers. 
+Pokemon types commonly found in this area could include Water-type Pokemon such as Lotad and Poliwag, Grass-type Pokemon such as Oddish and Paras, and Bug-type Pokemon such as Kakuna and Parasect.
+
+Andes Mountains: This biome would include high altitude terrain such as snow-capped peaks and rocky cliffs. 
+Pokemon types commonly found in this area could include Ice-type Pokemon such as Delibird and Jynx, Rock-type Pokemon such as Onix and Geodude, and Fighting-type Pokemon such as Machop and Hitmonlee
+
+The Pantanal: This biome would include marshland, wetlands, and rivers. 
+Pokemon types commonly found in this area could include Water-type Pokemon such as Mudkip and Buizel, Ground-type Pokemon such as Diglett and Sandshrew, and Electric-type Pokemon such as Pikachu and Magnemite.
+
+The Atlantic Forest: This biome would include coastal, subtropical forest. 
+Pokemon types commonly found in this area could include Fairy-type Pokemon such as Floette and Spritzee, Bug-type Pokemon such as Heracross and Beautifly, and Psychic-type Pokemon such as Ralts and Gothita.
+
+The Pampas: This biome would include vast grasslands. 
+Pokemon types commonly found in this area could include Grass-type Pokemon such as Sceptile and Venusaur, Normal-type Pokemon such as Pidgeot and Rapidash, and Electric-type Pokemon such as Jolteon and Luxio.
+
+The Atacama Desert: This biome would include desert, with rocky terrain and sand dunes. 
+Pokemon types commonly found in this area could include Ground-type Pokemon such as Garchomp and Landorus, Fire-type Pokemon such as Talonflame and Infernape, and Dragon-type Pokemon such as Dragonite and Haxorus.
+
+The Andean Volcanoes: This biome would include volcanic terrain, including ash and lava fields. 
+Pokemon types commonly found in this area could include Fire-type Pokemon such as Charizard and Infernape, Rock-type Pokemon such as Golem and Magcargo, and Dragon-type Pokemon such as Salamence and Garchomp.
+
+The Galapagos Islands: This biome would include volcanic islands, with rocky terrain and beaches. 
+Pokemon types commonly found in this area could include Water-type Pokemon such as Vaporeon and Blastoise, Rock-type Pokemon such as Golem and Relicanth, and Ghost-type Pokemon such as Gengar and Drifblim
+
+Underground Caves: This biome would include dark and damp underground caves. 
+Pokemon types commonly found in this area could include Rock-type Pokemon such as Onix and Geodude, Ground-type Pokemon such as Diglett and Sandshrew, and Dark-type Pokemon such as Murkrow and Sneasel.
+
+Angel Falls: This biome would include a large waterfall, with mist and high humidity. 
+Pokemon types commonly found in this area could include Water-type Pokemon such as Gyarados and Blastoise, Electric-type Pokemon such as Jolteon and Luxio, and Dragon-type Pokemon such as Dragonair and Salamence.
+
+Mining Deposits: This biome would include mining towns, with rocky terrain and metal deposits. 
+Pokemon types commonly found in this area could include Steel-type Pokemon such as Steelix and Mawile, Rock-type Pokemon such as Onix and Geodude, and Electric-type Pokemon such as Jolteon and Luxio.
+
+Cloud Forest: This biome would include a misty forested area, often found at high elevations. 
+Pokemon types commonly found in this area could include Fairy-type Pokemon such as Xerneas and Togekiss, Flying-type Pokemon such as Pidgeot and Talonflame, and Dragon-type Pokemon such as Dragonite and Salamence.
+
+Lagoons: This biome would include a shallow, salty body of water with a characteristic set of flora and fauna. 
+Pokemon types commonly found in this area could include Water-type Pokemon such as Vaporeon and Blastoise, Ground-type Pokemon such as Gastrodon and Palpitoad and Electric-type Pokemon such as Manectric and Ampharos.
+
+Salt Flats: This biome would include a flat, hard surface covered with salt and other minerals. 
+Pokemon types commonly found in this area could include Ground-type Pokemon such as Garchomp and Landorus, Rock-type Pokemon such as Golem and Magcargo, and Electric-type Pokemon such as Jolteon and Luxio.
+
+Tepui: This biome would include a tabletop mountain, often found in the Guiana shield. 
+Pokemon types commonly found in this area could include Flying-type Pokemon such as Pidgeot and Talonflame, Rock-type Pokemon such as Onix and Geodude and Electric-type Pokemon such as Jolteon and Luxio
+
+
+
+Town list
+Gyms
+Andestown
+Pantanal Village
+Atlantica
+Pampasville
+Atacama Heights
+Andean Peak
+Machu Picchu Village
+Iguazu Village
