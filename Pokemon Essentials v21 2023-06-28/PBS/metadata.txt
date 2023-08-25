@@ -31,3 +31,13 @@ SurfCharset = girl_surf
 DiveCharset = girl_surf
 FishCharset = girl_fish_offset
 SurfFishCharset = girl_fish_offset
+#-------------------------------
+[3]
+TrainerType = POKEMONTRAINER_May
+WalkCharset = NPC 23
+RunCharset = NPC 23
+CycleCharset = NPC 23
+SurfCharset = NPC 23
+DiveCharset = NPC 23
+FishCharset = NPC 23
+SurfFishCharset = NPC 23
