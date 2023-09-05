@@ -212,6 +212,7 @@ MapPosition = 0,11,7
 MapSize = 1,111
 #-------------------------------
 [042]   # Fortree City
+Name = Fortree City
 Outdoor = true
 #-------------------------------
 [044]   # Route 6
@@ -405,3 +406,17 @@ Name = Tiall Region
 Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
+#-------------------------------
+[082]   # R2
+Name = R2
+Outdoor = true
+#-------------------------------
+[083]   # Cascadia
+Name = Cascadia
+Outdoor = true
+#-------------------------------
+[090]   # Lily Lagoon
+Outdoor = true
+DiveMap = 91
+#-------------------------------
+[091]   # Lily Lagoon deep

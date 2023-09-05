@@ -34,10 +34,20 @@ SurfFishCharset = girl_fish_offset
 #-------------------------------
 [3]
 TrainerType = POKEMONTRAINER_May
-WalkCharset = NPC 23
-RunCharset = NPC 23
+WalkCharset = EarthChan walk
+RunCharset = EarthChan walk
 CycleCharset = NPC 23
-SurfCharset = NPC 23
-DiveCharset = NPC 23
-FishCharset = NPC 23
-SurfFishCharset = NPC 23
+SurfCharset = EarthChan surf
+DiveCharset = EarthChan surf
+FishCharset = EarthChan walk
+SurfFishCharset = EarthChan surf
+#-------------------------------
+[4]
+TrainerType = POKEMONRANGER_F
+WalkCharset = k_walk
+RunCharset = k_run
+CycleCharset = k_bike
+SurfCharset = k_surf
+DiveCharset = k_surf
+FishCharset = k_walk
+SurfFishCharset = k_walk

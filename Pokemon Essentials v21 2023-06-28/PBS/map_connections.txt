@@ -28,21 +28,23 @@
 31,South,32,23,North,0
 # Route 3 (31) - Ingido Plateau outside (35)
 31,West,0,35,East,10
+# Fortree City (42) - home (32)
+42,57,58,32,0,0
+# Fortree City (42) - R1 (33)
+42,0,38,33,16,0
 # Ingido Plateau outside (35) - Route 4 (39)
 35,West,11,39,East,0
 # Route 5 (41) - Route 4 Cycling Road (40)
 41,North,0,40,South,0
 # Route 5 (41) - Route 6 Cycling Road (45)
 41,South,6,45,North,0
+# R2 (82) - Fortree City (42)
+82,0,46,42,5,0
 # Route 7 (47) - Battle Frontier (52)
 47,East,8,52,West,0
 # Route 8 (69) - Safari Zone outside (66)
 69,North,0,66,South,10
-# Fortree City (42) - R2 (82)
-42,5,0,82,0,46
-# R2 (82) - home (32)
-82,52,104,32,0,0
-# R2 (82) - R1 (33)
-82,0,84,33,21,0
-# R2 (82) - Cascadia (83)
-82,0,0,83,54,12
+# Cascadia (83) - R2 (82)
+83,East,12,82,West,0
+# Lily Lagoon (90) - R3 (89)
+90,79,0,89,0,0
