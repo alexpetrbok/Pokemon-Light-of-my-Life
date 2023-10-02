@@ -7324,3 +7324,15 @@ Price = 2000
 FieldUse = OnPokemon
 Flags = Fling_30,TeraShard_FAIRY
 Description = On rare occasions, these shards form when a Tera Pokémon falls in battle and its Tera Jewel shatters.
+#
+# Custom Items 
+#
+#-------------------------------
+[EEVEECHANGER]
+Name = Eevee Changer
+NamePlural = Eevee Changers
+Pocket = 8
+Price = 0
+FieldUse = OnPokemon
+Flags = KeyItem
+Description = An item that will allow you to switch between forms of Eevee!
