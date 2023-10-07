@@ -416,7 +416,35 @@ Name = Cascadia
 Outdoor = true
 #-------------------------------
 [090]   # Lily Lagoon
+Name = Lily Lagoon
 Outdoor = true
 DiveMap = 91
 #-------------------------------
 [091]   # Lily Lagoon deep
+Name = Lily Lagoon deep
+#-------------------------------
+[093]   # Aqualius 
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[096]   # N Ocean
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[097]   # Lighthouse 
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[098]   # Magaii Isle
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[099]   # Magaii Isle Center
+Name = Magaii Isle Center
+Outdoor = true
+ShowArea = true
+Bicycle = true
+#-------------------------------
+[102]   # Magaii Isle Forest
+Outdoor = true
+Bicycle = true
