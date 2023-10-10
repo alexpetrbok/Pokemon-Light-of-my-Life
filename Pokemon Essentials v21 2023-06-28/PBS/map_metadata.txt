@@ -424,18 +424,22 @@ DiveMap = 91
 Name = Lily Lagoon deep
 #-------------------------------
 [093]   # Aqualius 
+Name = Aqualius 
 Outdoor = true
 Bicycle = true
 #-------------------------------
 [096]   # N Ocean
+Name = N Ocean
 Outdoor = true
 Bicycle = true
 #-------------------------------
 [097]   # Lighthouse 
+Name = Lighthouse 
 Outdoor = true
 Bicycle = true
 #-------------------------------
 [098]   # Magaii Isle
+Name = Magaii Isle
 Outdoor = true
 Bicycle = true
 #-------------------------------
@@ -446,5 +450,10 @@ ShowArea = true
 Bicycle = true
 #-------------------------------
 [102]   # Magaii Isle Forest
+Name = Magaii Isle Forest
 Outdoor = true
 Bicycle = true
+#-------------------------------
+[105]   # Magaii Isle Caves
+Bicycle = true
+DarkMap = true
