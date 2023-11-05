@@ -423,8 +423,18 @@ DiveMap = 91
 [091]   # Lily Lagoon deep
 Name = Lily Lagoon deep
 #-------------------------------
+[092]   # R3
+Name = R3
+Outdoor = true
+Bicycle = true
+#-------------------------------
 [093]   # Aqualius 
 Name = Aqualius
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[095]   # R3 - 1
+Name = R3 - 1
 Outdoor = true
 Bicycle = true
 #-------------------------------
@@ -432,6 +442,7 @@ Bicycle = true
 Name = N Ocean
 Outdoor = true
 Bicycle = true
+SnapEdges = true
 #-------------------------------
 [097]   # Lighthouse 
 Name = Lighthouse
@@ -467,16 +478,40 @@ DarkMap = true
 SnapEdges = true
 #-------------------------------
 [106]   # Lighthouse deep
+Name = Lighthouse deep
 SnapEdges = true
 #-------------------------------
 [113]   # Mystic Maze
+Name = Mystic Maze
 Outdoor = true
 ShowArea = true
 Bicycle = true
 SnapEdges = true
 #-------------------------------
 [114]   # Sylveon Sanctuary
+Name = Sylveon Sanctuary
 Outdoor = true
 ShowArea = true
 Bicycle = true
 SnapEdges = true
+#-------------------------------
+[116]   # Route 4
+Name = Route 4
+Outdoor = true
+ShowArea = true
+DiveMap = 117
+SnapEdges = true
+#-------------------------------
+[118]   # W Ocean
+Name = W Ocean
+Outdoor = true
+#-------------------------------
+[119]   # Faete Court
+Name = Faete Court
+Outdoor = true
+ShowArea = true
+Bicycle = true
+#-------------------------------
+[122]   # R4
+Outdoor = true
+Bicycle = true
