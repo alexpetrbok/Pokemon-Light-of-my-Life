@@ -46,25 +46,25 @@
 69,North,0,66,South,10
 # Cascadia (83) - R2 (82)
 83,East,12,82,West,0
-# N Ocean (96) - Magaii Isle Center (99)
-96,North,0,99,South,200
-# Magaii Isle (98) - Magaii Isle Center (99)
-98,West,0,99,East,0
-# Magaii Isle Forest (102) - Magaii Isle Center (99)
-102,East,0,99,West,0
-# R3 (92) - N Ocean (96)
-92,North,0,96,South,0
-# Lighthouse  (97) - N Ocean (96)
-97,South,40,96,North,0
-# Magaii Isle (98) - N Ocean (96)
-98,South,120,96,North,0
-# Magaii Isle Forest (102) - N Ocean (96)
-102,South,280,96,North,0
-# Magaii Isle (98) - Lighthouse  (97)
-98,East,0,97,West,0
-# Magaii Isle Center (99) - Lily Lagoon (90)
-99,368,276,90,0,0
-# Magaii Isle Center (99) - Aqualius  (93)
-99,289,262,93,0,0
-# Magaii Isle Center (99) - R3 - 1 (95)
-99,279,183,95,0,0
+# R3 (92) - Lily Lagoon (90)
+92,169,136,90,0,0
+# R3 - 1 (95) - R3 (92)
+95,West,0,92,East,43
+# R3 (92) - Aqualius  (125)
+92,90,122,125,0,0
+# Rocky Path (124) - R4 (122)
+124,West,0,122,East,68
+# Lighthouse  (97) - Magaii Isle (98)
+97,West,0,98,East,0
+# Coastal Islands (116) - Magaii Isle (98)
+116,North,0,98,South,120
+# Magaii Isle Center (93) - Magaii Isle (98)
+93,East,0,98,West,0
+# Coastal Islands (116) - Lighthouse  (97)
+116,North,0,97,South,40
+# Magaii Isle Forest (102) - Coastal Islands (116)
+102,South,279,116,North,0
+# Magaii Isle Center (93) - Coastal Islands (116)
+93,South,200,116,North,0
+# Magaii Isle Center (93) - Magaii Isle Forest (102)
+93,West,0,102,East,0

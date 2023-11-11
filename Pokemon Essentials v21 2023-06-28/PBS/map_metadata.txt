@@ -428,10 +428,11 @@ Name = R3
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[093]   # Aqualius 
-Name = Aqualius
+[093]   # Magaii Isle Center
+Name = 
 Outdoor = true
 Bicycle = true
+DiveMap = 115
 #-------------------------------
 [095]   # R3 - 1
 Name = R3 - 1
@@ -454,9 +455,8 @@ DiveMap = 106
 Name = Magaii Isle
 Outdoor = true
 Bicycle = true
-SnapEdges = true
 #-------------------------------
-[099]   # Magaii Isle Center
+[099]
 Name = Magaii Isle Center
 Outdoor = true
 ShowArea = true
@@ -495,7 +495,7 @@ ShowArea = true
 Bicycle = true
 SnapEdges = true
 #-------------------------------
-[116]   # Route 4
+[116]   # Coastal Islands
 Name = Route 4
 Outdoor = true
 ShowArea = true
@@ -513,5 +513,11 @@ ShowArea = true
 Bicycle = true
 #-------------------------------
 [122]   # R4
+Name = R4
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[124]   # Rocky Path
+Name = Rocky Path
 Outdoor = true
 Bicycle = true
