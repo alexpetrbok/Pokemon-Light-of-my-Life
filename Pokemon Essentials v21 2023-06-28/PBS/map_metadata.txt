@@ -428,7 +428,7 @@ Name = R3
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[093]   # Magaii Isle Center
+[093]   # Zeal Lake
 Name = 
 Outdoor = true
 Bicycle = true
@@ -443,7 +443,6 @@ Bicycle = true
 Name = N Ocean
 Outdoor = true
 Bicycle = true
-SnapEdges = true
 #-------------------------------
 [097]   # Lighthouse 
 Name = Lighthouse
@@ -456,7 +455,7 @@ Name = Magaii Isle
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[099]
+[099]   # Magaii Isle Center
 Name = Magaii Isle Center
 Outdoor = true
 ShowArea = true
@@ -468,7 +467,6 @@ DiveMap = 115
 Name = Magaii Isle Forest
 Outdoor = true
 Bicycle = true
-SnapEdges = true
 #-------------------------------
 [105]   # Magaii Isle Caves
 Name = Magaii Isle Caves
@@ -495,12 +493,14 @@ ShowArea = true
 Bicycle = true
 SnapEdges = true
 #-------------------------------
+[115]   # Magaii Isle reef
+Name = Magaii Isle reef
+#-------------------------------
 [116]   # Coastal Islands
 Name = Route 4
 Outdoor = true
 ShowArea = true
 DiveMap = 117
-SnapEdges = true
 #-------------------------------
 [118]   # W Ocean
 Name = W Ocean
@@ -519,5 +519,9 @@ Bicycle = true
 #-------------------------------
 [124]   # Rocky Path
 Name = Rocky Path
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[126]   # Lake Tapu-Kaka 
 Outdoor = true
 Bicycle = true
