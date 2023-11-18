@@ -51,3 +51,13 @@ SurfCharset = k_surf
 DiveCharset = k_surf
 FishCharset = k_walk
 SurfFishCharset = k_walk
+#-------------------------------
+[5]
+TrainerType = APC
+WalkCharset = APC_walk
+RunCharset = APC_run
+CycleCharset = APC_bike
+SurfCharset = APC_surf
+DiveCharset = APC_surf
+FishCharset = APC_fish_offset
+SurfFishCharset = APC_fish_offset

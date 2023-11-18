@@ -428,11 +428,11 @@ Name = R3
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[093]   # Zeal Lake
-Name = 
-Outdoor = true
+[093]   # Umbreon Caves
+Name = Umbreon Caves
 Bicycle = true
-DiveMap = 115
+DiveMap = 93
+DarkMap = true
 #-------------------------------
 [095]   # R3 - 1
 Name = R3 - 1
@@ -523,5 +523,10 @@ Outdoor = true
 Bicycle = true
 #-------------------------------
 [126]   # Lake Tapu-Kaka 
+Name = Lake Tapu-Kaka 
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[127]   # Zeal Lake
 Outdoor = true
 Bicycle = true

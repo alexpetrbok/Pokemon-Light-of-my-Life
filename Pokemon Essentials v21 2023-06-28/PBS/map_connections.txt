@@ -72,11 +72,11 @@
 102,South,279,116,North,0
 # Coastal Islands (116) - Aqualius  (125)
 116,90,182,125,0,0
-# R4 (122) - Rocky Path (124)
-122,East,68,124,West,0
-# Zeal Lake (93) - Rocky Path (124)
-93,West,0,124,East,35
 # Lake Tapu-Kaka  (126) - Rocky Path (124)
 126,West,0,124,East,85
-# Lake Tapu-Kaka  (126) - Zeal Lake (93)
-126,North,0,93,South,0
+# R4 (122) - Rocky Path (124)
+122,East,68,124,West,0
+# Zeal Lake (127) - Rocky Path (124)
+127,West,0,124,East,35
+# Zeal Lake (127) - Lake Tapu-Kaka  (126)
+127,South,0,126,North,0
