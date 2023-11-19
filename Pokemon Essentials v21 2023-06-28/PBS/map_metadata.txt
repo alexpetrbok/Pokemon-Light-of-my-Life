@@ -523,10 +523,16 @@ Outdoor = true
 Bicycle = true
 #-------------------------------
 [126]   # Lake Tapu-Kaka 
-Name = Lake Tapu-Kaka 
+Name = Lake Tapu-Kaka
 Outdoor = true
 Bicycle = true
 #-------------------------------
 [127]   # Zeal Lake
+Name = Zeal Lake
 Outdoor = true
 Bicycle = true
+#-------------------------------
+[131]   # R5
+Outdoor = true
+Bicycle = true
+BicycleAlways = true
