@@ -10,13 +10,13 @@ module EliteBattle
   BATTLE_MOTION_TIMER = 15
 
   # used to scale the trainer bitmaps (front sprites) to 200%
-  TRAINER_SPRITE_SCALE = 2
+  TRAINER_SPRITE_SCALE = 1
 
   # used to scale the Pokemon bitmaps (front sprites and UI) to 200%
   FRONT_SPRITE_SCALE = 1
 
   # used to scale the Pokemon bitmaps (back sprites) to 200%
-  BACK_SPRITE_SCALE = 0.5
+  BACK_SPRITE_SCALE = 1
 
   # configures the scale of the room to account for the vector motion
   ROOM_SCALE = 2.25
