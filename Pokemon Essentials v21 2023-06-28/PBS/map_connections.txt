@@ -28,12 +28,6 @@
 31,South,32,23,North,0
 # Route 3 (31) - Ingido Plateau outside (35)
 31,West,0,35,East,10
-# Home (136) - Home Inside (32)
-136,North,85,32,South,0
-# Home (136) - R1 (33)
-136,North,12,33,South,0
-# R1 (33) - Fortree City (42)
-33,16,0,42,0,38
 # Ingido Plateau outside (35) - Route 4 (39)
 35,West,11,39,East,0
 # Route 5 (41) - Route 4 Cycling Road (40)
@@ -44,8 +38,6 @@
 47,East,8,52,West,0
 # Route 8 (69) - Safari Zone outside (66)
 69,North,0,66,South,10
-# Cascadia (83) - R2 (82)
-83,East,12,82,West,0
 # Coastal Islands (116) - Lily Lagoon (90)
 116,169,196,90,0,0
 # R3 (92) - Coastal Islands (116)
@@ -72,27 +64,41 @@
 102,South,279,116,North,0
 # Coastal Islands (116) - Aqualius  (125)
 116,90,182,125,0,0
-# R5 (131) - Crossroads (135)
-131,South,113,135,North,0
-# R5 Crossroad (134) - Crossroads (135)
-134,South,0,135,North,7
-# Desert (140) - Crossroads (135)
-140,East,0,135,West,0
+# R4 (122) - Rocky Path (124)
+122,East,68,124,West,0
+# Rocky Path (124) - Lake Tapu-Kaka  (126)
+124,East,85,126,West,0
+# Zeal Lake (127) - Rocky Path (124)
+127,West,0,124,East,35
 # Lake Tapu-Kaka  (126) - R5 (131)
 126,East,0,131,West,34
+# Zeal Lake (127) - Lake Tapu-Kaka  (126)
+127,South,0,126,North,0
 # Zeal Lake (127) - R5 (131)
 127,East,16,131,West,0
+# R5 (131) - Crossroads (135)
+131,South,113,135,North,0
 # R5 Crossroad (134) - R5 (131)
 134,West,0,131,East,0
 # Desert (140) - R5 (131)
 140,North,0,131,South,33
-# Rocky Path (124) - Lake Tapu-Kaka  (126)
-124,East,85,126,West,0
-# Zeal Lake (127) - Lake Tapu-Kaka  (126)
-127,South,0,126,North,0
-# R4 (122) - Rocky Path (124)
-122,East,68,124,West,0
-# Zeal Lake (127) - Rocky Path (124)
-127,West,0,124,East,35
+# R5 Crossroad (134) - Crossroads (135)
+134,South,0,135,North,7
 # Desert (140) - R5 Crossroad (134)
 140,North,87,134,South,0
+# Desert (140) - Crossroads (135)
+140,East,0,135,West,0
+# R1 (33) - Fortree City (42)
+33,North,16,42,South,0
+# R2 (82) - Fortree City (42)
+82,South,0,42,North,5
+# Home (136) - R1 (33)
+136,North,0,33,South,0
+# River Delta (141) - R1 (33)
+141,East,0,33,West,14
+# River Delta (141) - Home (136)
+141,East,36,136,West,0
+# Vaporeon Lagoon (142) - River Delta (141)
+142,East,9,141,West,0
+# Cascadia (83) - R2 (82)
+83,East,12,82,West,0
