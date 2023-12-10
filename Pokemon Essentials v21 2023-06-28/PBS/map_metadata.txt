@@ -102,6 +102,10 @@ MapPosition = 0,14,8
 BattleBack = field
 MapSize = 1,11
 #-------------------------------
+[022]   # SOAM
+Name = SOAM
+Outdoor = true
+#-------------------------------
 [023]   # Lerucean Town
 Name = Lerucean Town
 Outdoor = true
@@ -407,6 +411,11 @@ Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
+[077]   # Leafy Forest Fire
+Outdoor = true
+Bicycle = true
+Weather = Fog,100
+#-------------------------------
 [082]   # R2
 Name = R2
 Outdoor = true
@@ -484,6 +493,7 @@ Name = Mystic Maze
 Outdoor = true
 ShowArea = true
 Bicycle = true
+Weather = Fog,100
 SnapEdges = true
 #-------------------------------
 [114]   # Sylveon Sanctuary
@@ -533,6 +543,37 @@ Outdoor = true
 Bicycle = true
 #-------------------------------
 [131]   # R5
+Name = R5
 Outdoor = true
 Bicycle = true
 BicycleAlways = true
+#-------------------------------
+[132]   # South Pole
+Name = South Pole
+Outdoor = true
+#-------------------------------
+[134]   # R5 Crossroad
+Name = R5 Crossroad
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[135]   # Crossroads
+Name = Crossroads
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[140]   # Desert
+Name = Desert
+Outdoor = true
+Bicycle = true
+Weather = Sandstorm,100
+#-------------------------------
+[141]   # River Delta
+Name = River Delta
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[142]   # Vaporeon Lagoon
+Name = Vaporeon Lagoon
+Outdoor = true
+Bicycle = true

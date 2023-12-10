@@ -78,12 +78,12 @@ module UnrealTime
   # Make this true to time pass in battle, during turns and command selection.
   # This won't affect the Pokémon and Bag submenus.
   # Only works if TIME_STOPS=true.
-  BATTLE_PASS=false
+  BATTLE_PASS=true
 
   # Make this true to time pass when the Dialog box or the main menu are open.
   # This won't affect the submenus like Pokémon and Bag.
   # Only works if TIME_STOPS=true.
-  TALK_PASS=false
+  TALK_PASS=true
 
   # Choose switch number that when true the time won't pass (or -1 to cancel). 
   # Only works if TIME_STOPS=true.
