@@ -64,23 +64,23 @@ module Settings
   # in the party menu if the appropriate badges for unlocking that Field Skill
   # have not yet been acquired.
   #-----------------------------------------------------------------------------
-  HM_SKILLS_REQUIRE_BADGE = false
+  HM_SKILLS_REQUIRE_BADGE = true
   
   #-----------------------------------------------------------------------------
   # Toggles whether or not MISC_SKILLS require the Pokemon to know the move for
   # that skill to appear in the menu.
   #-----------------------------------------------------------------------------
-  MISC_SKILLS_REQUIRE_MOVE = true
+  MISC_SKILLS_REQUIRE_MOVE = false
   
   #-----------------------------------------------------------------------------
   # Toggles whether or not HEAL_SKILLS require the Pokemon to know the move for
   # that skill to appear in the menu.
   #-----------------------------------------------------------------------------
-  HEAL_SKILLS_REQUIRE_MOVE = true
+  HEAL_SKILLS_REQUIRE_MOVE = false
   
   #-----------------------------------------------------------------------------
   # Toggles whether or not CUSTOM_SKILLS require the Pokemon to know the move for
   # that skill to appear in the menu.
   #-----------------------------------------------------------------------------
-  CUSTOM_SKILLS_REQUIRE_MOVE = true
+  CUSTOM_SKILLS_REQUIRE_MOVE = false
 end
