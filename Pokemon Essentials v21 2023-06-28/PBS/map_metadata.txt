@@ -412,6 +412,7 @@ MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
 [077]   # Leafy Forest Fire
+Name = Leafy Forest Fire
 Outdoor = true
 Bicycle = true
 Weather = Fog,100
@@ -424,13 +425,16 @@ Outdoor = true
 Name = Cascadia
 Outdoor = true
 #-------------------------------
-[090]   # Lily Lagoon
+[090]   # Safari Farm
 Name = Lily Lagoon
 Outdoor = true
+Bicycle = true
 DiveMap = 91
 #-------------------------------
-[091]   # Lily Lagoon deep
+[091]   # Train station
 Name = Lily Lagoon deep
+Outdoor = true
+Bicycle = true
 #-------------------------------
 [092]   # R3
 Name = R3
@@ -577,3 +581,10 @@ Bicycle = true
 Name = Vaporeon Lagoon
 Outdoor = true
 Bicycle = true
+#-------------------------------
+[143]   # Brightvolt City
+Outdoor = true
+ShowArea = true
+Bicycle = true
+#-------------------------------
+[145]   # Brightvolt Elevator
