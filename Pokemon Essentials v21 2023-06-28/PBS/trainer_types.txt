@@ -57,10 +57,20 @@ Name = Bird Keeper
 Gender = Male
 BaseMoney = 32
 #-------------------------------
+[STARAPTORKEEPER]
+Name = Bird Keeper
+Gender = Male
+BaseMoney = 32
+#-------------------------------
 [BUGCATCHER]
 Name = Bug Catcher
 Gender = Male
 BaseMoney = 16
+#-------------------------------
+[BUGMANIAC]
+Name = Bug Maniac
+Gender = Male
+BaseMoney = 40
 #-------------------------------
 [BURGLAR]
 Name = Burglar
@@ -170,8 +180,23 @@ Name = Black Belt
 Gender = Male
 BaseMoney = 32
 #-------------------------------
+[BLACKBELT_F]
+Name = Black Belt
+Gender = Female
+BaseMoney = 32
+#-------------------------------
 [CRUSHGIRL]
 Name = Crush Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[HITMONLEEGIRL]
+Name = Hitmonlee Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[LOPUNNYGIRL]
+Name = Lopunny Girl
 Gender = Female
 BaseMoney = 24
 #-------------------------------

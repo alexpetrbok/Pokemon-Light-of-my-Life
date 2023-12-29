@@ -52,7 +52,7 @@ module EliteBattle
   USE_FOLLOWER_EXCEPTION = true
 
   # add EBDX debug menu
-  SHOW_DEBUG_FEATURES = true
+  SHOW_DEBUG_FEATURES = false
 
   #offset of the HP text (e.g: 10/10) so you can move it around
   HP_TEXT_Y_OFFSET = 10

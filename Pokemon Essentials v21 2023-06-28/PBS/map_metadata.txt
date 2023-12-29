@@ -583,8 +583,20 @@ Outdoor = true
 Bicycle = true
 #-------------------------------
 [143]   # Brightvolt City
+Name = Brightvolt City
 Outdoor = true
 ShowArea = true
 Bicycle = true
 #-------------------------------
 [145]   # Brightvolt Elevator
+Name = Brightvolt Elevator
+#-------------------------------
+[150]   # Desert Entrance
+Name = Desert Entrance
+Outdoor = true
+Weather = Sandstorm,100
+#-------------------------------
+[151]   # Snowpoint City
+Outdoor = true
+Bicycle = true
+Weather = Snow,70
