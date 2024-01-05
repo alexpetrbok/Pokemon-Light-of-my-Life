@@ -1,0 +1,5 @@
+Name       = Day-care Sight
+Version    = 1.0
+Essentials = 21.0
+Website    = https://reliccastle.com/resources/1077/
+Credits    = -FL-

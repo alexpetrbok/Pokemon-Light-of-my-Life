@@ -1,0 +1,5 @@
+Name       = Controls Screen
+Version    = 1.0
+Essentials = 21.0
+Website    = https://reliccastle.com/resources/1038/
+Credits    = -FL-

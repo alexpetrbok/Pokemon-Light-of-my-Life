@@ -54,6 +54,12 @@
 125,East,0,89,West,0
 # R3 - 1 (95) - River Forest (89)
 95,South,90,89,North,0
+# Safari Farm (90) - Crossroads (135)
+90,West,27,135,East,0
+# Train station (91) - Safari Farm (90)
+91,West,0,90,East,0
+# Brightvolt City (143) - Train station (91)
+143,West,15,91,East,0
 # R3 (92) - R3 - 1 (95)
 92,East,43,95,West,0
 # Coastal Islands (116) - R3 (92)
@@ -78,51 +84,47 @@
 102,East,0,99,West,0
 # Magaii Isle Forest (102) - Coastal Islands (116)
 102,South,279,116,North,0
-# Home (136) - River Delta (141)
-136,West,0,141,East,36
-# River Delta (141) - Vaporeon Lagoon (142)
-141,West,0,142,East,9
-# Crossroads (135) - Snowy Path (149)
-135,South,16,149,North,0
-# Snowpoint City (151) - Snowy Path (149)
-151,North,0,149,South,0
-# Safari Farm (90) - Crossroads (135)
-90,West,27,135,East,0
-# R5 (131) - Crossroads (135)
-131,South,113,135,North,0
-# Desert Entrance (150) - Crossroads (135)
-150,East,0,135,West,0
-# R5 Crossroad (134) - Crossroads (135)
-134,South,0,135,North,7
-# Train station (91) - Safari Farm (90)
-91,West,0,90,East,0
-# Brightvolt City (143) - Train station (91)
-143,West,15,91,East,0
-# Lake Tapu-Kaka  (126) - R5 (131)
-126,East,0,131,West,34
-# Desert (140) - R5 (131)
-140,East,0,131,West,107
-# Desert Entrance (150) - R5 (131)
-150,North,0,131,South,0
-# Zeal Lake (127) - R5 (131)
-127,East,16,131,West,0
-# R5 Crossroad (134) - R5 (131)
-134,West,0,131,East,0
-# Rocky Path (124) - Lake Tapu-Kaka  (126)
-124,East,85,126,West,0
-# Desert Entrance (150) - Lake Tapu-Kaka  (126)
-150,West,0,126,East,46
-# Zeal Lake (127) - Lake Tapu-Kaka  (126)
-127,South,0,126,North,0
 # R4 (122) - Rocky Path (124)
 122,East,68,124,West,0
+# Rocky Path (124) - Lake Tapu-Kaka  (126)
+124,East,85,126,West,0
 # Desert (140) - Rocky Path (124)
 140,West,0,124,East,158
 # Zeal Lake (127) - Rocky Path (124)
 127,West,0,124,East,35
-# Desert Entrance (150) - Desert (140)
-150,West,27,140,East,0
+# Lake Tapu-Kaka  (126) - R5 (131)
+126,East,0,131,West,34
+# Desert Entrance (150) - Lake Tapu-Kaka  (126)
+150,West,0,126,East,46
+# Zeal Lake (127) - Lake Tapu-Kaka  (126)
+127,South,0,126,North,0
+# Zeal Lake (127) - R5 (131)
+127,East,16,131,West,0
 # Zeal Lake (127) - Desert Entrance (150)
 127,East,96,150,West,0
+# R5 (131) - Crossroads (135)
+131,South,113,135,North,0
+# Desert (140) - R5 (131)
+140,East,0,131,West,107
+# Desert Entrance (150) - R5 (131)
+150,North,0,131,South,0
+# R5 Crossroad (134) - R5 (131)
+134,West,0,131,East,0
+# R5 Crossroad (134) - Crossroads (135)
+134,South,0,135,North,7
 # R5 Crossroad (134) - Desert Entrance (150)
 134,South,0,150,North,120
+# Crossroads (135) - Snowy Path (149)
+135,South,16,149,North,0
+# Desert Entrance (150) - Crossroads (135)
+150,East,0,135,West,0
+# Home (136) - River Delta (141)
+136,West,0,141,East,36
+# Desert Entrance (150) - Desert (140)
+150,West,27,140,East,0
+# River Delta (141) - Vaporeon Lagoon (142)
+141,West,0,142,East,9
+# Snowpoint City (151) - Snowy Path (149)
+151,North,0,149,South,0
+# Safari Zone 2 (162) - Safari Zone (161)
+162,South,0,161,North,0
