@@ -11,10 +11,6 @@ class DayCare
         pkmn = $PokemonGlobal.day_care[day_care_id].pokemon
         if pkmn != nil
 
-          temp_name = "/Followers shiny/" 		if  pkmn.shiny?
-          temp_name = "/Followers/" 			if !pkmn.shiny?
-
-
           # Ditto's transformation!
           if pkmn.species == :DITTO && DayCare.count == 2
             day_care_id = (day_care_id + 1) % 2
@@ -22,14 +18,10 @@ class DayCare
           end
 
           # Set sprite
-          temp_name += pkmn.species.to_s 
-          if pkmn.form != 0
-            temp_name += "_" + pkmn.form.to_s
-          end
-          temp_name += ".png"
-          event.character_name = temp_name
+          event.character_name = "/Followers shiny/" + pkmn.name + ".png"	if  pkmn.shiny?
+          event.character_name = "/Followers/"       + pkmn.name + ".png"	if !pkmn.shiny?
           event.move_speed     = 3
-          event.move_frequency = 4
+          event.move_frequency = 3
           event.turn_random
 
           #=====================================

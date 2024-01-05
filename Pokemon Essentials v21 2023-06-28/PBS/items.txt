@@ -6592,12 +6592,12 @@ Flags = KeyItem
 Description = A flute that is said to instantly awaken any Pokémon. It has a lovely tone.
 #-------------------------------
 [SOOTSACK]
-Name = Ssnow Sack
-NamePlural = Snow Sacks
+Name = Soot Sack
+NamePlural = Soot Sacks
 Pocket = 8
 Price = 0
 Flags = KeyItem
-Description = A sack used to gather and hold fresh snow.
+Description = A sack used to gather and hold volcanic ash.
 #-------------------------------
 [SILPHSCOPE]
 Name = Silph Scope
@@ -7336,32 +7336,3 @@ Price = 0
 FieldUse = OnPokemon
 Flags = KeyItem
 Description = An item that will allow you to switch between forms of Eevee!
-#-------------------------------
-[DAYCARESIGHT]
-Name = Day-Care Sight
-NamePlural = Day-Care Sights
-Pocket = 8
-Price = 0
-FieldUse = Direct
-Flags = KeyItem
-Description = A visor that can be use to see Pokémon in Day-Care to monitor their growth.
-#-------------------------------
-[MILK]
-Name = Milk
-NamePlural = Milkies
-Pocket = 2
-Price = 600
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = Milk. It restores the HP of one Pokémon by 50 points.
-#-------------------------------
-[PILK]
-Name = Pilk
-NamePlural = Lots of Pilk
-Pocket = 2
-Price = 2
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_90
-Description = Milk with Pepsi in a glass jar. Y'all want a glass of bepis Pilk?
