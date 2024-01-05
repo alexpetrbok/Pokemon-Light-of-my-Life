@@ -88,7 +88,7 @@ module DayCareChecker
       @sprites["overlay"].z = 1
       pbSetSystemFont(@sprites["overlay"].bitmap)
       @sprites["background"]=IconSprite.new(0,0,@viewport)
-      @sprites["background"].setBitmap("Graphics/UI/day_care_checker_bg")
+      @sprites["background"].setBitmap("Graphics/UI/Summary/day_care_checker_bg")
       @sprites["background"].x = (
         Graphics.width-@sprites["background"].bitmap.width
       )/2

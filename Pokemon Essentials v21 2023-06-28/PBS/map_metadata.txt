@@ -597,6 +597,17 @@ Outdoor = true
 Weather = Sandstorm,100
 #-------------------------------
 [151]   # Snowpoint City
+Name = Snowpoint City
 Outdoor = true
 Bicycle = true
 Weather = Snow,70
+#-------------------------------
+[161]   # Safari Zone
+Outdoor = true
+Bicycle = true
+SafariMap = true
+#-------------------------------
+[162]   # Safari Zone 2
+Outdoor = true
+Bicycle = true
+SafariMap = true
