@@ -207,4 +207,29 @@ Land,21
     10,CORSOLA,17,20
     10,RELICANTH,16,19
     10,SHELLDER,18,19
-
+#-------------------------------
+[164] # Havoc Base Highlands 
+Land,5
+    20,CHINGLING,20,30
+    20,CLEFFA,20,30
+    20,IGGLYBUFF,20,30
+    20,SKITTY,20,30
+    20,ELGYEM,20,30
+    20,MINIOR,20,30
+    10,LUNATONE,20,30
+    10,MUNNA,20,30
+    10,NIDORINA,20,30
+    10,NIDORINO,20,30
+#-------------------------------
+[165] # Havoc Back Highlands 
+Land,20
+    20,MAGNEMITE,20,30
+    20,CLEFFA,20,30
+    20,IGGLYBUFF,20,30
+    20,SKITTY,20,30
+    20,ELGYEM,20,30
+    20,MINIOR,20,30
+    10,LUNATONE,20,30
+    10,MUNNA,20,30
+    10,NIDORINA,20,30
+    10,NIDORINO,20,30
