@@ -84,26 +84,32 @@
 141,West,0,142,East,9
 # Safari Zone 2 (162) - Safari Zone (161)
 162,South,0,161,North,0
-# Train station (91) - Brightvolt City (143)
-91,East,0,143,West,15
-# Highlands Havoc Base (164) - Brightvolt City (143)
-164,South,0,143,North,0
-# Safari Farm (90) - Train station (91)
-90,East,0,91,West,0
-# Highlands Havoc Base (164) - Train station (91)
-164,West,60,91,East,0
-# Highlands Havoc Back (165) - Train station (91)
-165,West,105,91,East,0
-# Crossroads (135) - Safari Farm (90)
-135,East,0,90,West,27
+# Snowy Path (149) - Snowpoint City (151)
+149,South,0,151,North,0
+# Frozen Lake (163) - Snowpoint City (151)
+163,North,0,151,South,3
+# Crossroads (135) - Snowy Path (149)
+135,South,16,149,North,0
+# Safari Farm (90) - Crossroads (135)
+90,West,27,135,East,0
 # R5 (131) - Crossroads (135)
 131,South,113,135,North,0
 # Desert Entrance (150) - Crossroads (135)
 150,East,0,135,West,0
 # R5 Crossroad (134) - Crossroads (135)
 134,South,0,135,North,7
-# Snowy Path (149) - Crossroads (135)
-149,North,0,135,South,16
+# Train station (91) - Safari Farm (90)
+91,West,0,90,East,0
+# Brightvolt City (143) - Train station (91)
+143,West,15,91,East,0
+# Highlands Havoc Base (164) - Train station (91)
+164,West,60,91,East,0
+# Highlands Havoc Back (165) - Train station (91)
+165,West,105,91,East,0
+# Highlands Havoc Base (164) - Brightvolt City (143)
+164,South,0,143,North,0
+# Highlands Havoc Back (165) - Highlands Havoc Base (164)
+165,South,0,164,North,0
 # Lake Tapu-Kaka  (126) - R5 (131)
 126,East,0,131,West,34
 # Desert (140) - R5 (131)
@@ -132,7 +138,3 @@
 127,East,96,150,West,0
 # R5 Crossroad (134) - Desert Entrance (150)
 134,South,0,150,North,120
-# Snowpoint City (151) - Snowy Path (149)
-151,North,0,149,South,0
-# Highlands Havoc Back (165) - Highlands Havoc Base (164)
-165,South,0,164,North,0

@@ -1,5 +1,5 @@
 ################################################################################
-# "Caruban's Dynamic Darkness" v 1.0.0
+# "Caruban's Dynamic Darkness" v 1.1.0
 # By Caruban
 #-------------------------------------------------------------------------------
 # I made this plugin after seeing NuriYuri's DynamicLight (PSDK). 
@@ -22,6 +22,20 @@
 # - OPACITY_DARK_MAP_BY_ID
 # Value of initial opacity based on Map ID
 # This will give a different opacity for every map IDs listed here.
+# - FLASH_PROHIBITED_MAPS
+# List of maps that prohibit the player from using flash.
+# - FLASHLIGHT_ONLY_MAPS
+# List of maps where the player will automatically use a flashlight and also prohibit player to use Flash.
+# - INITIAL_FLASHLIGHT_DIST
+# Initial value of distance for a flashlight.
+# - FLASHLIGHT_MAX_DIST
+# The initial value of the maximum distance for a flashlight.
+# - FLASHLIGHT_X_OFFSET and FLASHLIGHT_Y_OFFSET
+# The value of a flashlight's light sources X and Y offset
+# from the centre of the character sprites.
+# - CUSTOM_IMAGE_DARKNESS
+# Custom darkness images based on Map ID.
+# Images are located in "Graphics/Fogs/".
 #
 # SCRIPT COMMANDS
 # There are several script commands that you can use to control the darkness.
@@ -56,6 +70,10 @@
 # - "glowstatic"
 # An event with this text in its name will become a static light source.
 # This is also treated as "glowalways" if there is no "glowswitch(X)" in its name.
+# - "flashlight" or "flashlight(X)"
+# An event with this text in its name will use a flashlight.
+# The "X" is the distance of the flashlight (max. FLASHLIGHT_MAX_DIST).
+#
 ################################################################################
 # Configuration
 ################################################################################
@@ -75,13 +93,42 @@ module Settings
   }
 
   # Initial opacity of darkness on dark maps
-  INITIAL_DARKNESS_OPACITY = 255
+  INITIAL_DARKNESS_OPACITY = 230#255
 
   # Value of initial opacity based on Map ID
   # This will give a different opacity for every map IDs listed here.
   OPACITY_DARK_MAP_BY_ID = {
     # Map ID => Opacity value
     # 52 => 200,
+  }
+
+  # List of maps that prohibit the player from using flash
+  FLASH_PROHIBITED_MAPS = [
+    50,
+  ]
+
+  # List of maps where the player will automatically use a flashlight
+  # and also prohibit player to use Flash.
+  FLASHLIGHT_ONLY_MAPS = [
+    50,
+  ]
+
+  # Initial value of distance for a flashlight
+  INITIAL_FLASHLIGHT_DIST = 2
+
+  # The initial value of the maximum distance for a flashlight
+  FLASHLIGHT_MAX_DIST = 3
+
+  # The value of a flashlight's light sources X and Y offset
+  # from the centre of the character sprites
+  FLASHLIGHT_X_OFFSET = 0
+  FLASHLIGHT_Y_OFFSET = 12
+
+  # Custom darkness images based on Map ID
+  # Images are located in "Graphics/Fogs/"
+  CUSTOM_IMAGE_DARKNESS = {
+    # Map ID => "Custom Darkness Image file"
+    50 => "DarkMap_50",
   }
 end
 
@@ -98,19 +145,18 @@ end
 ################################################################################
 # @return [Integer] Opacity of darkness on dark map in this map
 def pbGetDarknessOpacity
-  value = Settings::OPACITY_DARK_MAP_BY_ID[$game_map.map_id]
-  if value
-    opacity = value
-  else
-    opacity = Settings::INITIAL_DARKNESS_OPACITY
-  end
+  opacity = Settings::OPACITY_DARK_MAP_BY_ID[$game_map.map_id]
+  opacity = Settings::INITIAL_DARKNESS_OPACITY if !opacity
   return opacity
 end
 
 # @return [Integer] Radius of darkness on dark map in this map
 def pbGetDarknessRadius
-  var = Settings::VARIABLE_RADIUS_DARK_MAP[$game_map.map_id]
-  if var && $game_variables[var]
+  map_id = $game_map.map_id
+  var = Settings::VARIABLE_RADIUS_DARK_MAP[map_id]
+  if Settings::FLASHLIGHT_ONLY_MAPS.include?(map_id)
+    radius = 0
+  elsif var && $game_variables[var]
     radius = $game_variables[var]
   elsif $PokemonGlobal.darknessRadius
     radius = $PokemonGlobal.darknessRadius
@@ -123,6 +169,7 @@ end
 # Set Radius of darkness on dark map in this map
 def pbSetDarknessRadius(value)
   return if value < 0
+  return if Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
   var = Settings::VARIABLE_RADIUS_DARK_MAP[$game_map.map_id]
   if var
     $game_variables[var] = value
@@ -134,6 +181,7 @@ end
 # Change darkness circle radius with animation
 def pbMoveDarknessRadius(value)
   return if !$game_temp.darkness_sprite
+  return if Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
   darkness = $game_temp.darkness_sprite
   value = [darkness.radiusMin, [darkness.radiusMin, value].max].min
   darkness.moveRadius(value)
@@ -141,12 +189,14 @@ end
 
 def pbMoveDarknessRadiusMax
   return if !$game_temp.darkness_sprite
+  return if Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
   darkness = $game_temp.darkness_sprite
   darkness.moveRadius(darkness.radiusMax)
 end
 
 def pbMoveDarknessRadiusMin
   return if !$game_temp.darkness_sprite
+  return if Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
   darkness = $game_temp.darkness_sprite
   darkness.moveRadius(darkness.radiusMin)
 end
@@ -180,7 +230,8 @@ EventHandlers.add(:on_map_or_spriteset_change, :show_darkness,
 #===============================================================================
 HiddenMoveHandlers::CanUseMove.add(:FLASH, proc { |move, pkmn, showmsg|
   next false if !pbCheckHiddenMoveBadge(Settings::BADGE_FOR_FLASH, showmsg)
-  if !$game_map.metadata&.dark_map
+  if !$game_map.metadata&.dark_map || Settings::FLASH_PROHIBITED_MAPS.include?($game_map.map_id) || 
+     Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
     pbMessage(_INTL("You can't use that here.")) if showmsg
     next false
   end
@@ -253,21 +304,35 @@ class DarknessSprite < Sprite
     @darkness.clear
     return if @radius >= radiusMax
     # Initial dark screen
-    @darkness.fill_rect(0, 0, Graphics.width, Graphics.height, Color.new(0,0,0, pbGetDarknessOpacity))
+    darkness_image = Settings::CUSTOM_IMAGE_DARKNESS[$game_map.map_id]
+    if darkness_image && pbResolveBitmap("Graphics/Fogs/#{darkness_image}")
+      darknessbitmap = AnimatedBitmap.new("Graphics/Fogs/#{darkness_image}")
+      tmox = ($game_map.display_x / Game_Map::X_SUBPIXELS).round
+      tmoy = ($game_map.display_y / Game_Map::Y_SUBPIXELS).round
+      @darkness.blt(-tmox, -tmoy, darknessbitmap.bitmap, Rect.new(0, 0, darknessbitmap.width, darknessbitmap.height))
+      darknessbitmap.dispose
+    else
+      @darkness.fill_rect(0, 0, Graphics.width, Graphics.height, Color.new(0,0,0, pbGetDarknessOpacity))
+    end
     numfades = 3
     fade_trans = 0.9
     cradius = @radius + @light_modifier
+    events_pos = []
+    flashlights = []
     # Get player position on screen
     cx = $game_player.screen_x                                  # Graphics.width / 2
     cy = $game_player.screen_y - $game_player.sprite_size[1]/2  # Graphics.height / 2
+    flashlight_radius = 32
+    flashlights.push([cx, cy, $game_player.direction, getFlashlightDistance($game_player, Settings::INITIAL_FLASHLIGHT_DIST), flashlight_radius])
     # Get events position on screen and its behaviours
-    events_pos = []
     $game_map.events.each_value { |event|
       cradius_e = (event.name[/glowsize\((\d+)\)/i] rescue false) ? $~[1].to_i : pbGetDarknessRadius
       cradius_e += @light_modifier if !(event.name[/glowstatic/i] rescue false)
+      event_x = event.screen_x
+      event_y = event.screen_y-event.sprite_size[1]/2
       if (event.name[/glowalways/i] || 
          (!event.name[/glowswitch\((\w+)\)/i] && (event.name[/glowsize\((\d+)\)/i] || event.name[/glowstatic/i])) rescue false)
-        events_pos.push([event.screen_x, event.screen_y-event.sprite_size[1]/2, cradius_e, true])
+        events_pos.push([event_x, event_y, cradius_e, true])
       elsif (event.name[/glowswitch\((\w+)\)/i] rescue false)
         switchid = $1
         switch = false
@@ -276,32 +341,134 @@ class DarknessSprite < Sprite
            !event.isOff?(switchid) # Self Switch
             switch = true
         end
-        events_pos.push([event.screen_x,event.screen_y-event.sprite_size[1]/2, cradius_e, switch])
+        events_pos.push([event_x,event_y, cradius_e, switch])
+      end
+      if (event.name[/flashlight/i] rescue false)
+        max_dist = Settings::INITIAL_FLASHLIGHT_DIST
+        max_dist = [[$~[1].to_i, 1].max, Settings::FLASHLIGHT_MAX_DIST].min if (event.name[/flashlight\((\d+)\)/i] rescue false)
+        flashlights.push([event_x, event_y, event.direction, getFlashlightDistance(event,max_dist), 24])
       end
     }
     # Draw circle
     (1..numfades).each do |i|
       # Player
-      createCircle(cx,cy,numfades,i,cradius) if @radius > 0
+      drawCircle(cx,cy,numfades,i,cradius) if @radius > 0
       cradius = (cradius * fade_trans).floor
       # Events
       events_pos.each do |ev|
         next if !ev[3] # switch
-        createCircle(ev[0],ev[1],numfades,i,ev[2])
+        drawCircle(ev[0],ev[1],numfades,i,ev[2])
         ev[2] = (ev[2] * fade_trans).floor
+      end
+      # Draw Flashlight
+      next if i > 2 # Only use 2 shade
+      flashlights.each do |ev|
+        drawFlashlight(ev[0], ev[1], ev[2], ev[3], ev[4] , i, 2)
+        ev[4] = (ev[4] * fade_trans).floor
       end
     end
   end
 
-  def createCircle(cx, cy, numfades, i, cradius)
+  def drawCircle(cx, cy, numfades, i, cradius, dir = 0) # Added dir to draw half circle
     alpha = pbGetDarknessOpacity.to_f * (numfades - i) / numfades
     (cx - cradius..cx + cradius).each do |j|
       next if j.odd?
+      next if j > cx && dir == 4
+      next if j < cx && dir == 6
       diff2 = (cradius * cradius) - ((j - cx) * (j - cx))
       diff = Math.sqrt(diff2).to_i
       diff += 1 if diff.odd?
-      @darkness.fill_rect(j, cy - diff, 2, diff * 2, Color.new(0, 0, 0, alpha))
+      if dir == 8 # up
+        @darkness.fill_rect(j, cy - diff, 2, diff, Color.new(0, 0, 0, alpha))
+      elsif dir == 2 # down
+        @darkness.fill_rect(j, cy, 2, diff, Color.new(0, 0, 0, alpha))
+      else
+        @darkness.fill_rect(j, cy - diff, 2, diff * 2, Color.new(0, 0, 0, alpha))
+      end
     end
+  end
+
+  def drawFlashlight(cx, cy, dir, distance, cradius, fade, numfades)
+    width = cradius
+    barwidth = cradius/4
+    xOffset = 0
+    yOffset = 0
+    cx += Settings::FLASHLIGHT_X_OFFSET
+    cy += Settings::FLASHLIGHT_Y_OFFSET
+    alpha = pbGetDarknessOpacity.to_f * (numfades - fade) / numfades
+    # Light bar
+    case dir
+    when 2 
+      yOffset += distance
+      @darkness.fill_rect(cx - barwidth/2, cy, barwidth, distance + 2, Color.new(0, 0, 0, alpha))
+    when 4
+      xOffset -= distance
+      @darkness.fill_rect(cx - distance - 2, cy - barwidth/2, distance + 2, barwidth, Color.new(0, 0, 0, alpha))
+    when 6 
+      xOffset += distance
+      @darkness.fill_rect(cx, cy - barwidth/2, distance + 2, barwidth, Color.new(0, 0, 0, alpha))
+    when 8
+      yOffset -= distance
+      @darkness.fill_rect(cx - barwidth/2, cy - distance - 2, barwidth, distance + 2, Color.new(0, 0, 0, alpha))
+    end
+    # Circle around the event
+    drawCircle(cx, cy, numfades, fade, barwidth*2)
+    # Half circle
+    drawCircle(cx + xOffset, cy + yOffset, numfades, fade, cradius, dir)
+    # Triangle
+    w = width / 2
+    w.times do |i|
+      diff = ((i + 1) * distance / w)
+      diff += 1 if diff.odd?
+      case dir
+      when 2
+        @darkness.fill_rect(cx + (i + 1)*2 - cradius, cy - diff + distance, 2, diff, Color.new(0, 0, 0, alpha)) # left
+        @darkness.fill_rect(cx - (i + 1)*2 + cradius, cy - diff + distance, 2, diff, Color.new(0, 0, 0, alpha)) # right
+      when 4
+        @darkness.fill_rect(cx - distance, cy - cradius + (i*2)    , diff, 2, Color.new(0, 0, 0, alpha)) # up
+        @darkness.fill_rect(cx - distance, cy + cradius - (i*2) - 2, diff, 2, Color.new(0, 0, 0, alpha)) # down
+      when 6 
+        @darkness.fill_rect(cx + distance - diff, cy- cradius + (i*2)     , diff + 2, 2, Color.new(0, 0, 0, alpha)) # up
+        @darkness.fill_rect(cx + distance - diff, cy + cradius - (i*2) - 2, diff + 2, 2, Color.new(0, 0, 0, alpha)) # down
+      when 8
+        @darkness.fill_rect(cx + (i + 1)*2 - cradius, cy - distance, 2, diff, Color.new(0, 0, 0, alpha)) # left
+        @darkness.fill_rect(cx - (i + 1)*2 + cradius, cy - distance, 2, diff, Color.new(0, 0, 0, alpha)) # right
+      end
+    end
+  end
+
+  def getFlashlightDistance(event, maximum_d = Settings::FLASHLIGHT_MAX_DIST)
+    dir = event.direction
+    xOffset = 0 ; yOffset = 0
+    # Event XY Offset
+    case dir
+    when 2 then yOffset += 1
+    when 4 then xOffset -= 1
+    when 6 then xOffset += 1
+    when 8 then yOffset -= 1
+    end
+    # Get passable max distance
+    max_dist = 1
+    maximum_d.times do |i|
+      break if !event.passable?(event.x + xOffset * i, event.y + yOffset * i, dir)
+      max_dist += 1
+    end
+    if max_dist > maximum_d
+      distance = maximum_d * 32 # The farthest distance of flashlight
+    else                        # Get real distance in pixel
+      case dir
+      when 2
+        distance = (event.real_y - (event.y + max_dist) * Game_Map::REAL_RES_Y).abs / Game_Map::Y_SUBPIXELS
+      when 8
+        distance = (event.real_y - (event.y - max_dist) * Game_Map::REAL_RES_Y).abs / Game_Map::Y_SUBPIXELS
+      when 4
+        distance = (event.real_x - (event.x - max_dist) * Game_Map::REAL_RES_X).abs / Game_Map::X_SUBPIXELS
+      when 6
+        distance = (event.real_x - (event.x + max_dist) * Game_Map::REAL_RES_X).abs / Game_Map::X_SUBPIXELS
+      end
+      distance = distance.to_i.abs
+    end
+    return distance
   end
 
   alias caruban_update update

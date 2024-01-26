@@ -1,0 +1,20 @@
+Name         = New DexNav
+Version      = 3.0
+Essentials = 21.1
+Website      = https://reliccastle.com/members/7217/
+Credits      = Phantombass: the majority of the fixes to this script,suzerain: backbone for New DexNav,NuriYuri and the developers of SimpleEncounterUI
+
+#Changelog#
+#========================
+# 2.3
+#========================
+#Fixed the DexNav crashing when searching for Pokémon with no hidden abilities.
+#Replaced refrences of $MapFactory
+
+#========================
+# 3.0
+#========================
+# Added compatibility for Day and Night
+# Removed possibility for encountering Pokemon from a different encounter table (i.e. Super Rod encounters with an Old Rod)
+# Refactored the code for listing encounters to make it much faster
+# Updated to v21.1
