@@ -136,3 +136,37 @@ MidbattleHandlers.add(:midbattle_scripts, :demo_collapsing_cave,
     end
   }
 )
+
+
+################################################################################
+# Used for wild Mega battles.
+################################################################################
+
+MidbattleHandlers.add(:midbattle_scripts, :wild_mega_battle,
+  proc { |battle, idxBattler, idxTarget, trigger|
+    next if !battle.wildBattle?
+    next if battle.wildBattleMode != :mega
+    foe = battle.battlers[1]
+    next if !foe.wild?
+    case trigger
+    when "RoundStartCommand_1_foe"
+      if battle.pbCanMegaEvolve?(foe.index)
+        battle.pbMegaEvolve(foe.index)
+        battle.disablePokeBalls = true
+        battle.sosBattle = false if defined?(battle.sosBattle)
+        battle.totemBattle = nil if defined?(battle.totemBattle)
+        foe.damageThreshold = 6
+      else
+        battle.wildBattleMode = nil
+      end
+    when "BattlerReachedHPCap_foe"
+      foe.unMega
+      battle.disablePokeBalls = false
+      battle.pbDisplayPaused(_INTL("{1}'s Mega Evolution faded!\nIt may now be captured!", foe.pbThis))
+    when "BattleEndWin"
+      if battle.wildBattleMode == :mega
+        $stats.wild_mega_battles_won += 1
+      end
+    end
+  }
+)

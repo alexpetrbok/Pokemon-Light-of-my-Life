@@ -62,7 +62,7 @@ class Battle::AI::AITrainer
     if !@trainer && @skill == 0
       wild_battler = @ai.battle.battlers[@side]
       sp_data = wild_battler.pokemon.species_data
-      @skill_flags.push("ScoreMoves") if !sp_data.rival_species.empty?
+      @skill_flags.push("ScoreMoves") if sp_data.rival_species
     end
   end
 end
@@ -77,7 +77,7 @@ Battle::AI::Handlers::GeneralMoveAgainstTargetScore.add(:rival_target,
       user_data = user.battler.pokemon.species_data
       targ_data = target.battler.displayPokemon.species_data
       targ_id = (user_data.has_flag?("AllRivalForms")) ? targ_data.species : targ_data.id
-      if user_data.rival_species.include?(targ_id)
+      if user_data.rival_species && user_data.rival_species.include?(targ_id)
         old_score = score
         score += 1000
         PBDebug.log_score_change(score - old_score, "prefer attacking a Pokémon of a rival species")

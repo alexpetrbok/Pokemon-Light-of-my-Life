@@ -26,6 +26,26 @@ MenuHandlers.add(:debug_menu, :deluxe_mega, {
 })
 
 #-------------------------------------------------------------------------------
+# Game stat tracking for wild Mega battles.
+#-------------------------------------------------------------------------------
+class GameStats
+  alias mega_initialize initialize
+  def initialize
+    mega_initialize
+    @wild_mega_battles_won = 0
+  end
+
+  def wild_mega_battles_won
+    return @wild_mega_battles_won || 0
+  end
+  
+  def wild_mega_battles_won=(value)
+    @wild_mega_battles_won = 0 if !@wild_mega_battles_won
+    @wild_mega_battles_won = value
+  end
+end
+
+#-------------------------------------------------------------------------------
 # Displays a held item icon for Mega Stones in the Party menu.
 #-------------------------------------------------------------------------------
 module GameData
@@ -110,7 +130,6 @@ class Battle
     pbDisplay(_INTL("{1} has Mega Evolved into {2}!", battler.pbThis, megaName))
     side  = battler.idxOwnSide
     owner = pbGetOwnerIndexFromBattlerIndex(idxBattler)
-    @wildBattleMode = nil
     @megaEvolution[side][owner] = -2
     if battler.isSpecies?(:GENGAR) && battler.mega?
       battler.effects[PBEffects::Telekinesis] = 0
@@ -152,6 +171,13 @@ class Battle::Battler
     return false if !getActiveState.nil?
     return false if hasEligibleAction?(:primal, :zmove, :ultra, :zodiac)
     return @pokemon&.hasMegaForm?
+  end
+  
+  def unMega
+    @battle.scene.pbRevertBattlerStart(@index)
+    @pokemon.makeUnmega if mega?
+    self.form_update
+    @battle.scene.pbRevertBattlerEnd
   end
 end
 

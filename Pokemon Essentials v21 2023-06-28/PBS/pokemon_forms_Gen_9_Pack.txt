@@ -126,6 +126,7 @@ Pokedex = After losing a territorial struggle, Wooper began living on land. The 
 Generation = 9
 Flags = InheritFormWithEverStone
 Evolutions = CLODSIRE,Level,20
+SpeciesSOS = WOOPER,CLODSIRE
 #-------------------------------
 [QWILFISH,1]
 FormName = Hisuian
@@ -360,22 +361,27 @@ Weight = 2.3
 [REVAVROOM,1]
 Types = FIRE
 Abilities = SPEEDBOOST
+CallRateSOS = 0
 #-------------------------------
 [REVAVROOM,2]
 Types = FAIRY
 Abilities = MISTYSURGE
+CallRateSOS = 0
 #-------------------------------
 [REVAVROOM,3]
 Types = FIGHTING
 Abilities = STAMINA
+CallRateSOS = 0
 #-------------------------------
 [REVAVROOM,4]
 Types = POISON
 Abilities = TOXICDEBRIS
+CallRateSOS = 0
 #-------------------------------
 [REVAVROOM,5]
 Types = DARK
 Abilities = INTIMIDATE
+CallRateSOS = 0
 #-------------------------------
 [TATSUGIRI,1]
 FormName = Droopy Form

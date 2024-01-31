@@ -203,6 +203,7 @@ class Pokemon
   def ultra?;          return false; end
   def dynamax?;        return false; end
   def tera?;           return false; end
+  def tera_form?;      return false; end
   def celestial?;      return false; end
 end
 
@@ -211,6 +212,7 @@ class Battle::Battler
   def dynamax?;        return false; end
   def style?;          return false; end
   def tera?;           return false; end
+  def tera_form?;      return false; end
   def celestial?;      return false; end
   
   def hasZMove?;       return false; end

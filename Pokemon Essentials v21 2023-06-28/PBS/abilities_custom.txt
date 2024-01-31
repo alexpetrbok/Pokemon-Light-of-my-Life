@@ -11,3 +11,11 @@ Description = Activates Inverse Room.
 [TRUEGOD]
 Name = True God
 Description = Abandon all hope and kneel
+#------------------------------
+[MUTATION]
+Name = Mutation
+Description = Adapts the Pokemon's type to the selected move 
+#------------------------------
+[MUTATIONX]
+Name = Mutation
+Description = Adapts the Pokemon to the selected move 

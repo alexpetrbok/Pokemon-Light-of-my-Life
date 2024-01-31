@@ -15,6 +15,7 @@ class Game_Temp
     when "towerbattle"       then rules["towerBattle"]       = false
     when "wildmegaevolution" then rules["wildBattleMode"]    = :mega
     when "raidstylecapture"  then rules["raidStyleCapture"]  = var
+    when "setslidesprite"    then rules["slideSpriteStyle"]  = var
     when "battleintrotext"   then rules["battleIntroText"]   = var
     when "opponentwintext"   then rules["opposingWinText"]   = var
     when "opponentlosetext"  then rules["opposingLoseText"]  = var
@@ -73,7 +74,7 @@ end
 
 def additionalRules
   return [
-    "raidstylecapture", "battleintrotext", "opponentwintext", "opponentlosetext",
+    "raidstylecapture", "setslidesprite", "battleintrotext", "opponentwintext", "opponentlosetext",
     "tempplayer", "tempparty", "battlebgm", "victorybgm", "captureme", "midbattlescript",
     "editwildpokemon", "editwildpokemon2", "editwildpokemon3", "nomegaevolution"
   ]
@@ -96,6 +97,7 @@ module BattleCreationHelperMethods
     battle.controlPlayer    = battleRules["autoBattle"]       if !battleRules["autoBattle"].nil?
     battle.internalBattle   = battleRules["towerBattle"]      if !battleRules["towerBattle"].nil?
     battle.introText        = battleRules["battleIntroText"]  if !battleRules["battleIntroText"].nil?
+    battle.slideSpriteStyle = battleRules["slideSpriteStyle"] if !battleRules["slideSpriteStyle"].nil?
     if !battleRules["midbattleScript"].nil?
       script = battleRules["midbattleScript"]
       if script.is_a?(Symbol)
@@ -107,6 +109,9 @@ module BattleCreationHelperMethods
       else
         battle.midbattleScript = script
       end
+    end
+    if battle.wildBattle? && battle.wildBattleMode == :mega
+      battle.midbattleScript = :wild_mega_battle
     end
     if battle.opponent
       if battleRules["opposingWinText"]
@@ -330,6 +335,7 @@ class Battle
   attr_accessor :captureSuccess, :tutorialCapture, :raidStyleCapture
   attr_accessor :wildBattleMode
   attr_accessor :introText
+  attr_accessor :slideSpriteStyle
   
   alias dx_initialize initialize
   def initialize(*args)
@@ -339,6 +345,7 @@ class Battle
     @raidStyleCapture = false
     @wildBattleMode   = nil
     @introText        = nil
+    @slideSpriteStyle = nil
   end
   
   #-----------------------------------------------------------------------------
@@ -396,6 +403,81 @@ class Battle
   end
 end
 
+#===============================================================================
+# Edited to allow the opponent's sprite to slide on screen in various ways.
+#===============================================================================
+class Battle::Scene::Animation::Intro < Battle::Scene::Animation
+  def makeSlideSprite(spriteName, deltaMult, appearTime, origin = nil)
+    return if !@sprites[spriteName]
+    s = addSprite(@sprites[spriteName], origin)
+    style = @battle.slideSpriteStyle
+    if !@battle.slideSpriteStyle.nil? && deltaMult < 0
+      style = @battle.slideSpriteStyle.split("_")
+      base = spriteName.include?("base_") || spriteName.include?("shadow_")
+      hideBase = style[1] == "hideBase"
+      case style[0]
+      #-------------------------------------------------------------------------
+      when "still"  # Sprite doesn't slide in.
+        s.setVisible(0, false) if base && hideBase
+        s.setDelta(0, 0, (Graphics.height * deltaMult).floor)
+        s.moveDelta(0, 0, 0, (-Graphics.height * deltaMult).floor)
+      #-------------------------------------------------------------------------
+      when "side"   # Sprite slides in from the side.
+        s.setVisible(0, false) if base && hideBase
+        s.setDelta(0, (Graphics.width * deltaMult).floor, 0)
+        s.moveDelta(0, appearTime, (-Graphics.width * deltaMult).floor, 0)
+      #-------------------------------------------------------------------------
+      when "top"    # Sprite slides in from top.
+        appearTime = 0 if base
+        s.setVisible(0, false) if base && hideBase
+        s.setDelta(0, 0, (Graphics.height * deltaMult).floor)
+        s.moveDelta(0, appearTime, 0, (-Graphics.height * deltaMult).floor)
+      #-------------------------------------------------------------------------
+      when "bottom" # Sprite slides in from bottom.
+        if spriteName.include?("base_")
+          s.setVisible(0, false) if hideBase
+          s.setDelta(0, 0, (Graphics.height * deltaMult).floor)
+          s.moveDelta(0, 0, 0, (-Graphics.height * deltaMult).floor)
+        elsif spriteName.include?("shadow_")
+          s.setVisible(0, false)
+          s.setDelta(0, 0, (Graphics.height * deltaMult).floor)
+          s.moveDelta(0, 0, 0, (-Graphics.height * deltaMult).floor)
+          s.setVisible(appearTime, true) if !hideBase
+        else
+          bitmap = @sprites[spriteName].bitmap
+          f = 0
+          w = bitmap.width
+          h = bitmap.height
+          deltaY = h - findTop(bitmap) - 12
+          s.setDelta(0, 0, deltaY)
+          s.moveDelta(0, appearTime - 3, 0, (deltaY * deltaMult).floor)
+          appearTime.times do |i|
+            if i + 1 < appearTime
+              s.setSrcSize(i, w, f)
+              f += (h / appearTime).floor
+            else
+              s.setSrcSize(i, w, h)
+            end
+          end
+        end
+      end
+      #-------------------------------------------------------------------------
+    else
+      s.setDelta(0, (Graphics.width * deltaMult).floor, 0)
+      s.moveDelta(0, appearTime, (-Graphics.width * deltaMult).floor, 0)
+    end
+  end
+end
+
+def findTop(bitmap)
+  return 0 if !bitmap
+  (1..bitmap.height).each do |i|
+    bitmap.width.times do |j|
+      return i if bitmap.get_pixel(j, bitmap.height - i).alpha > 0
+    end
+  end
+  return 0
+end
 
 #===============================================================================
 # Methods used for setting wild attributes via Battle Rules.

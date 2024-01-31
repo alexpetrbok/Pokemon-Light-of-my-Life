@@ -154,12 +154,12 @@ Battle::AbilityEffects::OnSwitchIn.add(:FOREWARN,
     battle.allOtherSideBattlers(battler.index).each do |b|
       b.eachMoveWithIndex do |m, i|
         m = b.baseMoves[i] if b.baseMoves[i]
-        power = m.baseDamage
-        power = 160 if ["OHKO", "OHKOIce", "OHKOHitsUndergroundTarget"].include?(m.function)
-        power = 150 if ["PowerHigherWithUserHP"].include?(m.function)
+        power = m.power
+        power = 160 if ["OHKO", "OHKOIce", "OHKOHitsUndergroundTarget"].include?(m.function_code)
+        power = 150 if ["PowerHigherWithUserHP"].include?(m.function_code)
         power = 120 if ["CounterPhysicalDamage",
                         "CounterSpecialDamage",
-                        "CounterDamagePlusHalf"].include?(m.function)
+                        "CounterDamagePlusHalf"].include?(m.function_code)
         power = 80 if ["FixedDamage20",
                        "FixedDamage40",
                        "FixedDamageUserLevel",
@@ -172,8 +172,8 @@ Battle::AbilityEffects::OnSwitchIn.add(:FOREWARN,
                        "TypeAndPowerDependOnUserBerry",
                        "PowerHigherWithLessPP",
                        "PowerLowerWithUserHP",
-                       "PowerHigherWithTargetWeight"].include?(m.function)
-        power = 80 if Settings::MECHANICS_GENERATION <= 5 && m.function == "TypeDependsOnUserIVs"
+                       "PowerHigherWithTargetWeight"].include?(m.function_code)
+        power = 80 if Settings::MECHANICS_GENERATION <= 5 && m.function_code == "TypeDependsOnUserIVs"
         next if power < highestPower
         forewarnMoves = [] if power > highestPower
         forewarnMoves.push(m.name)

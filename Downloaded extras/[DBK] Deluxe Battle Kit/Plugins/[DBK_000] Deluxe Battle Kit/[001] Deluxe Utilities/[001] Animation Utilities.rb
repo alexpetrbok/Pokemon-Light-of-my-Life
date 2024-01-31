@@ -354,11 +354,9 @@ class Battle::Scene::Animation
   # Sets the backdrop.
   #-----------------------------------------------------------------------------
   def dxSetBackdrop(checkfile, default, delay)
-    zoom = 1
     if pbResolveBitmap(checkfile)
       file = checkfile
     elsif pbResolveBitmap(default)
-      zoom = 1.5
       file = default
     else
       file = "Graphics/Pictures/evolutionbg"
@@ -366,6 +364,8 @@ class Battle::Scene::Animation
     pictureBG = addNewSprite(0, 0, file)
     pictureBG.setVisible(delay, false)
     spriteBG = @pictureEx.length - 1
+    bgheight = @pictureSprites[spriteBG].bitmap.height
+    zoom = (bgheight >= Graphics.height) ? 1 : 1.5
     @pictureSprites[spriteBG].z = 999
     pictureBG.setZ(delay, @pictureSprites[spriteBG].z)
     pictureBG.setZoom(delay, 100 * zoom)
