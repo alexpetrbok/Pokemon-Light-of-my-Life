@@ -1,0 +1,35 @@
+Overview
+This script adds to the game an egg hatcher which allows the player to take alongside him up to 6 eggs without taking spaces from your team.
+Once available to the player it will ask if they want to send newly obtained eggs directly to the hatcher.
+It is fully plug and play and can be either given as an object or called via script.
+
+How to Install
+
+    Download the resource
+    Paste the contents of script.txt in a new script over Main
+    Copy the Graphics folder on the root of your project
+
+How to Use
+As an item:
+
+    Add the following line to Items PBS (change xxx to the id of the item):
+
+    XXX,EGGHATCHER,Egg Hatcher,Egg Hatchers,8,0,"An Egg Hatcher in which to keep up to 6 eggs until they hatch.",2,0,6
+
+    Then, add itemXXX.png to the Graphics/Icons folder.
+
+The functionality code is already implemented within this script. That includes item usage and egg storage after receiving them
+
+External script call:
+Whether calling it from the menu or a random npc, just call the following method:
+
+openHatcher
+
+In case of using this method to use the hatcher, you can use a global switch to make it available to the player.
+Just change EGGHATCHER_SWITCH to the id of the switch you want to use.
+
+Credits
+    -Kyu (Script)
+    -Clara (Idea, graphics and testing)
+    -Turner (Updated hatcher icon)
+

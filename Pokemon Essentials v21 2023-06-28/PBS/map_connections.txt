@@ -28,78 +28,80 @@
 31,South,32,23,North,0
 # Route 3 (31) - Ingido Plateau outside (35)
 31,West,0,35,East,10
-# R1 (33) - River Delta (141)
-33,West,14,141,East,0
-# Fortree City (42) - R1 (33)
-42,South,0,33,North,16
-# Home (136) - R1 (33)
-136,North,0,33,South,0
 # Ingido Plateau outside (35) - Route 4 (39)
 35,West,11,39,East,0
 # Route 5 (41) - Route 4 Cycling Road (40)
 41,North,0,40,South,0
 # Route 5 (41) - Route 6 Cycling Road (45)
 41,South,6,45,North,0
-# R2 (82) - Fortree City (42)
-82,South,0,42,North,5
 # Route 7 (47) - Battle Frontier (52)
 47,East,8,52,West,0
 # Route 8 (69) - Safari Zone outside (66)
 69,North,0,66,South,10
-# Cascadia (83) - R2 (82)
-83,East,12,82,West,0
+# Safari Zone 2 (162) - Safari Zone (161)
+162,South,0,161,North,0
+# R2 (82) - Cascadia (83)
+82,West,0,83,East,12
+# Fortree City (42) - R2 (82)
+42,North,5,82,South,0
+# R1 (33) - Fortree City (42)
+33,North,16,42,South,0
+# River Delta (141) - R1 (33)
+141,East,0,33,West,14
+# Home (136) - R1 (33)
+136,North,0,33,South,0
+# Home (136) - River Delta (141)
+136,West,0,141,East,36
+# Vaporeon Lagoon (142) - River Delta (141)
+142,East,9,141,West,0
+# House River (169) - Home (136)
+169,North,0,136,South,7
 # River Forest (89) - Vaporeon Lagoon (142)
 89,East,0,142,West,1
 # Aqualius  (125) - River Forest (89)
 125,East,0,89,West,0
 # R3 - 1 (95) - River Forest (89)
 95,South,90,89,North,0
-# R3 (92) - R3 - 1 (95)
-92,East,43,95,West,0
-# Coastal Islands (116) - R3 (92)
-116,South,0,92,North,0
 # R3 - 1 (95) - Aqualius  (125)
 95,South,10,125,North,0
+# R3 (92) - R3 - 1 (95)
+92,East,43,95,West,0
 # Coastal Islands (116) - R3 - 1 (95)
 116,East,103,95,West,0
 # Lighthouse  (97) - R3 - 1 (95)
 97,East,183,95,West,0
+# Coastal Islands (116) - R3 (92)
+116,South,0,92,North,0
 # Lighthouse  (97) - Coastal Islands (116)
 97,South,40,116,North,0
-# Magaii Isle (98) - Lighthouse  (97)
-98,East,0,97,West,0
 # Magaii Isle (98) - Coastal Islands (116)
 98,South,120,116,North,0
-# Magaii Isle Center (99) - Magaii Isle (98)
-99,East,0,98,West,0
 # Magaii Isle Center (99) - Coastal Islands (116)
 99,South,200,116,North,0
-# Magaii Isle Forest (102) - Magaii Isle Center (99)
-102,East,0,99,West,0
 # Magaii Isle Forest (102) - Coastal Islands (116)
 102,South,279,116,North,0
-# Home (136) - River Delta (141)
-136,West,0,141,East,36
-# River Delta (141) - Vaporeon Lagoon (142)
-141,West,0,142,East,9
-# Safari Zone 2 (162) - Safari Zone (161)
-162,South,0,161,North,0
-# Snowy Path (149) - Snowpoint City (151)
-149,South,0,151,North,0
-# Frozen Lake (163) - Snowpoint City (151)
-163,North,0,151,South,3
-# Crossroads (135) - Snowy Path (149)
-135,South,16,149,North,0
-# Safari Farm (90) - Crossroads (135)
-90,West,27,135,East,0
-# R5 (131) - Crossroads (135)
-131,South,113,135,North,0
+# Magaii Isle (98) - Lighthouse  (97)
+98,East,0,97,West,0
+# Magaii Isle Center (99) - Magaii Isle (98)
+99,East,0,98,West,0
+# Magaii Isle Forest (102) - Magaii Isle Center (99)
+102,East,0,99,West,0
+# Steel Falls (170) - House River (169)
+170,North,0,169,South,15
+# Steel caves lower (171) - Steel Falls (170)
+171,North,0,170,South,0
+# Crossroads (135) - Safari Farm (90)
+135,East,0,90,West,27
+# Train station (91) - Safari Farm (90)
+91,West,0,90,East,0
 # Desert Entrance (150) - Crossroads (135)
 150,East,0,135,West,0
 # R5 Crossroad (134) - Crossroads (135)
 134,South,0,135,North,7
-# Train station (91) - Safari Farm (90)
-91,West,0,90,East,0
+# R5 (131) - Crossroads (135)
+131,South,113,135,North,0
+# Snowy Path (149) - Crossroads (135)
+149,North,0,135,South,16
 # Brightvolt City (143) - Train station (91)
 143,West,15,91,East,0
 # Highlands Havoc Base (164) - Train station (91)
@@ -110,31 +112,35 @@
 164,South,0,143,North,0
 # Highlands Havoc Back (165) - Highlands Havoc Base (164)
 165,South,0,164,North,0
-# Lake Tapu-Kaka  (126) - R5 (131)
-126,East,0,131,West,34
-# Desert (140) - R5 (131)
-140,East,0,131,West,107
-# Desert Entrance (150) - R5 (131)
-150,North,0,131,South,0
-# Zeal Lake (127) - R5 (131)
-127,East,16,131,West,0
-# R5 Crossroad (134) - R5 (131)
-134,West,0,131,East,0
-# Rocky Path (124) - Lake Tapu-Kaka  (126)
-124,East,85,126,West,0
-# Desert Entrance (150) - Lake Tapu-Kaka  (126)
-150,West,0,126,East,46
-# Zeal Lake (127) - Lake Tapu-Kaka  (126)
-127,South,0,126,North,0
-# R4 (122) - Rocky Path (124)
-122,East,68,124,West,0
-# Desert (140) - Rocky Path (124)
-140,West,0,124,East,158
-# Zeal Lake (127) - Rocky Path (124)
-127,West,0,124,East,35
-# Desert Entrance (150) - Desert (140)
-150,West,27,140,East,0
-# Zeal Lake (127) - Desert Entrance (150)
-127,East,96,150,West,0
+# Desert (140) - Desert Entrance (150)
+140,East,0,150,West,20
 # R5 Crossroad (134) - Desert Entrance (150)
 134,South,0,150,North,120
+# R5 (131) - Desert Entrance (150)
+131,South,0,150,North,0
+# Lake Tapu-Kaka  (126) - Desert Entrance (150)
+126,East,47,150,West,0
+# Zeal Lake (127) - Desert Entrance (150)
+127,East,97,150,West,0
+# R5 (131) - Desert (140)
+131,West,100,140,East,0
+# Rocky Path (124) - Desert (140)
+124,East,152,140,West,0
+# R5 (131) - R5 Crossroad (134)
+131,East,0,134,West,0
+# Lake Tapu-Kaka  (126) - R5 (131)
+126,East,0,131,West,33
+# Zeal Lake (127) - R5 (131)
+127,East,17,131,West,0
+# Zeal Lake (127) - Lake Tapu-Kaka  (126)
+127,South,0,126,North,0
+# Rocky Path (124) - Lake Tapu-Kaka  (126)
+124,East,85,126,West,0
+# Rocky Path (124) - Zeal Lake (127)
+124,East,35,127,West,0
+# R4 (122) - Rocky Path (124)
+122,East,68,124,West,0
+# Snowpoint City (151) - Snowy Path (149)
+151,North,0,149,South,0
+# Frozen Lake (163) - Snowpoint City (151)
+163,North,0,151,South,3

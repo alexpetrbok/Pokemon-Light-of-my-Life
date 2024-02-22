@@ -78,6 +78,16 @@ Gender = Male
 BaseMoney = 88
 SkillLevel = 32
 #-------------------------------
+[CAMPERDP]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[CAMPERBW]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
 [CHANNELER]
 Name = Channeler
 Gender = Female

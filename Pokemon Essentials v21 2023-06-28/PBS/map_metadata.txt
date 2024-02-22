@@ -603,11 +603,15 @@ Bicycle = true
 Weather = Snow,70
 #-------------------------------
 [161]   # Safari Zone
+Name = Safari Zone
 Outdoor = true
 Bicycle = true
 SafariMap = true
 #-------------------------------
 [162]   # Safari Zone 2
+Name = Safari Zone 2
 Outdoor = true
 Bicycle = true
 SafariMap = true
+#-------------------------------
+[165]   # Highlands Havoc Back

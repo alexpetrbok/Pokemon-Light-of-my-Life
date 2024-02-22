@@ -1,0 +1,53 @@
+﻿#-------------------------------
+[DAYCARESIGHT]
+Name = Day-Care Sight
+NamePlural = Day-Care Sights
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A visor that can be use to see Pokémon in Day-Care to monitor their growth.
+#-------------------------------
+[EEVEECHANGER]
+Name = Eevee Changer
+NamePlural = Eevee Changers
+Pocket = 8
+Price = 0
+FieldUse = OnPokemon
+Flags = KeyItem
+Description = An item that will allow you to switch between forms of Eevee!
+#-------------------------------
+[EGGHATCHER]
+Name = Egg Hatcher
+NamePlural = Egg Hatchers
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = An Egg Hatcher in which to keep up to 6 eggs until they hatch.
+#-------------------------------
+[MILK]
+Name = Milk
+NamePlural = Milks
+PortionName = bottle of Milk
+PortionNamePlural = bottles of Milk
+Pocket = 2
+Price = 400
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Milk. It restores the HP of one Pokémon by 60 points.
+#-------------------------------
+[PILK]
+Name = Pilk
+NamePlural = Pilks
+PortionName = bottle of Pilk
+PortionNamePlural = bottles of Pilk
+Pocket = 2
+Price = 400
+SellPrice = 10
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_90
+Description = Soda Pop + Milk = Pilk. I wouldn't want to drink it.

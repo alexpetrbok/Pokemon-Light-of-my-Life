@@ -1,4 +1,10 @@
-﻿# See the documentation on the wiki to learn how to edit this file.
+﻿# Trainers list for Canopy Creek, leafeon forest, leafeon event, and route 1
+#
+#
+#
+#-------------------------------
+#Canopy Creek - Ice Gym
+#-------------------------------
 #-------------------------------
 [CAMPER,Liam]
 LoseText = A very good battle, indeed!
@@ -23,6 +29,46 @@ Pokemon = ONIX,14
     Shiny = true
     Ball = HEAVYBALL
 #-------------------------------
+#
+#
+#
+#-------------------------------
+#Leafeon Forest
+#-------------------------------
+#-------------------------------
+[YOUNGSTER,Joey]
+LoseText = Rattata lost?...
+Pokemon = RATTATA,11
+Pokemon = RATTATA,12
+#-------------------------------
+[CAMPERBW,Kameron]
+LoseText = A very good battle, indeed!
+Pokemon = ROCKRUFF,13
+Pokemon = SENTRET,16
+#-------------------------------
+[LASS,Hannah]
+LoseText = My cute little Pokemon!
+Pokemon = CHERUBI,13
+Pokemon = BUDEW,16
+#-------------------------------
+[POKEMONRANGER_F,Dana]
+LoseText = Oh no, I got lost!
+Pokemon = GRUBBIN,12
+Pokemon = MOTHIM,15
+#-------------------------------
+[CAMPERDP,Paul]
+LoseText = BUGS ARE COOL! 
+Pokemon = SPINARAK,10
+Pokemon = KARRABLAST,12
+Pokemon = SEWADDLE, 10
+#-------------------------------
+#
+#
+#
+#-------------------------------
+#Leafeon Forest Fire
+#-------------------------------
+#-------------------------------
 [TEAMROCKET_M,Grunt,1]
 LoseText = You're too good for me!
 Pokemon = WEEPINBELL,21
@@ -34,16 +80,6 @@ Pokemon = BURMY,19
 Pokemon = WINGULL,19
 Pokemon = ELECTABUZZ,20
     Shadow = true
-#-------------------------------
-[YOUNGSTER,Ben]
-LoseText = Aww, I lost.
-Pokemon = RATTATA,11
-Pokemon = EKANS,11
-#-------------------------------
-[CAMPER,Jeff]
-LoseText = A very good battle, indeed!
-Pokemon = SPEAROW,16
-Pokemon = SENTRET,16
 #-------------------------------
 [CAMPER,Jeff,1]
 LoseText = You beat me again!
@@ -70,6 +106,13 @@ Pokemon = MAGIKARP,18
 [BEAUTY,Bridget]
 LoseText = My Skitty!
 Pokemon = SKITTY,18
+#-------------------------------
+#
+#
+#
+#-------------------------------
+#Route 1
+#-------------------------------
 #-------------------------------
 [LASS,Crissy]
 LoseText = You didn't have to win so convincingly!

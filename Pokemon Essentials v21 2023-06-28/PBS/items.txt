@@ -6704,20 +6704,4 @@ Price = 0
 Flags = KeyItem
 Description = A faded sea chart that shows the way to a certain island.
 #-------------------------------
-[DAYCARESIGHT]
-Name = Day-Care Sight
-NamePlural = Day-Care Sights
-Pocket = 8
-Price = 0
-FieldUse = Direct
-Flags = KeyItem
-Description = A visor that can be use to see Pokémon in Day-Care to monitor their growth.
-#-------------------------------
-[EEVEECHANGER]
-Name = Eevee Changer
-NamePlural = Eevee Changers
-Pocket = 8
-Price = 0
-FieldUse = OnPokemon
-Flags = KeyItem
-Description = An item that will allow you to switch between forms of Eevee!
+

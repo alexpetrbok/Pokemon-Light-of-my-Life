@@ -1,0 +1,7 @@
+Name		= Multiple Protagonists
+Version		= 5.0.0
+Essentials	= 21.1
+Link		= https://reliccastle.com/resources/280/
+Credits		= NettoHikari
+Requires	= v21.1 Hotfixes
+Optional	= Following Pokemon EX,2.2.3
