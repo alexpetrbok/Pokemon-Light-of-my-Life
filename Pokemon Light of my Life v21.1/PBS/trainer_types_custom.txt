@@ -1,0 +1,68 @@
+﻿[APC]
+Name = Pokemon Trainer
+Gender = Unknown
+BaseMoney = 100
+BattleBGM = Battle Elite
+VictoryBGM = Battle victory leader
+#-------------------------------
+[STARAPTORKEEPER]
+Name = Bird Keeper
+Gender = Male
+BaseMoney = 32
+#-------------------------------
+[GYM_GRUSHA]
+Name = Gym Leader
+Gender = Male
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+[CAMPERDP]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[CAMPERBW]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[HITMONLEEGIRL]
+Name = Hitmonlee Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[LOPUNNYGIRL]
+Name = Lopunny Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[SNOWBOARDER_F]
+Name = Snowboarder
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[RANGERF_SNOW]
+Name = Ranger
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[RANGERM_SNOW]
+Name = Ranger
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[NINJAM_SNOW]
+Name = Snow ninja
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[HAVOCM]
+Name = Team Havoc Grunt
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[HAVOCF]
+Name = Team Havoc Grunt
+Gender = Female
+BaseMoney = 50
