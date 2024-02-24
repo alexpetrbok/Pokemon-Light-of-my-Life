@@ -160,6 +160,13 @@ ModularMenu.add_entry(:OPTIONS, _INTL("Options"), "menuOptions") do |menu|
   }
 end
 #-------------------------------------------------------------------------------
+#  Controls Screen
+#-------------------------------------------------------------------------------
+ModularMenu.add_entry(:OPTIONS, _INTL("Options"), "menuOptions") do |menu|
+  open_set_controls_ui
+end
+
+#-------------------------------------------------------------------------------
 #  Debug Menu
 #-------------------------------------------------------------------------------
 ModularMenu.add_entry(:DEBUG, _INTL("Debug"), "menuDebug") do |menu|

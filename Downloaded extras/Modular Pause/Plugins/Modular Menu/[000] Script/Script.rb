@@ -98,6 +98,7 @@ class PokemonPauseMenu_Scene
     @sprites["helpwindow"].visible = true
     @helpstate = true
     pbBottomLeft(@sprites["helpwindow"])
+    @scene.pbShowInfo(_INTL("{1}",pbGetTimeNow.strftime("%I:%M %p")))
   end
   #-----------------------------------------------------------------------------
   # retained for compatibility
@@ -186,6 +187,7 @@ class PokemonPauseMenu_Scene
   # hide menu
   #-----------------------------------------------------------------------------
   def pbHideMenu
+    return unless @sprites["textOverlay"] # Add this line to check if the sprite exists
     # animations for closing the menu
     @sprites["textOverlay"].end_x = -@viewport.rect.width
     8.times do

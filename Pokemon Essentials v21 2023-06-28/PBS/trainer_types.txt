@@ -78,16 +78,6 @@ Gender = Male
 BaseMoney = 88
 SkillLevel = 32
 #-------------------------------
-[CAMPERDP]
-Name = Camper
-Gender = Male
-BaseMoney = 25
-#-------------------------------
-[CAMPERBW]
-Name = Camper
-Gender = Male
-BaseMoney = 25
-#-------------------------------
 [CHANNELER]
 Name = Channeler
 Gender = Female
@@ -197,16 +187,6 @@ BaseMoney = 32
 #-------------------------------
 [CRUSHGIRL]
 Name = Crush Girl
-Gender = Female
-BaseMoney = 24
-#-------------------------------
-[HITMONLEEGIRL]
-Name = Hitmonlee Girl
-Gender = Female
-BaseMoney = 24
-#-------------------------------
-[LOPUNNYGIRL]
-Name = Lopunny Girl
 Gender = Female
 BaseMoney = 24
 #-------------------------------
@@ -441,3 +421,60 @@ Gender = Male
 BaseMoney = 100
 BattleBGM = Battle Champion
 VictoryBGM = Battle victory leader
+#-------------------------------
+[GYM_GRUSHA]
+Name = Gym Leader
+Gender = Male
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+[CAMPERDP]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[CAMPERBW]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[HITMONLEEGIRL]
+Name = Hitmonlee Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[LOPUNNYGIRL]
+Name = Lopunny Girl
+Gender = Female
+BaseMoney = 24
+#-------------------------------
+[SNOWBOARDER_F]
+Name = Snowboarder
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[RANGERF_SNOW]
+Name = Ranger
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[RANGERM_SNOW]
+Name = Ranger
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[NINJAM_SNOW]
+Name = Snow ninja
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[HAVOCM]
+Name = Team Havoc Grunt
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[HAVOCF]
+Name = Team Havoc Grunt
+Gender = Female
+BaseMoney = 50

@@ -6,28 +6,40 @@
 #Canopy Creek - Ice Gym
 #-------------------------------
 #-------------------------------
-[CAMPER,Liam]
-LoseText = A very good battle, indeed!
-Pokemon = DIGLETT,10
-Pokemon = BONSLY,11
 #-------------------------------
-[LEADER_Brock,Brock]
+[SNOWBOARDER_F, Crystal]
+LoseText = My icy strategy melted away.
+Pokemon = CUBCHOO,17
+Pokemon = SNORUNT,18
+
+#-------------------------------
+[NINJAM_SNOW, Aspen]
+LoseText = My icy shurikens couldn't pierce through.
+Pokemon = FROSLASS,15
+Pokemon = SWINUB,16
+
+#-------------------------------
+[RANGERF_SNOW, Storm]
+LoseText = The cold grip of defeat has me frozen.
+Pokemon = SPHEAL,18
+Pokemon = SNEASEL,19
+#-------------------------------
+[RANGERM_SNOW, Hale]
+LoseText = Chilled to the bone!
+Pokemon = LAPRAS,20
+#-------------------------------
+[GYM_GRUSHA, Grusha]
 Items = FULLRESTORE,FULLRESTORE
-LoseText = Very good.
-Pokemon = GEODUDE,12
-    Moves = DEFENSECURL,HEADSMASH,ROCKPOLISH,ROCKTHROW
-    AbilityIndex = 0
-    Gender = male
-    IV = 20,20,20,20,20,20
-Pokemon = ONIX,14
-    Name = Rocky
-    Moves = HEADSMASH,ROCKTHROW,RAGE,ROCKTOMB
-    AbilityIndex = 0
+LoseText = You melted straight through my ice...
+Pokemon = SNOM,18
+Pokemon = AMAURA,21
+Pokemon = FROSMOTH,23
+Pokemon = SANDSHREW_1,24
+    Moves = METALCLAW,DIG,ICESPINNER,ICICLESPEAR
+    AbilityIndex = 1
     Item = SITRUSBERRY
     Gender = male
     IV = 20,20,20,20,20,20
-    Shiny = true
-    Ball = HEAVYBALL
 #-------------------------------
 #
 #
@@ -69,43 +81,47 @@ Pokemon = SEWADDLE, 10
 #Leafeon Forest Fire
 #-------------------------------
 #-------------------------------
-[TEAMROCKET_M,Grunt,1]
+[HAVOCM,Grunt,1]
 LoseText = You're too good for me!
 Pokemon = WEEPINBELL,21
     Shadow = true
 #-------------------------------
-[TEAMROCKET_F,Grunt,1]
-LoseText = You're too good for me!
-Pokemon = BURMY,19
-Pokemon = WINGULL,19
-Pokemon = ELECTABUZZ,20
-    Shadow = true
 #-------------------------------
-[CAMPER,Jeff,1]
-LoseText = You beat me again!
-Pokemon = FEAROW,29
-Pokemon = FURRET,29
+[YOUNGSTER,Joey,1]
+LoseText = That Litleo keeps attacking my Rattata
+Pokemon = RATTATA,16
+Pokemon = RATTATA,19
+Pokemon = LITLEO, 17
+	Shadow = True
 #-------------------------------
-[PICNICKER,Susie]
-LoseText = Defeated! Oh my!
-Pokemon = MEOWTH,18
+[CAMPERBW,Kameron,1]
+LoseText = A very good battle, indeed!
+Pokemon = ROCKRUFF,13
+Pokemon = SENTRET,16
+Pokemon = HOUNDOUR, 19
+	Shadow = True
 #-------------------------------
-[PICNICKER,Susie,1]
-LoseText = Defeated! Oh my!
-Pokemon = PERSIAN,32
+[LASS,Hannah,1]
+LoseText = My cute little Pokemon!
+Pokemon = CHERUBI,13
+Pokemon = BUDEW,16
+Pokemon = PONYTA, 18
+	Shadow = True
 #-------------------------------
-[HIKER,Ford]
-LoseText = You're too good for me!
-Pokemon = MACHOP,19
+[POKEMONRANGER_F,Dana,1]
+LoseText = I can't find my way out with all this smoke!
+Pokemon = GRUBBIN,12
+Pokemon = MOTHIM,15
+Pokemon = FLETCHLING, 20
+	Shadow = True
 #-------------------------------
-[FISHERMAN,Andrew]
-LoseText = Washed out!
-Pokemon = MAGIKARP,14
-Pokemon = MAGIKARP,18
-#-------------------------------
-[BEAUTY,Bridget]
-LoseText = My Skitty!
-Pokemon = SKITTY,18
+[CAMPERDP,Paul,1]
+LoseText = BUGS ARE COOL! 
+Pokemon = SPINARAK,17
+Pokemon = KARRABLAST,19
+Pokemon = SEWADDLE, 15
+Pokemon = LARVESTA, 20
+	Shadow = True
 #-------------------------------
 #
 #
