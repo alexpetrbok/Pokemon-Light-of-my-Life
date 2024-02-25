@@ -512,3 +512,9 @@ MultipleForms.register(:TERAPAGOS, {
     next [pkmn.form, 1]
   }
 })
+
+#-------------------------------------------------------------------------------
+# Custom add ons 
+#-------------------------------------------------------------------------------
+
+MultipleForms.copy(:GOOMY, :EEVEE, :FLAREON, :VAPOREON, :JOLTEON, :ESPEON, :UMBREON, :LEAFEON, :GLACEON, :SYLVEON)
