@@ -37,15 +37,19 @@ class RfDialoguePortrait
     def initialize(portrait, align = 0, viewport = nil)
         @align = align
         @sprite = Sprite.new(viewport)
-        @sprite.bitmap = Bitmap.new("Graphics/Portraits/#{portrait}")
-        @sprite.ox = @sprite.bitmap.width * (align % 2)
-        @sprite.oy = @sprite.bitmap.height
-        @sprite.x = align > 0 ? Graphics.width + 128 : -128
-        @sprite.y = Graphics.height
+        @sprite.bitmap = Bitmap.new("Graphics/Trainers/#{portrait}")
+	@sprite.zoom_x = 2.0
+	@sprite.zoom_y = 2.0
+        @sprite.ox = @sprite.bitmap.width * (align % 2) 
+        @sprite.oy = @sprite.bitmap.height 
+        @sprite.x = align > 0 ? (Graphics.width ) + 128 : -128
+        @sprite.y = (Graphics.height ) - 32
         @sprite.opacity = 0
         if RfSettings::OUTLINE
             @outline = @sprite.create_outline_sprite
             @outline.color = Rf.portrait_outline_color
+	    @outline.zoom_x = 2.0
+	    @outline.zoom_y = 2.0
             @outline.opacity = 0
         end
         @state = :opening
@@ -65,7 +69,7 @@ class RfDialoguePortrait
         @outline&.dispose
         @sprite.bitmap&.dispose
         # create new ones
-        @sprite.bitmap = Bitmap.new("Graphics/Portraits/#{portrait}")
+        @sprite.bitmap = Bitmap.new("Graphics/Trainers/#{portrait}")
         if RfSettings::OUTLINE
             @outline = @sprite.create_outline_sprite
             @outline.color = Rf.portrait_outline_color

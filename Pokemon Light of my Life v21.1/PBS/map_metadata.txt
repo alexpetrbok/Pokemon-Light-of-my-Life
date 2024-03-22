@@ -417,6 +417,10 @@ Outdoor = true
 Bicycle = true
 Weather = Fog,100
 #-------------------------------
+[078]   # Grass Dungeon 1
+Outdoor = true
+Dungeon = true
+#-------------------------------
 [082]   # R2
 Name = R2
 Outdoor = true
@@ -566,6 +570,11 @@ Name = Crossroads
 Outdoor = true
 Bicycle = true
 #-------------------------------
+[137]   # Grass Dungeon 2
+Name = 
+Outdoor = true
+Dungeon = true
+#-------------------------------
 [140]   # Desert
 Name = Desert
 Outdoor = true
@@ -615,3 +624,4 @@ Bicycle = true
 SafariMap = true
 #-------------------------------
 [165]   # Highlands Havoc Back
+Name = Highlands Havoc Back

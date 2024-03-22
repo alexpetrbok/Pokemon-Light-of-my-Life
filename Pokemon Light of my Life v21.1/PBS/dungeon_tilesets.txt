@@ -26,3 +26,15 @@ SnapToLargeGrid = true
 LargeVoidTiles = true
 LargeWallTiles = true
 ThinNorthWallOffset = -8
+#-------------------------------
+[37]   # Leafy forest Dungeon
+Autotile = 1,floor
+Autotile = 2,walls
+Autotile = 3,floor_patch
+Autotile = 4,floor_decoration
+Autotile = 5,floor_decoration
+Autotile = 6,floor_decoration
+Autotile = 7,floor_decoration
+Tile = 2,void
+FloorPatchUnderWalls = true
+ThinNorthWallOffset = -8

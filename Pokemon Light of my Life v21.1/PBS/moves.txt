@@ -1308,18 +1308,6 @@ Flags = Contact,CanProtect,CanMirrorMove,Punching
 EffectChance = 10
 Description = The target is punched with an electrified fist. It may also leave the target with paralysis.
 #-------------------------------
-[RISINGVOLTAGE]
-Name = Rising Voltage
-Type = ELECTRIC
-Category = Special
-Power = 70
-Accuracy = 100
-TotalPP = 20
-Target = NearOther
-FunctionCode = DoublePowerInElectricTerrain
-Flags = CanProtect,CanMirrorMove
-Description = The user attacks with electric voltage rising from the ground. Power is doubled on Electric Terrain.
-#-------------------------------
 [VOLTSWITCH]
 Name = Volt Switch
 Type = ELECTRIC
@@ -4938,7 +4926,7 @@ TotalPP = 15
 Target = NearOther
 FunctionCode = None
 Flags = Contact,CanProtect,CanMirrorMove
-Description = The target is slugged with a punch thrown at maximum power. It can also be used to move heavy boulders.
+Description = The target is slugged with a punch thrown at maximum power. 
 #-------------------------------
 [TRIATTACK]
 Name = Tri Attack
@@ -5162,18 +5150,6 @@ Target = NearOther
 FunctionCode = None
 Flags = Contact,CanProtect,CanMirrorMove
 Description = The target is gripped and squeezed from both sides to inflict damage.
-#-------------------------------
-[CUT]
-Name = Cut
-Type = NORMAL
-Category = Physical
-Power = 50
-Accuracy = 95
-TotalPP = 30
-Target = NearOther
-FunctionCode = None
-Flags = Contact,CanProtect,CanMirrorMove,Slicing
-Description = The target is cut with a scythe or a claw. It can also be used to cut down thin trees.
 #-------------------------------
 [RAPIDSPIN]
 Name = Rapid Spin
@@ -7671,17 +7647,6 @@ FunctionCode = StartTargetAirborneAndAlwaysHitByMoves
 Flags = CanProtect,CanMirrorMove
 Description = The user makes the target float with its psychic power. The target is easier to hit for three turns.
 #-------------------------------
-[TELEPORT]
-Name = Teleport
-Type = PSYCHIC
-Category = Status
-Accuracy = 0
-TotalPP = 20
-Target = User
-Priority = -6
-FunctionCode = SwitchOutUserStatusMove
-Description = The user switches place with a party Pokémon. Also warps to the last Pokémon Center visited.
-#-------------------------------
 [TRICK]
 Name = Trick
 Type = PSYCHIC
@@ -8389,18 +8354,6 @@ Flags = CanProtect,CanMirrorMove,Sound
 EffectChance = 100
 Description = The user bursts into song, emitting many bubbles. Any burnt Pokémon will be healed by these bubbles.
 #-------------------------------
-[SURF]
-Name = Surf
-Type = WATER
-Category = Special
-Power = 90
-Accuracy = 100
-TotalPP = 15
-Target = AllNearOthers
-FunctionCode = DoublePowerIfTargetUnderwater
-Flags = CanProtect,CanMirrorMove
-Description = It swamps the area around the user with a giant wave. It can also be used for crossing water.
-#-------------------------------
 [FISHIOUSREND]
 Name = Fishious Rend
 Type = WATER
@@ -8425,18 +8378,6 @@ FunctionCode = LowerTargetDefense1
 Flags = Contact,CanProtect,CanMirrorMove
 EffectChance = 20
 Description = The user slams into the target using a full-force blast of water. May lower the target's Defense.
-#-------------------------------
-[DIVE]
-Name = Dive
-Type = WATER
-Category = Physical
-Power = 80
-Accuracy = 100
-TotalPP = 10
-Target = NearOther
-FunctionCode = TwoTurnAttackInvulnerableUnderwater
-Flags = Contact,CanProtect,CanMirrorMove
-Description = Diving on the first turn, the user rises and hits on the next turn. It can be used to dive in the ocean.
 #-------------------------------
 [SCALD]
 Name = Scald
