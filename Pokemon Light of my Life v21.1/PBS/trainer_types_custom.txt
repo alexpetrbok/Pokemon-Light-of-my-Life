@@ -17,12 +17,12 @@ BaseMoney = 100
 BattleBGM = Battle Gym Leader
 VictoryBGM = Battle victory leader
 #-------------------------------
-[CAMPERDP]
+[CAMPER_DP]
 Name = Camper
 Gender = Male
 BaseMoney = 25
 #-------------------------------
-[CAMPERBW]
+[CAMPER_BW]
 Name = Camper
 Gender = Male
 BaseMoney = 25

@@ -1,0 +1,128 @@
+﻿﻿# Trainers list for Cascadia, Haunted forest, Espeon event, and route 2
+#
+#
+#
+#-------------------------------
+#Cascadia - Grass Gym
+#-------------------------------
+#-------------------------------
+#-------------------------------
+#-------------------------------
+[GYM_ERIKA, Erika]
+Items = FULLRESTORE,FULLRESTORE
+LoseText = My flowery Pokemon wilted...
+Pokemon = CHERRIM,29
+Pokemon = BRELOOM,29
+Pokemon = LURANTIS,34
+    Moves = GIGADRAIN, SOLARBLADE, XSCISSOR,SLASH
+    AbilityIndex = 1
+    Item = SITRUSBERRY
+    Gender = female
+    IV = 20,20,20,20,20,20
+Pokemon = BELLOSSOM,35
+    Moves = GIGADRAIN, PETALBLIZZARD, QUIVERDANCE, SLEEPPOWDER
+    AbilityIndex = 1
+    Item = SITRUSBERRY
+    Gender = female
+    IV = 20,20,20,20,20,20
+#-------------------------------
+#
+#
+#
+#-------------------------------
+#Route 2
+#-------------------------------
+#-------------------------------
+[CRUSHGIRL, Kaya]
+LoseText = We'll keep training to get stronger 
+Pokemon = TYROUGE, 19
+Pokemon = MACHOP, 22
+Pokemon = TIMBURR, 20
+#-------------------------------
+[GymBro, Howard]
+LoseText = Keep those fists up!
+Pokemon = CRABRAWLER,23
+Pokemon = CLOBBOPUS,24
+#-------------------------------
+[CRUSHKIN, Rhonda and Rousey]
+LoseText = We always work out our problems 
+Pokemon = RIOLU,20
+Pokemon = PANCHAM,21
+Pokemon = MEINFOO,21
+Pokemon = HAKUHITA,20
+#-------------------------------
+[GrapplerF, Evie]
+LoseText = Even strong girls can be cute
+Pokemon = STUFFUL,22
+Pokemon = MEDITITE,21
+Pokemon = CRANIDOS,20
+#-------------------------------
+HITMONLEEGIRL, Jackie]
+LoseText = What is the best balance of Attack and Defense? 
+Pokemon = HITMONLEE,21
+Pokemon = HITMONCHAN,21
+Pokemon = HITMONTOP,21
+#-------------------------------
+[Ruinmaniac_DP, George]
+LoseText = Don't push your Pokemon to keep fighting after they've fainted…
+Pokemon = GEODUDE,22
+Pokemon = SNEASEL,21
+#-------------------------------
+#
+#
+#
+#-------------------------------
+#Haunted Forest 
+#-------------------------------
+#-------------------------------
+[HAVOCF,Grunt]
+LoseText = Shedinja was supposed to be invincible!?!
+Pokemon = GASLY,30
+Pokemon = SHEDINJA,32
+    Shadow = true
+#-------------------------------
+[HAVOC_Venus,Venus]
+LoseText = My precious little Marshadow!
+Pokemon = MARROWAK_1,30
+Pokemon = FROSSLASS,30
+Pokemon = ZOROARK_1,34
+Pokemon = MARSHADOW,36
+    Shadow = true
+#-------------------------------
+#-------------------------------
+[Medium_HGSS, Wanda]
+LoseText = I only see darkness…
+Pokemon = NATU,28
+Pokemon = KADABRA,29
+Pokemon = LITWICK,27
+	Shadow = True
+#-------------------------------
+[PSYCHIC_M, Chris]
+LoseText = Sometimes even a strong bond can be broken…
+Pokemon = BANETTE,33
+Pokemon = PHANTUMP, 29
+	Shadow = True
+#-------------------------------
+[Witch1, Lauren]
+LoseText = It's so spooky in this forest 
+Pokemon = GOTHORITA,32
+Pokemon = ESPURR, 27
+Pokemon = PUMPKABOO, 32
+	Shadow = True
+#-------------------------------
+[GAMBLER, Iroh]
+LoseText = Having some good tea with an interesting stranger is one of life’s little treasures 
+Pokemon = PIGNITE,29
+Pokemon = DREEPY,33
+Pokemon = SINISTEA,30
+	Shadow = True
+#-------------------------------
+[PSYCHIC_F, Abigail]
+LoseText = What did you think about my dolls? 
+Pokemon = BALTOY,30
+Pokemon = MIMEJR,27
+Pokemon = SHUPPET,29
+Pokemon = MIMIKYU,32
+	Shadow = True
+#-----------------------------
+

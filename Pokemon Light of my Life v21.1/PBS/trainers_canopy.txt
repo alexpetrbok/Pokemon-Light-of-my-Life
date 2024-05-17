@@ -53,7 +53,7 @@ LoseText = Rattata lost?...
 Pokemon = RATTATA,11
 Pokemon = RATTATA,12
 #-------------------------------
-[CAMPERBW,Kameron]
+[CAMPER_BW,Kameron]
 LoseText = A very good battle, indeed!
 Pokemon = ROCKRUFF,13
 Pokemon = SENTRET,16
@@ -68,7 +68,7 @@ LoseText = Oh no, I got lost!
 Pokemon = GRUBBIN,12
 Pokemon = MOTHIM,15
 #-------------------------------
-[CAMPERDP,Paul]
+[CAMPER_DP,Paul]
 LoseText = BUGS ARE COOL! 
 Pokemon = SPINARAK,10
 Pokemon = KARRABLAST,12
@@ -104,7 +104,7 @@ Pokemon = RATTATA,19
 Pokemon = LITLEO, 17
 	Shadow = True
 #-------------------------------
-[CAMPERBW,Kameron,1]
+[CAMPER_BW,Kameron,1]
 LoseText = A very good battle, indeed!
 Pokemon = ROCKRUFF,13
 Pokemon = SENTRET,16
@@ -125,7 +125,7 @@ Pokemon = MOTHIM,15
 Pokemon = FLETCHLING, 20
 	Shadow = True
 #-------------------------------
-[CAMPERDP,Paul,1]
+[CAMPER_DP,Paul,1]
 LoseText = BUGS ARE COOL! 
 Pokemon = SPINARAK,17
 Pokemon = KARRABLAST,19

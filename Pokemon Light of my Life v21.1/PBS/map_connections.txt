@@ -40,30 +40,20 @@
 69,North,0,66,South,10
 # Safari Zone 2 (162) - Safari Zone (161)
 162,South,0,161,North,0
-# R1 (33) - Home (136)
-33,South,0,136,North,0
+# R1 (33) - Fortree City (42)
+33,North,16,42,South,0
+# Route 2 Training Path (177) - Fortree City (42)
+177,South,8,42,North,0
+# Home (136) - R1 (33)
+136,North,0,33,South,0
+# River Delta (141) - R1 (33)
+141,East,0,33,West,14
 # River Delta (141) - Home (136)
 141,East,36,136,West,0
 # House River (169) - Home (136)
 169,North,0,136,South,7
-# Fortree City (42) - R1 (33)
-42,South,0,33,North,16
-# River Delta (141) - R1 (33)
-141,East,0,33,West,14
-# R2 (82) - Fortree City (42)
-82,South,0,42,North,5
-# Cascadia (83) - R2 (82)
-83,East,12,82,West,0
 # Vaporeon Lagoon (142) - River Delta (141)
 142,East,9,141,West,0
-# Steel Falls (170) - House River (169)
-170,North,0,169,South,15
-# Steel caves lower (171) - Steel Falls (170)
-171,North,0,170,South,0
-# Safari Farm (90) - Steel caves lower (171)
-90,North,47,171,South,0
-# Train station (91) - Steel caves lower (171)
-91,North,0,171,South,33
 # River Forest (89) - Vaporeon Lagoon (142)
 89,East,0,142,West,1
 # Aqualius  (125) - River Forest (89)
@@ -94,6 +84,14 @@
 99,East,0,98,West,0
 # Magaii Isle Forest (102) - Magaii Isle Center (99)
 102,East,0,99,West,0
+# Steel Falls (170) - House River (169)
+170,North,0,169,South,15
+# Steel caves lower (171) - Steel Falls (170)
+171,North,0,170,South,0
+# Safari Farm (90) - Steel caves lower (171)
+90,North,47,171,South,0
+# Train station (91) - Steel caves lower (171)
+91,North,0,171,South,33
 # Train station (91) - Safari Farm (90)
 91,West,0,90,East,0
 # Crossroads (135) - Safari Farm (90)
@@ -108,43 +106,45 @@
 164,South,0,143,North,0
 # Highlands Havoc Back (165) - Highlands Havoc Base (164)
 165,South,0,164,North,0
-# Snowy Path (149) - Crossroads (135)
-149,North,0,135,South,16
+# R5 (131) - Crossroads (135)
+131,South,113,135,North,0
 # Desert Entrance (150) - Crossroads (135)
 150,East,0,135,West,0
 # R5 Crossroad (134) - Crossroads (135)
 134,South,0,135,North,7
-# R5 (131) - Crossroads (135)
-131,South,113,135,North,0
+# Snowy Path (149) - Crossroads (135)
+149,North,0,135,South,16
+# Lake Tapu-Kaka  (126) - R5 (131)
+126,East,0,131,West,34
+# Desert (140) - R5 (131)
+140,East,0,131,West,100
+# Desert Entrance (150) - R5 (131)
+150,North,0,131,South,0
+# Zeal Lake (127) - R5 (131)
+127,East,16,131,West,0
+# R5 Crossroad (134) - R5 (131)
+134,West,0,131,East,0
+# Rocky Path (124) - Lake Tapu-Kaka  (126)
+124,East,85,126,West,0
+# Desert Entrance (150) - Lake Tapu-Kaka  (126)
+150,West,0,126,East,46
+# Zeal Lake (127) - Lake Tapu-Kaka  (126)
+127,South,0,126,North,0
+# R4 (122) - Rocky Path (124)
+122,East,68,124,West,0
+# Desert (140) - Rocky Path (124)
+140,West,0,124,East,151
+# Zeal Lake (127) - Rocky Path (124)
+127,West,0,124,East,35
+# Desert Entrance (150) - Desert (140)
+150,West,20,140,East,0
+# Zeal Lake (127) - Desert Entrance (150)
+127,East,96,150,West,0
+# R5 Crossroad (134) - Desert Entrance (150)
+134,South,0,150,North,120
 # Snowpoint City (151) - Snowy Path (149)
 151,North,0,149,South,0
 # Frozen Lake (163) - Snowpoint City (151)
 163,North,0,151,South,3
-# Desert (140) - Desert Entrance (150)
-140,East,0,150,West,20
-# R5 Crossroad (134) - Desert Entrance (150)
-134,South,0,150,North,120
-# R5 (131) - Desert Entrance (150)
-131,South,0,150,North,0
-# Lake Tapu-Kaka  (126) - Desert Entrance (150)
-126,East,46,150,West,0
-# Zeal Lake (127) - Desert Entrance (150)
-127,East,96,150,West,0
-# R5 (131) - Desert (140)
-131,West,100,140,East,0
-# Rocky Path (124) - Desert (140)
-124,East,151,140,West,0
-# R5 (131) - R5 Crossroad (134)
-131,East,0,134,West,0
-# Lake Tapu-Kaka  (126) - R5 (131)
-126,East,0,131,West,34
-# Zeal Lake (127) - R5 (131)
-127,East,16,131,West,0
-# Zeal Lake (127) - Lake Tapu-Kaka  (126)
-127,South,0,126,North,0
-# Rocky Path (124) - Lake Tapu-Kaka  (126)
-124,East,85,126,West,0
-# Rocky Path (124) - Zeal Lake (127)
-124,East,35,127,West,0
-# R4 (122) - Rocky Path (124)
-122,East,68,124,West,0
+# Route 2 Training Path (177) - Cascadia (83)
+177,West,0,83,East,1
