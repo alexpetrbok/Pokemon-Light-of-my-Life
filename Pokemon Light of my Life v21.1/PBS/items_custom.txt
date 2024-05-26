@@ -51,3 +51,43 @@ FieldUse = OnPokemon
 BattleUse = OnPokemon
 Flags = Fling_90
 Description = Soda Pop + Milk = Pilk. I wouldn't want to drink it.
+
+#-------------------------------
+[YOINKBALL]
+Name = Yoink Ball
+NamePlural = Yoink Balls
+Pocket = 3
+Price = 0
+BattleUse = OnFoe
+Flags = SnagBall
+Description = The best Snag Ball with the ultimate level of performance. It will catch any shadow Pokémon without fail.
+#-------------------------------
+[STEALBALL]
+Name = Steal Ball
+NamePlural = Steal Balls
+Pocket = 3
+Price = 800
+SellPrice = 200
+BattleUse = OnFoe
+Flags = SnagBall
+Description = An ultra-performance Snag Ball that provides a higher Pokémon catch rate than a Snatch Ball.
+#-------------------------------
+[SNATCHBALL]
+Name = Snatch Ball
+NamePlural = Snatch Balls
+Pocket = 3
+Price = 600
+SellPrice = 150
+BattleUse = OnFoe
+Flags = SnagBall
+Description = A good, high-performance Snag Ball that provides a higher Pokémon catch rate than a standard Snag Ball.
+#-------------------------------
+[SNAGBALL]
+Name = Snag Ball
+NamePlural = Snag Balls
+Pocket = 3
+Price = 200
+SellPrice = 50
+BattleUse = OnFoe
+Flags = SnagBall
+Description = A device for catching shadow Pokémon. It is thrown like a Poké Ball at the target. It can capture shadow Pokémon even from trainers.

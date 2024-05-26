@@ -8,18 +8,18 @@
 #-------------------------------
 #-------------------------------
 #-------------------------------
-[GYM_ERIKA, Erika]
+[GYM_PHEOBE, Pheobe]
 Items = FULLRESTORE,FULLRESTORE
 LoseText = My flowery Pokemon wilted...
-Pokemon = CHERRIM,29
-Pokemon = BRELOOM,29
-Pokemon = LURANTIS,34
+Pokemon = CHERRIM,24
+Pokemon = BRELOOM,25
+Pokemon = FOMANTIS,27
     Moves = GIGADRAIN, SOLARBLADE, XSCISSOR,SLASH
     AbilityIndex = 1
     Item = SITRUSBERRY
     Gender = female
     IV = 20,20,20,20,20,20
-Pokemon = BELLOSSOM,35
+Pokemon = BELLOSSOM,26
     Moves = GIGADRAIN, PETALBLIZZARD, QUIVERDANCE, SLEEPPOWDER
     AbilityIndex = 1
     Item = SITRUSBERRY
@@ -35,21 +35,21 @@ Pokemon = BELLOSSOM,35
 #-------------------------------
 [CRUSHGIRL, Kaya]
 LoseText = We'll keep training to get stronger 
-Pokemon = TYROUGE, 19
-Pokemon = MACHOP, 22
+Pokemon = TYROGUE, 19
+Pokemon = MACHOP, 20
 Pokemon = TIMBURR, 20
 #-------------------------------
 [GymBro, Howard]
 LoseText = Keep those fists up!
-Pokemon = CRABRAWLER,23
-Pokemon = CLOBBOPUS,24
+Pokemon = CRABRAWLER,22
+Pokemon = CLOBBOPUS,21
 #-------------------------------
 [CRUSHKIN, Rhonda and Rousey]
 LoseText = We always work out our problems 
-Pokemon = RIOLU,20
+Pokemon = RIOLU,19
 Pokemon = PANCHAM,21
-Pokemon = MEINFOO,21
-Pokemon = HAKUHITA,20
+Pokemon = MIENFOO,21
+Pokemon = MAKUHITA,20
 #-------------------------------
 [GrapplerF, Evie]
 LoseText = Even strong girls can be cute
@@ -57,7 +57,7 @@ Pokemon = STUFFUL,22
 Pokemon = MEDITITE,21
 Pokemon = CRANIDOS,20
 #-------------------------------
-HITMONLEEGIRL, Jackie]
+[HITMONLEEGIRL, Jackie]
 LoseText = What is the best balance of Attack and Defense? 
 Pokemon = HITMONLEE,21
 Pokemon = HITMONCHAN,21
@@ -77,14 +77,14 @@ Pokemon = SNEASEL,21
 #-------------------------------
 [HAVOCF,Grunt]
 LoseText = Shedinja was supposed to be invincible!?!
-Pokemon = GASLY,30
-Pokemon = SHEDINJA,32
+Pokemon = GASTLY,30
+Pokemon = SHEDINJA,33
     Shadow = true
 #-------------------------------
 [HAVOC_Venus,Venus]
 LoseText = My precious little Marshadow!
-Pokemon = MARROWAK_1,30
-Pokemon = FROSSLASS,30
+Pokemon = MAROWAK_1,31
+Pokemon = FROSLASS,33
 Pokemon = ZOROARK_1,34
 Pokemon = MARSHADOW,36
     Shadow = true
@@ -92,37 +92,37 @@ Pokemon = MARSHADOW,36
 #-------------------------------
 [Medium_HGSS, Wanda]
 LoseText = I only see darkness…
-Pokemon = NATU,28
-Pokemon = KADABRA,29
-Pokemon = LITWICK,27
+Pokemon = NATU,24
+Pokemon = KADABRA,26
+Pokemon = LITWICK,24
 	Shadow = True
 #-------------------------------
 [PSYCHIC_M, Chris]
 LoseText = Sometimes even a strong bond can be broken…
-Pokemon = BANETTE,33
-Pokemon = PHANTUMP, 29
+Pokemon = BANETTE,27
+Pokemon = PHANTUMP, 24
 	Shadow = True
 #-------------------------------
 [Witch1, Lauren]
 LoseText = It's so spooky in this forest 
-Pokemon = GOTHORITA,32
+Pokemon = GOTHORITA,28
 Pokemon = ESPURR, 27
-Pokemon = PUMPKABOO, 32
+Pokemon = PUMPKABOO, 26
 	Shadow = True
 #-------------------------------
 [GAMBLER, Iroh]
 LoseText = Having some good tea with an interesting stranger is one of life’s little treasures 
-Pokemon = PIGNITE,29
-Pokemon = DREEPY,33
-Pokemon = SINISTEA,30
+Pokemon = PIGNITE,27
+Pokemon = DREEPY,29
+Pokemon = SINISTEA,27
 	Shadow = True
 #-------------------------------
 [PSYCHIC_F, Abigail]
 LoseText = What did you think about my dolls? 
-Pokemon = BALTOY,30
+Pokemon = BALTOY,24
 Pokemon = MIMEJR,27
-Pokemon = SHUPPET,29
-Pokemon = MIMIKYU,32
+Pokemon = SHUPPET,25
+Pokemon = MIMIKYU,25
 	Shadow = True
 #-----------------------------
 

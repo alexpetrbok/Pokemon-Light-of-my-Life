@@ -5,14 +5,16 @@ BaseMoney = 100
 BattleBGM = Battle Elite
 VictoryBGM = Battle victory leader
 #-------------------------------
-[STARAPTORKEEPER]
-Name = Bird Keeper
-Gender = Male
-BaseMoney = 32
-#-------------------------------
 [GYM_GRUSHA]
 Name = Gym Leader
 Gender = Male
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+[GYM_PHEOBE]
+Name = Gym Leader
+Gender = Female
 BaseMoney = 100
 BattleBGM = Battle Gym Leader
 VictoryBGM = Battle victory leader
@@ -27,35 +29,65 @@ Name = Camper
 Gender = Male
 BaseMoney = 25
 #-------------------------------
+[Ruinmaniac_DP]
+Name = Ruin Maniac 
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[Medium_HGSS]
+Name = Medium
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[Witch1]
+Name = Witch 
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[GrapplerF]
+Name = Fighter 
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[GymBro]
+Name = Gym Bro
+Gender = Male
+BaseMoney = 40
+#-------------------------------
 [HITMONLEEGIRL]
 Name = Hitmonlee Girl
 Gender = Female
-BaseMoney = 24
+BaseMoney = 30
+#-------------------------------
+[STARAPTORKEEPER]
+Name = Bird Keeper
+Gender = Male
+BaseMoney = 30
 #-------------------------------
 [LOPUNNYGIRL]
 Name = Lopunny Girl
 Gender = Female
-BaseMoney = 24
+BaseMoney = 30
 #-------------------------------
 [SNOWBOARDER_F]
 Name = Snowboarder
 Gender = Female
-BaseMoney = 50
+BaseMoney = 40
 #-------------------------------
 [RANGERF_SNOW]
 Name = Ranger
 Gender = Female
-BaseMoney = 50
+BaseMoney = 40
 #-------------------------------
 [RANGERM_SNOW]
 Name = Ranger
 Gender = Male
-BaseMoney = 50
+BaseMoney = 40
 #-------------------------------
 [NINJAM_SNOW]
 Name = Snow ninja
 Gender = Female
-BaseMoney = 50
+BaseMoney = 40
 #-------------------------------
 [HAVOCM]
 Name = Team Havoc Grunt
@@ -71,3 +103,10 @@ BaseMoney = 50
 Name = Team Havoc Leader
 Gender = Male
 BaseMoney = 100
+SkillLevel = 100
+#-------------------------------
+[HAVOC_Venus]
+Name = Team Havoc Leader
+Gender = Female
+BaseMoney = 100
+SkillLevel = 100

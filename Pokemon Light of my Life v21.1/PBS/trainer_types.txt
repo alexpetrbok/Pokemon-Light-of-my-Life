@@ -85,7 +85,7 @@ BaseMoney = 32
 Name = Gambler
 Gender = Male
 BaseMoney = 72
-SkillLevel = 32
+SkillLevel = 80
 #-------------------------------
 [GENTLEMAN]
 Name = Gentleman
@@ -273,7 +273,7 @@ BaseMoney = 72
 SkillLevel = 48
 #-------------------------------
 [CRUSHKIN]
-Name = Crush Kin
+Name = Crush Couple
 Gender = Unknown
 BaseMoney = 48
 #-------------------------------
