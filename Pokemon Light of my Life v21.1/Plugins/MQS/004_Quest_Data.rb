@@ -6,15 +6,21 @@ module QuestModule
   
   }
   
-  # Here's the simplest example of a single-stage quest with everything specified
+  # Here's an example of not defining the quest giver and reward text
   Quest1 = {
     :ID => "1",
-    :Name => "Introductions",
-    :QuestGiver => "Little Boy",
-    :Stage1 => "Look for clues.",
-    :Location1 => "Lappet Town",
-    :QuestDescription => "Some wild Pokémon stole a little boy's favourite toy. Find those troublemakers and help him get it back.",
-    :RewardString => "Something shiny!"
+    :Name => "Eon Chapter",
+    :QuestGiver => "nil",
+    :Stage1 => "Reach the Leafeon Sancturary",
+    :Stage2 => "Reach the Espeon Sancturary",
+	:Stage3 => "Reach the Vaporeon Sancturary",
+	:Stage3 => "Reach the Flareon Sancturary",
+    :Location1 => "Leafeon Sancturary",
+    :Location2 => "Espeon Sancturary",
+	:Location3 => "Vaporeon Sancturary",
+	:Location4 => "Flareon Sancturary",
+    :QuestDescription => "You crash landed on an alien planet. There are other humans here and they look hungry...",
+    :RewardString => "nil"
   }
   
   # Here's an extension of the above that includes multiple stages
