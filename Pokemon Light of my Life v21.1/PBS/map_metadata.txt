@@ -156,7 +156,7 @@ MapPosition = 0,14,6
 BattleBack = field
 MapSize = 2,1101
 #-------------------------------
-[033]   # R1
+[033]   # Flooded Grassland
 Name = R1
 Outdoor = true
 ShowArea = true
@@ -215,7 +215,7 @@ BicycleAlways = true
 MapPosition = 0,11,7
 MapSize = 1,111
 #-------------------------------
-[042]   # Canopy Creek City
+[042]   # Canopy Creek
 Name = Canopy Creek City
 Outdoor = true
 #-------------------------------
@@ -418,16 +418,18 @@ Bicycle = true
 Weather = Fog,100
 #-------------------------------
 [078]   # Grass Dungeon 1
+Name = Grass Dungeon 1
 Outdoor = true
 Dungeon = true
 #-------------------------------
-[082]   # R2
+[082]   # East Beach
 Name = R2
 Outdoor = true
 #-------------------------------
 [083]   # Cascadia
 Name = Cascadia
 Outdoor = true
+HealingSpot = 83,15,32
 #-------------------------------
 [090]   # Safari Farm
 Name = Lily Lagoon
@@ -440,7 +442,7 @@ Name = Lily Lagoon deep
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[092]   # R3
+[092]   # Riverport
 Name = R3
 Outdoor = true
 Bicycle = true
@@ -451,7 +453,7 @@ Bicycle = true
 DiveMap = 93
 DarkMap = true
 #-------------------------------
-[095]   # R3 - 1
+[095]   # River Path
 Name = R3 - 1
 Outdoor = true
 Bicycle = true
@@ -467,12 +469,12 @@ Outdoor = true
 Bicycle = true
 DiveMap = 106
 #-------------------------------
-[098]   # Magaii Isle
+[098]   # Magaii Isle Hotels
 Name = Magaii Isle
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[099]   # Magaii Isle Center
+[099]   # Magaii Isle
 Name = Magaii Isle Center
 Outdoor = true
 ShowArea = true
@@ -511,7 +513,7 @@ ShowArea = true
 Bicycle = true
 SnapEdges = true
 #-------------------------------
-[115]   # Magaii Isle reef
+[115]   # Magaii Isle deep
 Name = Magaii Isle reef
 #-------------------------------
 [116]   # Coastal Islands
@@ -530,7 +532,7 @@ Outdoor = true
 ShowArea = true
 Bicycle = true
 #-------------------------------
-[122]   # R4
+[122]   # Stoney Steppes
 Name = R4
 Outdoor = true
 Bicycle = true
@@ -540,7 +542,7 @@ Name = Rocky Path
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[126]   # Lake Tapu-Kaka 
+[126]   # Lake Zeal
 Name = Lake Tapu-Kaka
 Outdoor = true
 Bicycle = true
@@ -550,7 +552,7 @@ Name = Zeal Lake
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[131]   # R5
+[131]   # Windsweept Slope
 Name = R5
 Outdoor = true
 Bicycle = true
@@ -560,7 +562,7 @@ BicycleAlways = true
 Name = South Pole
 Outdoor = true
 #-------------------------------
-[134]   # R5 Crossroad
+[134]   # Windsweept valley
 Name = R5 Crossroad
 Outdoor = true
 Bicycle = true
@@ -571,7 +573,7 @@ Outdoor = true
 Bicycle = true
 #-------------------------------
 [137]   # Grass Dungeon 2
-Name = 
+Name = Grass Dungeon 2
 Outdoor = true
 Dungeon = true
 #-------------------------------
@@ -605,7 +607,7 @@ Name = Desert Entrance
 Outdoor = true
 Weather = Sandstorm,100
 #-------------------------------
-[151]   # Snowpoint City
+[151]   # FrostCliff City
 Name = Snowpoint City
 Outdoor = true
 Bicycle = true
@@ -625,3 +627,6 @@ SafariMap = true
 #-------------------------------
 [165]   # Highlands Havoc Back
 Name = Highlands Havoc Back
+#-------------------------------
+[179]   # Poké Center - Cascadia
+HealingSpot = 83,15,33
