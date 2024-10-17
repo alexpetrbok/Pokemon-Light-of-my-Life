@@ -19,6 +19,13 @@ BaseMoney = 100
 BattleBGM = Battle Gym Leader
 VictoryBGM = Battle victory leader
 #-------------------------------
+[GYM_NESSA]
+Name = Gym Leader
+Gender = Female
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
 [CAMPER_DP]
 Name = Camper
 Gender = Male
@@ -88,6 +95,16 @@ BaseMoney = 40
 Name = Snow ninja
 Gender = Female
 BaseMoney = 40
+#-------------------------------
+[LifeguardM]
+Name = Lifeguard 
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[LifeguardF]
+Name = Lifeguard 
+Gender = Female
+BaseMoney = 50
 #-------------------------------
 [HAVOCM]
 Name = Team Havoc Grunt
