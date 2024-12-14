@@ -71,11 +71,6 @@ Name = Cue Ball
 Gender = Male
 BaseMoney = 24
 #-------------------------------
-[ENGINEER]
-Name = Engineer
-Gender = Male
-BaseMoney = 48
-#-------------------------------
 [FISHERMAN]
 Name = Fisherman
 Gender = Male
@@ -145,11 +140,6 @@ BaseMoney = 32
 #-------------------------------
 [SCIENTIST]
 Name = Scientist
-Gender = Male
-BaseMoney = 48
-#-------------------------------
-[SUPERNERD]
-Name = Super Nerd
 Gender = Male
 BaseMoney = 48
 #-------------------------------
