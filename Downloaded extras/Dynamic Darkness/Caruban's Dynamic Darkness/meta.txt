@@ -1,5 +1,0 @@
-Name = Caruban's Dynamic Darkness
-Version = 1.2.0
-Website = https://www.reliccastle.com/resources/1471/
-Credits = Caruban
-Essentials = 21.1

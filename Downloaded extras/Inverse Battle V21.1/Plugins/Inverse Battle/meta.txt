@@ -1,5 +1,0 @@
-﻿Name       = Inverse Battle
-Version    = 0.1
-Essentials = 21.1
-Website    = https://space.bilibili.com/237839484
-Credits    = Penelope
