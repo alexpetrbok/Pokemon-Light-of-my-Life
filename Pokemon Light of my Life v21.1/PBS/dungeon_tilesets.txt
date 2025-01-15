@@ -29,12 +29,20 @@ ThinNorthWallOffset = -8
 #-------------------------------
 [37]   # Leafy forest Dungeon
 Autotile = 1,floor
-Autotile = 2,walls
+Autotile = 2,floor_decoration
 Autotile = 3,floor_patch
 Autotile = 4,floor_decoration
 Autotile = 5,floor_decoration
 Autotile = 6,floor_decoration
-Autotile = 7,floor_decoration
-Tile = 2,void
+Tile = 0,walls
+Tile = 0,void
+Tile = 42,floor_decoration
+Tile = 43,floor_decoration
+Tile = 48,floor_decoration_large
+Tile = 52,void_decoration_large
+#Tile = 50,floor_decoration_large
+#Tile = 54,floor_decoration_large
+DoubleWalls = true
 FloorPatchUnderWalls = true
+FloorPatchUnderDecorations = true
 ThinNorthWallOffset = -8

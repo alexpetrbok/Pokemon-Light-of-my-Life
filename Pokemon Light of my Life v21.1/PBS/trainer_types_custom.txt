@@ -86,6 +86,11 @@ Name = Lifeguard
 Gender = Male
 BaseMoney = 50
 #-------------------------------
+[KINDLER]
+Name = Kindler  
+Gender = Male
+BaseMoney = 50
+#-------------------------------
 #-------------------------------
 #        Females Section
 #-------------------------------
@@ -163,6 +168,11 @@ BaseMoney = 50
 #-------------------------------
 [SwimmerF_HGSS]
 Name = Swimmer 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[FireFemale]
+Name = Fire Manipulator 
 Gender = Female
 BaseMoney = 50
 #-------------------------------
