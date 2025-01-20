@@ -18,7 +18,9 @@ WalkCharset = trainer_POKEMONTRAINER_Red
 RunCharset = boy_run
 CycleCharset = boy_bike
 SurfCharset = boy_surf
+DiveCharset = boy_surf
 FishCharset = boy_fish_offset
+SurfFishCharset = boy_fish_offset
 #-------------------------------
 [2]
 TrainerType = POKEMONTRAINER_Leaf
@@ -26,4 +28,36 @@ WalkCharset = trainer_POKEMONTRAINER_Leaf
 RunCharset = girl_run
 CycleCharset = girl_bike
 SurfCharset = girl_surf
+DiveCharset = girl_surf
 FishCharset = girl_fish_offset
+SurfFishCharset = girl_fish_offset
+#-------------------------------
+[3]
+TrainerType = POKEMONTRAINER_May
+WalkCharset = EarthChan walk
+RunCharset = EarthChan walk
+CycleCharset = NPC 23
+SurfCharset = EarthChan surf
+DiveCharset = EarthChan surf
+FishCharset = EarthChan walk
+SurfFishCharset = EarthChan surf
+#-------------------------------
+[4]
+TrainerType = POKEMONRANGER_F
+WalkCharset = k_walk
+RunCharset = k_run
+CycleCharset = k_bike
+SurfCharset = k_surf
+DiveCharset = k_surf
+FishCharset = k_walk
+SurfFishCharset = k_walk
+#-------------------------------
+[5]
+TrainerType = APC
+WalkCharset = APC_walk
+RunCharset = APC_run
+CycleCharset = APC_bike
+SurfCharset = APC_surf
+DiveCharset = APC_surf
+FishCharset = APC_fish_offset
+SurfFishCharset = APC_fish_offset

@@ -1,0 +1,221 @@
+﻿[APC]
+Name = Pokemon Trainer
+Gender = Unknown
+BaseMoney = 100
+BattleBGM = Battle Elite
+VictoryBGM = Battle victory leader
+#-------------------------------
+[GYM_GRUSHA]
+Name = Gym Leader
+Gender = Male
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+[GYM_PHEOBE]
+Name = Gym Leader
+Gender = Female
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+[GYM_NESSA]
+Name = Gym Leader
+Gender = Female
+BaseMoney = 100
+BattleBGM = Battle Gym Leader
+VictoryBGM = Battle victory leader
+#-------------------------------
+#-------------------------------
+#        Males Section
+#-------------------------------
+#-------------------------------
+#-------------------------------
+[CAMPER_DP]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[CAMPER_BW]
+Name = Camper
+Gender = Male
+BaseMoney = 25
+#-------------------------------
+[Ruinmaniac_DP]
+Name = Ruin Maniac 
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[BugManiac]
+Name = Bug Maniac 
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[GymBro]
+Name = Gym Bro
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[STARAPTORKEEPER]
+Name = Bird Keeper
+Gender = Male
+BaseMoney = 30
+#-------------------------------
+[RANGERM_SNOW]
+Name = Ranger
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[NINJAM_SNOW]
+Name = Snow ninja
+Gender = Male
+BaseMoney = 40
+#-------------------------------
+[ENGINEER]
+Name = Engineer
+Gender = Male
+BaseMoney = 60
+#-------------------------------
+[ENGINEER2]
+Name = Engineer
+Gender = Male
+BaseMoney = 60
+#-------------------------------
+[LifeguardM]
+Name = Lifeguard 
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[KINDLER]
+Name = Kindler  
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+#-------------------------------
+#        Females Section
+#-------------------------------
+#-------------------------------
+#-------------------------------
+[Medium_HGSS]
+Name = Medium
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[Witch1]
+Name = Witch 
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[GrapplerF]
+Name = Fighter 
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[HITMONLEEGIRL]
+Name = Hitmonlee Girl
+Gender = Female
+BaseMoney = 30
+#-------------------------------
+[LOPUNNYGIRL]
+Name = Lopunny Girl
+Gender = Female
+BaseMoney = 30
+#-------------------------------
+[SNOWBOARDER_F]
+Name = Snowboarder
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[RANGERF_SNOW]
+Name = Ranger
+Gender = Female
+BaseMoney = 40
+#-------------------------------
+[ContestGirl2]
+Name = Lady 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[Lady_DP]
+Name = Lady 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[ParasollessLady]
+Name = Lady 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[SUPERNERD]
+Name = Scientist 
+Gender = Female
+BaseMoney = 70
+#-------------------------------
+[Scientist_F]
+Name = Scientist 
+Gender = Female
+BaseMoney = 70
+#-------------------------------
+[LifeguardF]
+Name = Lifeguard 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[SwimmerF_BW]
+Name = Swimmer 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[SwimmerF_HGSS]
+Name = Swimmer 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[FireFemale]
+Name = Fire Manipulator 
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+#-------------------------------
+#        Havoc Section
+#-------------------------------
+#-------------------------------
+[HAVOCM]
+Name = Team Havoc Grunt
+Gender = Male
+BaseMoney = 50
+#-------------------------------
+[HAVOCF]
+Name = Team Havoc Grunt
+Gender = Female
+BaseMoney = 50
+#-------------------------------
+[HAVOC_Mars]
+Name = Team Havoc Leader
+Gender = Male
+BaseMoney = 100
+SkillLevel = 100
+#-------------------------------
+[HAVOC_Venus]
+Name = Team Havoc Leader
+Gender = Female
+BaseMoney = 100
+SkillLevel = 100
+#-------------------------------
+[HAVOC_Uranus]
+Name = Team Havoc Leader
+Gender = Female
+BaseMoney = 100
+SkillLevel = 100
+#-------------------------------
+[HAVOC_Neptune]
+Name = Team Havoc Leader
+Gender = Male
+BaseMoney = 100
+SkillLevel = 100
+#-------------------------------
+[HAVOC_Jupiter]
+Name = Team Havoc Leader
+Gender = Female
+BaseMoney = 100
+SkillLevel = 100

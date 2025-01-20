@@ -61,7 +61,7 @@ Gender = Male
 BaseMoney = 88
 SkillLevel = 32
 #-------------------------------
-[CHANELLER]
+[CHANNELER]
 Name = Channeler
 Gender = Female
 BaseMoney = 32
@@ -70,11 +70,6 @@ BaseMoney = 32
 Name = Cue Ball
 Gender = Male
 BaseMoney = 24
-#-------------------------------
-[ENGINEER]
-Name = Engineer
-Gender = Male
-BaseMoney = 48
 #-------------------------------
 [FISHERMAN]
 Name = Fisherman
@@ -85,7 +80,7 @@ BaseMoney = 32
 Name = Gambler
 Gender = Male
 BaseMoney = 72
-SkillLevel = 32
+SkillLevel = 80
 #-------------------------------
 [GENTLEMAN]
 Name = Gentleman
@@ -145,11 +140,6 @@ BaseMoney = 32
 #-------------------------------
 [SCIENTIST]
 Name = Scientist
-Gender = Male
-BaseMoney = 48
-#-------------------------------
-[SUPERNERD]
-Name = Super Nerd
 Gender = Male
 BaseMoney = 48
 #-------------------------------
@@ -273,7 +263,7 @@ BaseMoney = 72
 SkillLevel = 48
 #-------------------------------
 [CRUSHKIN]
-Name = Crush Kin
+Name = Crush Couple
 Gender = Unknown
 BaseMoney = 48
 #-------------------------------

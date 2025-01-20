@@ -1,0 +1,109 @@
+#-------------------------------
+[CUT]
+Name = Cut
+Type = GRASS
+Category = Physical
+Power = 60
+Accuracy = 100
+TotalPP = 30
+Target = NearOther
+FunctionCode = None
+Flags = Contact,CanProtect,CanMirrorMove,Slicing
+Description = The target is cut with a scythe or a claw. It can also be used to cut down thin trees.
+#-------------------------------
+[TELEPORT]
+Name = Teleport
+Type = PSYCHIC
+Category = Status
+Accuracy = 0
+TotalPP = 20
+Target = User
+Priority = -6
+FunctionCode = SwitchOutUserStatusMove
+Description = The user switches place with a party Pokémon. Also warps to a target destination.
+#-------------------------------
+[SURF]
+Name = Surf
+Type = WATER
+Category = Special
+Power = 90
+Accuracy = 100
+TotalPP = 15
+Target = AllNearOthers
+FunctionCode = DoublePowerIfTargetUnderwater
+Flags = CanProtect,CanMirrorMove
+Description = It swamps the area around the user with a giant wave. It can also be used for crossing water.
+#-------------------------------
+[DIVE]
+Name = Dive
+Type = WATER
+Category = Physical
+Power = 80
+Accuracy = 100
+TotalPP = 10
+Target = NearOther
+FunctionCode = TwoTurnAttackInvulnerableUnderwater
+Flags = Contact,CanProtect,CanMirrorMove
+Description = Diving on the first turn, the user rises and hits on the next turn. It can be used to dive in the ocean.
+#-------------------------------
+[RADIANTWARMTH]
+Name = Radiant Warmth
+Type = FIRE
+Category = Status
+Accuracy = 0
+TotalPP = 20
+Target = UserAndAllies
+FunctionCode = HealUserAndAlliesTotalHPCureStatus
+Flags = CannotMetronome
+Description = The user heals and cure itself and allies of status conditions, but must rest next turn. 
+#-------------------------------
+[PLAYFULPUSH]
+Name = Playful Push
+Type = FAIRY
+Category = Physical
+Power = 80
+Accuracy = 100
+TotalPP = 10
+Target = NearOther
+FunctionCode = FlinchTarget
+Flags = Contact,CanProtect,CanMirrorMove
+EffectChance = 10
+Description = The user playfully shoves the target and may cause them to flinch. It can also be used to move heavy boulders.
+#-------------------------------
+[SMOKESTRIKE]
+Name = Smoke Strike
+Type = DARK
+Category = Physical
+Power = 60
+Accuracy = 100
+TotalPP = 20
+Target = NearOther
+FunctionCode = LowerTargetAccuracy1
+Flags = Contact,CanProtect,CanMirrorMove
+Description = The user releases a cloud of smoke that cuts the target's accuracy and then strikes.  
+#-------------------------------
+[RISINGVOLTAGE]
+Name = Rising Voltage
+Type = ELECTRIC
+Category = Special
+Power = 50
+Accuracy = 100
+TotalPP = 20
+Target = NearOther
+Priority = 1
+FunctionCode = StartUserAirborneOne
+Flags = CanProtect,CanMirrorMove
+Description = The user attacks with shocking speed rising from the ground for one turn. It can also be used to climb electrical lines and waterfalls.
+#-------------------------------
+[SUBZEROSHATTER]
+Name = Sub-Zero Shatter
+Type = ICE
+Category = Special
+Power = 70
+Accuracy = 100
+TotalPP = 20
+Target = NearOther
+FunctionCode = FreezeTargetSuperEffectiveAgainstRock
+Flags = CanProtect,CanMirrorMove
+EffectChance = 15
+Description = The user cools the target to the point of shatttering rocks. This is super-effective on Rock types.

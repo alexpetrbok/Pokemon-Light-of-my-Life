@@ -62,7 +62,7 @@ module UnrealTime
   # Time proportion here. 
   # So if it is 100, one second in real time will be 100 seconds in game.
   # If it is 60, one second in real time will be one minute in game.
-  PROPORTION=20
+  PROPORTION=60
 
   # Starting on Essentials v17, the map tone only try to refresh tone each 30 
   # real time seconds. 
@@ -97,7 +97,7 @@ module UnrealTime
   # Initial date. In sequence: Year, month, day, hour and minutes.
   # Method UnrealTime.reset resets time back to this time.
   def self.initial_date
-    return Time.local(2000,1,1, 12,0)
+    return Time.local(2020,4,1, 5,0)
   end
 
   # Advance to next time. If time already passed, advance 

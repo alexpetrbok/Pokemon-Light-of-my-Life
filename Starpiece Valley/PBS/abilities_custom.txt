@@ -1,0 +1,21 @@
+﻿# See the documentation on the wiki to learn how to edit this file.
+#------------------------------
+[INVERSER]
+Name = Inverser
+Description = Reverses all Type Effectiveness.
+#------------------------------
+[INVERSEYMAKER]
+Name = Inversey Maker
+Description = Activates Inverse Room.
+#------------------------------
+[TRUEGOD]
+Name = True God
+Description = Abandon all hope and kneel
+#------------------------------
+[MUTATION]
+Name = Mutation
+Description = Adapts the Pokemon's type to the selected move 
+#------------------------------
+[MUTATIONX]
+Name = Mutation
+Description = Adapts the Pokemon to the selected move 
