@@ -1,0 +1,294 @@
+﻿#-------------------------------
+[FRIEDEGG]
+Name = Fried Egg
+NamePlural = Fried Eggs
+PortionName = fried egg
+PortionNamePlural = fried eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = It's already cooked, perfect for breakfast on the go.
+
+#-------------------------------
+[SCRAMBLEDEGG]
+Name = Scrambled Egg
+NamePlural = Scrambled Eggs
+PortionName = scrambled egg
+PortionNamePlural = scrambled eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Fluffy and delicious, a quick and easy meal.
+
+#-------------------------------
+[BLUEEGG]
+Name = Blue Egg
+NamePlural = Blue Eggs
+PortionName = blue egg
+PortionNamePlural = blue eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A rare blue egg with a unique flavor.
+
+#-------------------------------
+[GREENEGG]
+Name = Green Egg
+NamePlural = Green Eggs
+PortionName = green egg
+PortionNamePlural = green eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A vibrant green egg, said to have healing properties.
+
+#-------------------------------
+[NAVYEGG]
+Name = Navy Egg
+NamePlural = Navy Eggs
+PortionName = navy egg
+PortionNamePlural = navy eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A deep blue egg with a rich, savory taste.
+
+#-------------------------------
+[STONEEGG]
+Name = Stone Egg
+NamePlural = Stone Eggs
+PortionName = stone egg
+PortionNamePlural = stone eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A hard-shelled egg with a rocky texture.
+
+#-------------------------------
+[VOIDEGG]
+Name = Void Egg
+NamePlural = Void Eggs
+PortionName = void egg
+PortionNamePlural = void eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A mysterious egg that seems to absorb light.
+
+#-------------------------------
+[SOFTWOOL]
+Name = Soft Wool
+NamePlural = Soft Wools
+PortionName = soft wool
+PortionNamePlural = soft wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Fluffy and warm, perfect for crafting.
+
+#-------------------------------
+[PURPLEWOOL]
+Name = Purple Wool
+NamePlural = Purple Wools
+PortionName = purple wool
+PortionNamePlural = purple wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A vibrant purple wool with a silky texture.
+
+#-------------------------------
+[WARMWOOL]
+Name = Warm Wool
+NamePlural = Warm Wools
+PortionName = warm wool
+PortionNamePlural = warm wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Keeps you cozy even in the coldest weather.
+
+#-------------------------------
+[BROWNWOOL]
+Name = Brown Wool
+NamePlural = Brown Wools
+PortionName = brown wool
+PortionNamePlural = brown wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A sturdy and earthy-colored wool.
+
+#-------------------------------
+[SOUNDPROOFWOOL]
+Name = Soundproof Wool
+NamePlural = Soundproof Wools
+PortionName = soundproof wool
+PortionNamePlural = soundproof wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Dense wool that muffles sound.
+
+#-------------------------------
+[BLUEWOOL]
+Name = Blue Wool
+NamePlural = Blue Wools
+PortionName = blue wool
+PortionNamePlural = blue wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A cool blue wool with a smooth finish.
+
+#-------------------------------
+[REDWOOL]
+Name = Red Wool
+NamePlural = Red Wools
+PortionName = red wool
+PortionNamePlural = red wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A fiery red wool full of energy.
+
+#-------------------------------
+[YELLOWWOOL]
+Name = Yellow Wool
+NamePlural = Yellow Wools
+PortionName = yellow wool
+PortionNamePlural = yellow wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Bright and cheerful, like a sunny day.
+
+#-------------------------------
+[FLUFFYWOOL]
+Name = Fluffy Wool
+NamePlural = Fluffy Wools
+PortionName = fluffy wool
+PortionNamePlural = fluffy wools
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Incredibly soft and lightweight.
+
+
+#-------------------------------
+[GOGOMILK]
+Name = Go Go Milk
+NamePlural = Go Go Milks
+PortionName = go go milk
+PortionNamePlural = go go milks
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = Energizing milk from Skiddo.
+
+#-------------------------------
+[MAGICTRUFFLE]
+Name = Magic Truffle
+NamePlural = Magic Truffles
+PortionName = magic truffle
+PortionNamePlural = magic truffles
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A rare truffle with mysterious properties.
+
+#-------------------------------
+[SPICYTRUFFLE]
+Name = Spicy Truffle
+NamePlural = Spicy Truffles
+PortionName = spicy truffle
+PortionNamePlural = spicy truffles
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A fiery truffle that packs a punch.
+
+#-------------------------------
+[TASTYTRUFFLE]
+Name = Tasty Truffle
+NamePlural = Tasty Truffles
+PortionName = tasty truffle
+PortionNamePlural = tasty truffles
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A delicious truffle with a rich flavor.
+
+#-------------------------------
+[FROZENTRUFFLE]
+Name = Frozen Truffle
+NamePlural = Frozen Truffles
+PortionName = frozen truffle
+PortionNamePlural = frozen truffles
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = OnPokemon
+BattleUse = OnPokemon
+Flags = Fling_30
+Description = A chilly truffle that freezes on contact.

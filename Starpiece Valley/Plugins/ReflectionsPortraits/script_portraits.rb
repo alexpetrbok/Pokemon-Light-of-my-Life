@@ -1,168 +1,229 @@
-class Spriteset_Global
-    alias rf_portraits_init initialize
-    alias rf_portraits_update update
+module Rf
+  # Default settings
+  @@name_window_skin = RfSettings::DEFAULT_WINDOW_SKIN
+  @@outline_colour = RfSettings::DEFAULT_OUTLINE_COLOR
+  GRAY_OUTLINE = Color.new(150, 150, 150) # Gray outline for non-main characters
 
-    attr_accessor :activePortrait
+  # Get the current portrait outline color
+  def self.portrait_outline_color
+    @@outline_colour
+  end
 
-    def initialize
-        rf_portraits_init
-        @activePortrait = nil
-        @oldPortrait = nil
+  # Set the portrait outline color
+  def self.portrait_outline_color=(color)
+    @@outline_colour = color
+  end
+
+  # Show a group of 1-4 characters with layered positioning
+  def self.new_portrait(*characters)
+    return if characters.empty? || !$scene.is_a?(Scene_Map)
+    close_portrait  # Close all existing portraits
+
+    # Main speaker (right-aligned)
+    main_char = characters[0]
+    main_portrait = $scene.spritesetGlobal.newPortrait(main_char, 1)
+    main_sprite = main_portrait.instance_variable_get(:@sprite)
+    main_sprite.zoom_x = 2.0
+    main_sprite.zoom_y = 2.0
+    main_sprite.opacity = 0
+    main_portrait.target_y = Graphics.height - 40  # <-- Set target Y position
+    main_portrait.target_x = Graphics.width + 60  # <-- Set target X position
+
+    if main_portrait.instance_variable_get(:@outline)
+      main_outline = main_portrait.instance_variable_get(:@outline)
+      main_outline.color = Rf.portrait_outline_color  # <-- White outline for main speake
+      main_outline.x = main_sprite.x - 4  # <-- Align outline with main sprite
+      main_outline.y = main_sprite.y - 4  # <-- Align outline with main sprite
+    end 
+
+    Rf.set_speaker(main_char.to_s)  # Set NPC1 as the speaker
+
+    # Secondary characters (left-aligned with mirroring)
+    secondary_chars = characters[1..3]
+    secondary_chars.each_with_index do |char, idx|
+      next unless char
+      portrait = $scene.spritesetGlobal.newPortrait(char, 0)
+      sprite = portrait.instance_variable_get(:@sprite)
+      outline = portrait.instance_variable_get(:@outline)
+
+      portrait.target_x = -60 + (idx * 80)  # <-- Staggered left-to-right
+      portrait.target_y = Graphics.height - 40  # <-- Keep at the bottom
+      sprite.mirror = true
+      sprite.z = 300 - idx
+      sprite.opacity = 0
+
+      # Fix outline alignment
+      if outline
+        outline.mirror = true
+        outline.zoom_x = 2.0
+        outline.zoom_y = 2.0
+        outline.x = sprite.x - 4  # Compensate for 1px border
+        outline.y = sprite.y - 4  # Compensate for 1px border
+        outline.color = GRAY_OUTLINE
+      end
     end
+  end
 
-    def newPortrait(portrait, align = 0)
-        @oldPortrait = @activePortrait
-        @oldPortrait&.state = :closing
-        @activePortrait = RfDialoguePortrait.new(portrait, align, @@viewport2)
-    end
+  # Close all active portraits
+  def self.close_portrait
+    return unless $scene.is_a?(Scene_Map)
+    $scene.spritesetGlobal.close_portraits
+    Rf.clear_speaker
+  end
 
-    def update
-        rf_portraits_update
-        @activePortrait&.update
-        @oldPortrait&.update
-    end
+  # Disable player portrait for the next showCommands
+  def self.no_player_portrait
+    $game_temp.player_portrait_disabled = true
+  end
 
-    def self.viewport
-        return @@viewport2
-    end
+  # Set the speaker name for dialogue
+  def self.set_speaker(name)
+    $game_temp.speaker = name
+  end
+
+  # Clear the speaker name
+  def self.clear_speaker
+    $game_temp.speaker = nil
+  end
 end
 
+#===============================================================================
+#  RfDialoguePortrait Class (Updated for Scaling and Mirroring)
+#===============================================================================
 class RfDialoguePortrait
-    attr_reader :state
-    attr_reader :portrait
+  #attr_reader :state
+  #attr_reader :portrait
+  attr_accessor :state 
+  attr_accessor :speaker 
+  attr_accessor :target_x, :target_y  
 
-    # portrait: Name of the portrait graphic in Graphics/Portraits (ANIMATED GIFS ARE NOT SUPPORTED)
-    # align: 0 aligns left, 1 aligns right
-    # viewport: if you don't understand what this does you probably shouldn't be creating this object yourself
-    def initialize(portrait, align = 0, viewport = nil)
-        @align = align
-        @sprite = Sprite.new(viewport)
-        @sprite.bitmap = Bitmap.new("Graphics/Portraits/#{portrait}")
-        @sprite.ox = @sprite.bitmap.width * (align % 2)
-        @sprite.oy = @sprite.bitmap.height
-        @sprite.x = align > 0 ? Graphics.width + 128 : -128
-        @sprite.y = Graphics.height
-        @sprite.opacity = 0
-        if RfSettings::OUTLINE
-            @outline = @sprite.create_outline_sprite
-            @outline.color = Rf.portrait_outline_color
-            @outline.opacity = 0
-        end
-        @state = :opening
-        @state_change = System.uptime
-        @disposed = false
-        rescue # nullify the bitmap if something goes wrong
-        @sprite.bitmap = nil
+  def initialize(portrait, align = 0, viewport = nil)
+    @align = align
+    @sprite = Sprite.new(viewport)
+    @sprite.bitmap = Bitmap.new("Graphics/Trainers/#{portrait}")
+    @sprite.ox = @sprite.bitmap.width * (align % 2)
+    @sprite.oy = @sprite.bitmap.height
+    @sprite.x = align > 0 ? Graphics.width + 128 : -128
+    @sprite.y = Graphics.height
+    @sprite.opacity = 0
+    @sprite.zoom_x = 2.0
+    @sprite.zoom_y = 2.0
+
+    # Set target positions
+    @target_x = align > 0 ? Graphics.width - 128 : 160  # <-- Adjust as needed
+    @target_y = Graphics.height - 80  # <-- Keep at the bottom
+
+    if RfSettings::OUTLINE
+      @outline = @sprite.create_outline_sprite
+      @outline.color = Rf.portrait_outline_color
+      @outline.opacity = 0
+      @outline.zoom_x = 2.0 # <-- Match outline scaling
+      @outline.zoom_y = 2.0 # <-- Match outline scaling
     end
 
-    def state=(new_state_id)
-        @state = new_state_id
-        @state_change = System.uptime
+    @state = :opening
+    @state_change = System.uptime
+    @disposed = false
+  rescue
+    @sprite.bitmap = nil
+  end
+
+  # Update portrait state (opening, active, closing)
+  def update
+    return if @disposed
+    case @state
+    when :opening then openAnimation
+    when :active then mainUpdate
+    when :closing then closeAnimation
+    else raise "Invalid dialogue portrait state"
+    end
+  end
+  
+  def openAnimation
+    @sprite.opacity = lerp(0, 255, 0.25, @state_change, System.uptime)
+    @outline&.opacity = lerp(0, 255, 0.25, @state_change, System.uptime)
+    @sprite.x = lerp(@sprite.x, @target_x, 0.25, @state_change, System.uptime) 
+    @sprite.y = lerp(@sprite.y, @target_y, 0.25, @state_change, System.uptime)  
+    @outline&.x = lerp(@outline.x, @target_x - 4, 0.25, @state_change, System.uptime)  
+    @outline&.y = lerp(@outline.y, @target_y - 4, 0.25, @state_change, System.uptime)  
+    @state = :active if @sprite.x == @target_x && @sprite.y == @target_y  
+  end
+
+  def mainUpdate
+    self.state = :closing if !pbMapInterpreterRunning? && PORTRAITS_AUTO_CLOSE_ON_EVENT_END
+    # lip flaps would go here, however these are currently not implemented
+  end
+
+  def closeAnimation
+    return if @disposed
+    @sprite.opacity = lerp(255, 0, 0.25, @state_change, System.uptime)
+    @outline&.opacity = lerp(255, 0, 0.25, @state_change, System.uptime)
+
+    if @align > 0
+      # Move right-aligned sprites off the right side of the screen
+      @sprite.x = lerp(@sprite.x, Graphics.width + 128, 0.25, @state_change, System.uptime)
+      @outline&.x = lerp(@outline.x, Graphics.width + 126, 0.25, @state_change, System.uptime)
+    else
+      # Move left-aligned sprites off the left side of the screen
+      @sprite.x = lerp(@sprite.x, -128, 0.25, @state_change, System.uptime)
+      @outline&.x = lerp(@outline.x, -130, 0.25, @state_change, System.uptime)
     end
 
-    def portrait=(portrait)
-        # dispose old sprites
-        @outline&.dispose
-        @sprite.bitmap&.dispose
-        # create new ones
-        @sprite.bitmap = Bitmap.new("Graphics/Portraits/#{portrait}")
-        if RfSettings::OUTLINE
-            @outline = @sprite.create_outline_sprite
-            @outline.color = Rf.portrait_outline_color
-        end
-        rescue # nullify the bitmap if something goes wrong
-        @sprite.bitmap = nil
-        @outline = nil
-    end
+    dispose if @sprite.x <= -128 || @sprite.x >= Graphics.width + 128
+  end
 
-    def update
-        return if @disposed
-        case @state
-        when :opening
-            openAnimation
-        when :active
-            mainUpdate
-        when :closing
-            closeAnimation
-        else
-            raise "Invalid dialogue portrait state"
-        end
-    end
+  # Dispose of the portrait
+  def dispose
+    @sprite.bitmap&.dispose
+    @sprite.dispose
+    @outline&.dispose
+    @disposed = true
+  end
 
-    def openAnimation
-        @sprite.opacity = lerp(0,255,0.1,@state_change,System.uptime)
-        @outline&.opacity = lerp(0,255,0.1,@state_change,System.uptime)
-        if @align > 0
-            @sprite.x = lerp(Graphics.width + 128, Graphics.width, 0.15, @state_change, System.uptime)
-            @outline&.x = lerp(Graphics.width + 126, Graphics.width - 2, 0.15, @state_change, System.uptime)
-            @state = :active if @sprite.x <= Graphics.width
-        else 
-            @sprite.x = lerp(-128, 0, 0.15, @state_change, System.uptime)
-            @outline&.x = lerp(-130, -2, 0.15, @state_change, System.uptime)
-            @state = :active if @sprite.x >= 0
-        end
-    end
-
-    def mainUpdate
-        self.state = :closing if !pbMapInterpreterRunning? && PORTRAITS_AUTO_CLOSE_ON_EVENT_END
-        # lip flaps would go here, however these are currently not implemented
-    end
-
-    def closeAnimation
-        return if @disposed
-        @sprite.opacity = lerp(255,0,0.1,@state_change,System.uptime)
-        @outline&.opacity = lerp(255,0,0.1,@state_change,System.uptime)
-        if @align > 0
-            @sprite.x = lerp(Graphics.width, Graphics.width + 128, 0.15, @state_change, System.uptime)
-            @outline&.x = lerp(Graphics.width - 2, Graphics.width + 126, 0.15, @state_change, System.uptime)
-            dispose if @sprite.x >= Graphics.width + 128
-        else 
-            @sprite.x = lerp(0, -128, 0.15, @state_change, System.uptime)
-            @outline&.x = lerp(-2, -130, 0.15, @state_change, System.uptime)
-            dispose if @sprite.x <= -128
-        end
-    end
-
-    def dispose
-        @sprite.bitmap&.dispose
-        @sprite.dispose
-        @outline&.dispose
-        @disposed = true
-    end
-
-    def disposed?
-        return @disposed
-    end
+  def disposed?
+    return @disposed
+  end
 end
 
-if RfSettings::PORTRAITS_ENABLE_CAVEOVERLAY_FIX
-    EventHandlers.remove(:on_map_or_spriteset_change, :show_darkness)
-    EventHandlers.add(:on_map_or_spriteset_change, :show_darkness,
-    proc { |scene, _map_changed|
-        next if !scene || !scene.spriteset
-        map_metadata = $game_map.metadata
-        if map_metadata&.dark_map
-            $game_temp.darkness_sprite = DarknessSprite.new(Spriteset_Map.viewport)
-            scene.spriteset.addUserSprite($game_temp.darkness_sprite)
-            if $PokemonGlobal.flashUsed
-            $game_temp.darkness_sprite.radius = $game_temp.darkness_sprite.radiusMax
-            end
-        else
-            $PokemonGlobal.flashUsed = false
-            $game_temp.darkness_sprite&.dispose
-            $game_temp.darkness_sprite = nil
-        end
-        }
-    )
+class Spriteset_Global
+  alias rf_portraits_init initialize
+  alias rf_portraits_update update
+
+  attr_accessor :activePortraits
+
+  def initialize
+    rf_portraits_init
+    @activePortraits = []  # Initialize as an empty array
+  end
+
+  def newPortrait(portrait, align = 0)
+    @activePortraits ||= []  # Ensure @activePortraits is always an array
+    portrait_sprite = RfDialoguePortrait.new(portrait, align, @@viewport2)
+    @activePortraits << portrait_sprite  # Add new portrait to the array
+    portrait_sprite
+  end
+
+  def update
+    rf_portraits_update
+    @activePortraits&.each(&:update)  # Safely update all active portraits
+  end
+
+  def close_portraits
+    return unless @activePortraits
+    @activePortraits.each do |portrait|
+      portrait.dispose # <-- FORCE DISPOSE IMMEDIATELY
+    end
+    @activePortraits.clear # <-- CLEAR ARRAY
+  end
+
+  def self.viewport
+    return @@viewport2
+  end
 end
 
-if Essentials::VERSION.to_i < 21
-    Console.echo_warn("Reflections Dialogue Portraits: Likely non v21 version of Essentials detected. The plugin will run but you may encounter unexpected issues.")
-    def lerp(start_val, end_val, duration, delta, now = nil)
-        return end_val if duration <= 0
-        delta = now - delta if now
-        return start_val if delta <= 0
-        return end_val if delta >= duration
-        return start_val + (end_val - start_val) * delta / duration.to_f
-    end
+
+class Game_Temp
+  attr_accessor :speaker # Add this line
+  attr_accessor :player_portrait_disabled # Optional: If you use this elsewhere
 end
+

@@ -1,0 +1,4 @@
+Torchic,FRIEDEGG,Sunny,Summer
+Psyduck,SCRAMBLEDEGG,Rain,Spring
+Ducklett,BLUEEGG,Rain,All
+Rowlet,GREENEGG,Clear,Fall

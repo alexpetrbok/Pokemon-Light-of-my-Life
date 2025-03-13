@@ -1,0 +1,20 @@
+[
+  {
+    :id => :festival_confrontation,
+    :participants => [:lucas, :dawn, :DayCare1],
+    :dialogue => [
+      {
+        :speaker => :lucas,
+        :text => "[MOVE_EVENT 5,2,0] The festival preparations are behind schedule, \\PN!"
+      },
+      {
+        :speaker => :dawn,
+        :text => "[ANIMATION 29] We need to prioritize the berry displays, \\PN!"
+      },
+      {
+        :speaker => :DayCare1,
+        :text => "I'll handle the historical exhibit. \\PN, assist Dawn."
+      }
+    ]
+  }
+]

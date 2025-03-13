@@ -1,0 +1,13 @@
+=begin
+[
+  {
+    :id => :intro,
+    :participants => [:lucas, :dawn],
+    :dialogue => [
+      { :speaker => :lucas, :text => "Welcome to the world of Pokémon!" },
+      { :speaker => :dawn, :text => "We're here to help you on your journey." },
+      { :speaker => :lucas, :text => "Good luck, \\PN!" }
+    ]
+  }
+]
+=end

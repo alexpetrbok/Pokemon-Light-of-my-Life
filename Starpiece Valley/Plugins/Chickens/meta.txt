@@ -1,0 +1,4 @@
+Name         = Chickens
+Version      = 1.0.0
+Essentials   = 20,20.1,21,21.1
+Credits      = MantaMoss

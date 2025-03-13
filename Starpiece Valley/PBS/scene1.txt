@@ -1,0 +1,16 @@
+{
+  :sprites => [
+    { :image => "lucas", :position => 0 },
+    { :image => "dawn", :position => 1 }
+  ],
+  :dialogues => [
+    {
+      :speaker => "Lucas",
+      :text => "[Texting] There's a meteor shower tonight!",
+      :choices => ["Meet them", "Decline"]
+    },
+    {
+      :text => "You agreed to watch the meteor shower!"
+    }
+  ]
+}
