@@ -3,7 +3,7 @@
     :id => :lucas,
     :name => "Lucas",
     :portrait => "lucas",
-    :sprite => "Graphics/Characters/ORASBrendan_run",
+    :sprite => "ORASBrendan_run",
     :favorite_gifts => [:POKEBALL, :FOSSIL],
     :opener => [
       "Hi {1}! How's your research going?",
@@ -30,7 +30,7 @@
     :id => :dawn,
     :name => "Dawn",
     :portrait => "dawn",
-    :sprite => "Graphics/Characters/DP Lady (Overworld)",
+    :sprite => "DP Lady (Overworld)",
     :favorite_gifts => [:POTION, :REPEL],
     :opener => [
       "Hey {1}! Ready for another adventure?",
@@ -57,7 +57,7 @@
     :id => :DayCare1,
     :name => "Daycare Lady",
     :portrait => "Daycare1",
-    :sprite => "Graphics/Characters/trainer_BREEDER_F",
+    :sprite => "trainer_BREEDER_F",
     :favorite_gifts => [:RARECANDY, :PPUP],
     :opener => [
       "Welcome to the Daycare! How can I help you today?",

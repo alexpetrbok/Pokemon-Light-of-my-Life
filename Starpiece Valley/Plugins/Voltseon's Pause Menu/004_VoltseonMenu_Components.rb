@@ -197,7 +197,25 @@ class VPM_DateAndTimeHud < Component
       7 => "Graphics/UI/Overlay/Weather/Sun"         # Sun
     }
 
-    # Hide by default
+    # Create colored bars sprite (for green, yellow, red portions)
+    @sprites["energy_colors"] = Sprite.new(@viewport)
+    @sprites["energy_colors"].bitmap = Bitmap.new(100, 4)  
+    @sprites["energy_colors"].x = Graphics.width - 107
+    @sprites["energy_colors"].y = 72 
+    @sprites["energy_colors"].z = 3
+    @sprites["energy_colors"].visible = true
+
+    # Create energy bar
+    @sprites["energy_bar"] = IconSprite.new(Graphics.width - 111, 70, @viewport)
+    @sprites["energy_bar"].setBitmap("Graphics/UI/VPM/energy_bar") 
+    @sprites["energy_bar"].z = 999
+    @sprites["energy_bar"].visible = true
+
+    # Initialize related custom scripts
+    $player_energy = GameData::PlayerEnergy.new(100)
+    $daily_clock = GameData::DailyClock.new
+
+    # Show by default
     show
   end
 
@@ -206,7 +224,6 @@ class VPM_DateAndTimeHud < Component
   end
 
   def refresh
-    
     unless @sprites["overlay"]
       @sprites["overlay"] = Sprite.new(@viewport)
       @sprites["overlay"].bitmap = Bitmap.new(Graphics.width, 64)
@@ -215,11 +232,14 @@ class VPM_DateAndTimeHud < Component
     end
 
     # Update time
+    $daily_clock.update
+    $item_display.update if $item_display && $item_display.visible?
     now = pbGetTimeNow
     time_text = now.strftime("%I:%M %p").sub(/^0/, '') # Remove leading zero
 
     # Update day of the month
-    day_text = _INTL("Day: {1}", now.day)
+    #day_text = _INTL("Day: {1}", now.day)
+    day_text = _INTL("Day: {1}", $daily_clock.game_day)
 
     # Update season
     season = pbGetSeason
@@ -254,6 +274,63 @@ class VPM_DateAndTimeHud < Component
       @sprites["weather"] ||= IconSprite.new(470, 0, @viewport)
       @sprites["weather"].setBitmap(weather_icon)
       @sprites["weather"].z = 2
+    end
+
+    # Refresh energy bar
+    refresh_energy_bar
+  end
+
+  def refresh_energy_bar
+    return unless $player_energy
+
+    unless @sprites["energy_bar"] && @sprites["energy_colors"]
+      @sprites["energy_colors"] = Sprite.new(@viewport)
+      @sprites["energy_colors"].bitmap = Bitmap.new(100, 4)  
+      @sprites["energy_colors"].x = Graphics.width - 107
+      @sprites["energy_colors"].y = 72 
+      @sprites["energy_colors"].z = 3
+
+      @sprites["energy_bar"] = IconSprite.new(Graphics.width - 111, 70, @viewport)
+      @sprites["energy_bar"].setBitmap("Graphics/UI/VPM/energy_bar")  
+      @sprites["energy_bar"].z = 999
+      @sprites["energy_bar"].visible = true
+    end
+
+    # Clear the colored bars bitmap
+    energy_colors = @sprites["energy_colors"].bitmap
+    energy_colors.clear
+
+    # Calculate the width of each portion
+    max_width = 100
+    
+    # Determine the ratio based on daily and max
+    if $player_energy.daily <= $player_energy.max
+      # When daily <= max, show energy/max ratio
+      energy_fraction = $player_energy.energy.to_f / $player_energy.max
+    else
+      # When daily > max, show energy/daily ratio
+      energy_fraction = $player_energy.energy.to_f / $player_energy.daily
+    end
+
+    # Draw the red portion (if daily is less than max)
+    if $player_energy.daily < $player_energy.max
+      red_width = (1 - ($player_energy.daily.to_f / $player_energy.max)) * max_width
+      energy_colors.fill_rect(max_width - red_width, 0, red_width, energy_colors.height, Color.new(255, 0, 0))  # Red
+    end
+
+    # Draw the green portion (normal energy)
+    green_width = energy_fraction * max_width
+    energy_colors.fill_rect(0, 0, green_width, energy_colors.height, Color.new(0, 255, 0))  # Green
+
+    # Draw the yellow portion (if daily is greater than max)
+    if $player_energy.daily > $player_energy.max
+      yellow_width = (($player_energy.daily.to_f / $player_energy.max) - 1) * max_width
+      energy_colors.fill_rect(max_width - yellow_width, 0, yellow_width, energy_colors.height, Color.new(255, 255, 0))  # Yellow
+    end
+
+    # Log a debug message if the energy bar graphic is missing
+    unless pbResolveBitmap("Graphics/UI/VPM/energy_bar")
+      p "Energy bar graphic not found at Graphics/UI/VPM/energy_bar. Drawing colored lines instead."
     end
   end
 

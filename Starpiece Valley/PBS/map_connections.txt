@@ -38,4 +38,9 @@
 47,East,8,52,West,0
 # Route 8 (69) - Safari Zone outside (66)
 69,North,0,66,South,10
-# Safari Zone 2 (162) - Safari Zone (161)
+# Lake (43) - Farm (42)
+43,South,0,42,North,0
+# Town (48) - Farm (42)
+48,East,81,42,West,0
+# Town (48) - Lake (43)
+48,East,0,43,West,0

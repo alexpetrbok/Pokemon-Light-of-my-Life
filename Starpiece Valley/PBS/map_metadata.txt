@@ -103,5 +103,48 @@ BattleBack = field
 MapSize = 1,11
 #-------------------------------
 [022]   # Farm
+Name = Farm
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[042]   # Farm
+Name = Farm
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[043]   # Lake
+Name = Lake
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[048]   # Town
+Name = Town
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[076]   # River Estuary
+Name = River Estuary
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[077]   # Swamp
+Name = Swamp
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[078]   # Lab
+Name = Lab
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[079]   # Bug Meadows
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[080]   # Mountain Path
+Outdoor = true
+Bicycle = true
+#-------------------------------
+[081]   # Mines
 Outdoor = true
 Bicycle = true

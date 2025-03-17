@@ -121,6 +121,7 @@ def pbInitializeWeather
   zoneWeather = WeatherConfig::ZONE_WEATHER_AUTUMN if pbIsAutumn
   zoneWeather = WeatherConfig::ZONE_WEATHER_WINTER if pbIsWinter
   zoneWeather = WeatherConfig::ZONE_WEATHER_SPRING if pbIsSpring
+  $WeatherSystem.zoneMaps = WeatherConfig::ZONE_MAPS
   $WeatherSystem.actualWeather = []
   $WeatherSystem.nextWeather = []
   for i in 0...$WeatherSystem.zoneMaps.length

@@ -12,6 +12,7 @@ module GameData
       @id = hash[:id]
       @name = hash[:name]
       @portrait = hash[:portrait]
+      @sprite = hash[:sprite]
       @gifts = hash[:gifts] || {}  # Hash of gift items and their affection values
       @opener = hash[:opener] || []
       @chat = hash[:chat] || []
@@ -130,7 +131,50 @@ def pbSetupNPCEvents
       $game_self_switches[[$game_map.map_id, event.id, 'A']] = false
     end
   end
+  pbUpdateNPCGraphics
 end
+
+
+#===============================================================================
+#  Update Event Graphics
+#===============================================================================
+def pbUpdateNPCGraphics(event_id = nil)
+  if event_id
+    # Update a specific event
+    event = $game_map.events[event_id]
+    if event && event.name.downcase == "npc"
+      npc_id = $npc_event_to_id[event.id]
+      if npc_id
+        npc = GameData::NPC.try_get(npc_id)
+        if npc && npc.sprite
+          filename = "Graphics/Characters/" + npc.sprite
+          if pbResolveBitmap(filename)
+            event.character_name = npc.sprite
+            event.refresh
+          end
+        end
+      end
+    end
+  else
+    # Update all NPC events on the current map
+    events = $game_map.events.values
+    npc_events = events.select { |e| e.name.downcase == "npc" }
+    npc_events.each do |event|
+      npc_id = $npc_event_to_id[event.id]
+      if npc_id
+        npc = GameData::NPC.try_get(npc_id)
+        if npc && npc.sprite
+          filename = "Graphics/Characters/" + npc.sprite
+          if pbResolveBitmap(filename)
+            event.character_name = npc.sprite
+            event.refresh
+          end
+        end
+      end
+    end
+  end
+end
+
 
 #===============================================================================
 #  Map Load Hook (Using Essentials' EventHandlers)

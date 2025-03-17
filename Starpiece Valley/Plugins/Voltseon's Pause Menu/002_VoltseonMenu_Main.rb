@@ -380,10 +380,7 @@ class Game_Temp
 end
 
 #-------------------------------------------------------------------------------
-# Add Date and Time HUD to Scene_Map
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# Add Date and Time HUD to Scene_Map
+# Add Date Time and Energy HUD to Scene_Map
 #-------------------------------------------------------------------------------
 PluginManager.register({
   :name => "Voltseon's Pause Menu - Date and Time HUD",

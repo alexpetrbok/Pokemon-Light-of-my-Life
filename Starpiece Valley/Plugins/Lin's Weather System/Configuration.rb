@@ -13,12 +13,12 @@ module WeatherConfig
   USE_REAL_TIME = true		# Default: true
 
   # Set to true to have the weather change at midnight.
-  CHANGE_MIDNIGHT = true	# Default: true
+  CHANGE_MIDNIGHT = false	# Default: true
 
   # Define the min and max amount of time (in hours) before the weather changes.
   # Set the same number to not randomize the amount of time before the weather changes.
-  CHANGE_TIME_MIN = 1		# Default: 1
-  CHANGE_TIME_MAX = 4		# Default: 4
+  CHANGE_TIME_MIN = 8		# Default: 1
+  CHANGE_TIME_MAX = 12		# Default: 4
 
   # Set to true to if you want to force the weather to change when interacting with certain events.
   # Use pbForceUpdateWeather in an event to update all zone weathers.
@@ -27,7 +27,7 @@ module WeatherConfig
 
   # Set to true to have the outdoor maps change with seasons.
   # The map's appearance will update when leaving an indoor map.
-  SEASON_CHANGE = false		# Default: false
+  SEASON_CHANGE = true		# Default: false
 
   # Set to true if your game starts outdoors and want to show the season splash when going somewhere indoors.
   # Set to false if your game starts indoors and want to show the season splash when going somewhere outdoors.
@@ -39,10 +39,11 @@ module WeatherConfig
   # The difference between the ID of the tileset defined for an outdoor map and it's season version.
   # The difference has to be the same for any tileset defined in OUTDOOR_TILESETS.
   # Use the same season tileset as the default outdoor map tileset and define the diference for that season as 0.
-  SUMMER_TILESET = 22
-  AUTUMN_TILESET = 24
-  WINTER_TILESET = 26
-  SPRING_TILESET = 0
+  SPRING_TILESET = 25
+  SUMMER_TILESET = 26
+  AUTUMN_TILESET = 27
+  WINTER_TILESET = 28
+
 
 #===============================================================================
 # * Weather Substitute
@@ -93,9 +94,9 @@ module WeatherConfig
   # The maps within each zone will have the same weather at the same time.
   # Each zone may have a different weather than the others.
   ZONE_MAPS = [
-    [2, 5],
-    [7],
-    [21]
+    [42, 43, 77, 79],  # Zone 1: Farm, Lake, Swamp, Bug Meadows
+    [48, 78, 76],       # Zone 2: Town, Lab, River Estuary
+    [80, 81]            # Zone 3: Mountain Path, Mines
   ]
 #===============================================================================
 # * Map Display
@@ -130,35 +131,35 @@ module WeatherConfig
   # Put 0 to weather you don't want if you define a probability after it.
   # If your game doesn't use seasons, edit the probabilities of one season and copy it to the others.
 
+  # Probability of weather in spring.
+  # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
+  ZONE_WEATHER_SPRING = [
+    [30, 40, 5, 0, 0, 0, 10, 15, 0],  # Zone 1
+    [20, 30, 10, 0, 0, 0, 5, 20, 15],  # Zone 2
+    [20, 20, 10, 10, 0, 0, 5, 15, 20]  # Zone 3
+  ]
+
   # Probability of weather in summer.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_SUMMER = [
-    [50, 20, 3, 0, 0, 0, 5, 30],
-    [40, 50],
-    [60]
+    [20, 30, 10, 0, 0, 0, 5, 35, 0],   # Zone 1
+    [10, 20, 20, 0, 0, 0, 10, 30, 10], # Zone 2
+    [10, 10, 20, 0, 0, 0, 10, 40, 10]  # Zone 3
   ]
 
   # Probability of weather in autumn.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_AUTUMN = [
-    [50, 20, 3, 0, 0, 0, 5, 30],
-    [40, 50],
-    [60]
+    [40, 20, 5, 0, 0, 0, 5, 10, 20],   # Zone 1
+    [30, 20, 10, 0, 0, 0, 5, 15, 20],  # Zone 2
+    [20, 10, 10, 10, 0, 0, 5, 15, 30]  # Zone 3
   ]
 
   # Probability of weather in winter.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_WINTER = [
-    [50, 20, 3, 0, 0, 0, 5, 30],
-    [40, 50],
-    [60]
-  ]
-
-  # Probability of weather in spring.
-  # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
-  ZONE_WEATHER_SPRING = [
-    [50, 20, 3, 0, 0, 0, 5, 30],
-    [40, 50],
-    [60]
+    [30, 10, 0, 30, 5, 0, 0, 10, 15],  # Zone 1
+    [20, 10, 5, 20, 0, 0, 0, 10, 35],  # Zone 2
+    [10, 5, 0, 40, 20, 0, 0, 5, 20]    # Zone 3
   ]
 end
