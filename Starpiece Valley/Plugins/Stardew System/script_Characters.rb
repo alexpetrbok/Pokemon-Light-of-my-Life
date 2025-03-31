@@ -262,3 +262,115 @@ def pbTalkToNPC(npc_id)
   pbMessage(_INTL("#{npc.name}: #{npc.opener.sample}"))
   Rf.close_portrait
 end
+
+#===============================================================================
+#  Event Spawning System
+#===============================================================================
+# This script dynamically creates events on the map with a single page.
+# The event's sprite, interaction script, and name are optional.
+# Call pbForceMapRefresh after spawning events to ensure they are displayed.
+#===============================================================================
+
+def pbSpawnEvent(event_id, x, y, sprite = nil, script = nil, event_name = "Event", movement_type = 3)
+  # Create event object
+  new_event = RPG::Event.new(x, y)
+  new_event.id = event_id
+  new_event.name = event_name  # Customize the event name
+
+  # Create a single event page
+  page = RPG::Event::Page.new
+  page.graphic.character_name = sprite || ""  # Set the event's sprite (optional)
+  page.graphic.direction = 2 # Face down by default
+  page.trigger = 0 # Action button trigger
+  page.move_type = movement_type
+  page.move_speed = 3  # Normal speed
+  page.move_frequency = 4  # High frequency
+
+  # Add interaction command if a script is provided
+  if script
+    page.list = [
+      RPG::EventCommand.new(355, 0, [script]), # Call the provided script
+      RPG::EventCommand.new(0, 0, []) # Empty command as placeholder
+    ]
+  end
+
+  # Add the page to the event
+  new_event.pages = [page]
+
+  # Create and position Game_Event
+  game_event = Game_Event.new($game_map.map_id, new_event)
+  game_event.moveto(x, y)
+
+  # Add to map
+  $game_map.events[event_id] = game_event
+
+  # Refresh the event to apply changes
+  $game_map.refresh
+  puts "Event added to $game_map.events: #{$game_map.events.has_key?(event_id)}"
+end
+
+
+class PokemonGlobalMetadata
+  attr_accessor :dynamic_event_ids
+
+  def dynamic_event_ids
+    @dynamic_event_ids ||= []
+  end
+end
+
+def pbCreateNPCEvents
+  # Get all NPCs from your data file
+  npcs = GameData::NPC::DATA.values
+  base_event_id = 300
+  player_x = $game_player.x
+  player_y = $game_player.y
+
+  # Initialize dynamic_event_ids if it doesn't exist
+  $PokemonGlobal.dynamic_event_ids ||= []
+
+  npcs.each_with_index do |npc, index|
+    # Calculate position around player (semi-circle pattern)
+    angle = (index * 45) % 360  # 45 degree spacing
+    x = player_x + (3 * Math.cos(angle * Math::PI / 180)).round
+    y = player_y + (3 * Math.sin(angle * Math::PI / 180)).round
+
+    # Assign NPC to event
+    $npc_event_to_id ||= {}
+    event_id = base_event_id + index
+    $npc_event_to_id[event_id] = npc.id
+
+    # Spawn the NPC event
+    pbSpawnEvent(event_id, x, y, npc.sprite, "pbNPC", "NPC")
+
+    # Add to global tracking
+    $PokemonGlobal.dynamic_event_ids << event_id
+  end
+
+  # Refresh the map
+  pbForceMapRefresh
+end
+
+def pbForceMapRefresh
+  return unless $scene.is_a?(Scene_Map)
+  
+  # Dispose of the existing spriteset
+  $scene.spriteset.dispose if $scene.spriteset
+
+  # Create a new spriteset
+  $scene.createSpritesets
+end
+
+EventHandlers.add(:on_leave_map, :remove_dynamic_npcs,
+  proc { |_new_map_id|
+    # Check if dynamic_event_ids exists and is not empty
+    next if !$PokemonGlobal.dynamic_event_ids || $PokemonGlobal.dynamic_event_ids.empty?
+
+    # Remove all dynamically created events
+    $PokemonGlobal.dynamic_event_ids.each do |event_id|
+      $game_map.events.delete(event_id)
+    end
+
+    # Clear the list of dynamic event IDs
+    $PokemonGlobal.dynamic_event_ids.clear
+  }
+)

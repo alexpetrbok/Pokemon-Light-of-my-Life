@@ -23,7 +23,7 @@ module WeatherConfig
   # Set to true to if you want to force the weather to change when interacting with certain events.
   # Use pbForceUpdateWeather in an event to update all zone weathers.
   # Use pbForceUpdateZoneWeather(zone) in an event to update the weather of a zone.
-  FORCE_UPDATE = false		# Default: false
+  FORCE_UPDATE = true		# Default: false
 
   # Set to true to have the outdoor maps change with seasons.
   # The map's appearance will update when leaving an indoor map.
@@ -34,15 +34,15 @@ module WeatherConfig
   OUTDOOR = false		# Default: false
 
   # Array with the ID of outside tilesets that will change with seasons.
-  OUTDOOR_TILESETS = [1, 2]
+  OUTDOOR_TILESETS = [25]#[33, 42, 43, 48, 76, 77, 78, 79, 80, 81]
 
   # The difference between the ID of the tileset defined for an outdoor map and it's season version.
   # The difference has to be the same for any tileset defined in OUTDOOR_TILESETS.
   # Use the same season tileset as the default outdoor map tileset and define the diference for that season as 0.
-  SPRING_TILESET = 25
-  SUMMER_TILESET = 26
-  AUTUMN_TILESET = 27
-  WINTER_TILESET = 28
+  SPRING_TILESET = 0
+  SUMMER_TILESET = 1
+  AUTUMN_TILESET = 2
+  WINTER_TILESET = 3
 
 
 #===============================================================================
