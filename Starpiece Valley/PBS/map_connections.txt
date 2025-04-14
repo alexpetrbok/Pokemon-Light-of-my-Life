@@ -42,5 +42,55 @@
 43,South,0,42,North,0
 # Town (48) - Farm (42)
 48,East,81,42,West,0
+# Mountain Path (80) - Farm (42)
+80,East,0,42,West,0
+# River Estuary (76) - Farm (42)
+76,South,162,42,North,0
+# Swamp (77) - Farm (42)
+77,East,162,42,West,0
 # Town (48) - Lake (43)
 48,East,0,43,West,0
+# Mountain Path (80) - Lake (43)
+80,North,81,43,South,0
+# Mines (81) - Lake (43)
+81,North,162,43,South,0
+# Lab (78) - Lake (43)
+78,South,162,43,North,0
+# Swamp (77) - Lake (43)
+77,East,81,43,West,0
+# Bug Meadows (79) - Lake (43)
+79,South,0,43,North,0
+# Mountain Path (80) - Town (48)
+80,North,0,48,South,0
+# Mines (81) - Town (48)
+81,North,81,48,South,0
+# River Estuary (76) - Town (48)
+76,East,0,48,West,0
+# Lab (78) - Town (48)
+78,East,81,48,West,0
+# Swamp (77) - Town (48)
+77,South,0,48,North,0
+# Bug Meadows (79) - Town (48)
+79,West,81,48,East,0
+# Mines (81) - Mountain Path (80)
+81,East,0,80,West,0
+# River Estuary (76) - Mountain Path (80)
+76,East,81,80,West,0
+# Lab (78) - Mountain Path (80)
+78,East,162,80,West,0
+# Bug Meadows (79) - Mountain Path (80)
+79,West,162,80,East,0
+# River Estuary (76) - Mines (81)
+76,South,0,81,North,0
+# Swamp (77) - Mines (81)
+77,West,162,81,East,0
+# Lab (78) - River Estuary (76)
+78,South,0,76,North,0
+# Swamp (77) - River Estuary (76)
+77,West,81,76,East,0
+# Bug Meadows (79) - River Estuary (76)
+79,South,0,76,North,162
+# Swamp (77) - Lab (78)
+77,West,0,78,East,0
+# Bug Meadows (79) - Swamp (77)
+79,West,0,77,East,0

@@ -1,0 +1,83 @@
+[
+  {
+    :id => :lucas,
+    :name => "Lucas",
+    :portrait => "lucas",
+    :sprite => "ORASBrendan_run",
+    :favorite_gifts => [:POKEBALL, :FOSSIL],
+    :opener => [
+      "Hi {1}! How's your research going?",
+      "Have you discovered any new Pokémon?"
+    ],
+    :chat => [
+      {
+        :prompt => "Discuss fossils",
+        :response => "I'm studying ancient Pokémon fossils in the cave system.",
+        :affection => 5
+      },
+      {
+        :prompt => "Ask about team",
+        :response => "My Riolu has been evolving well in battles!",
+        :affection => 3
+      }
+    ],
+    :closer => [
+      "Let's share findings again soon!",
+      "Good luck with your Pokédex!"
+    ]
+  },
+  {
+    :id => :dawn,
+    :name => "Dawn",
+    :portrait => "dawn",
+    :sprite => "DP Lady (Overworld)",
+    :favorite_gifts => [:POTION, :REPEL],
+    :opener => [
+      "Hey {1}! Ready for another adventure?",
+      "How's your team doing?"
+    ],
+    :chat => [
+      {
+        :prompt => "Talk about contests",
+        :response => "I've been practicing my contest moves. They're getting better!",
+        :affection => 4
+      },
+      {
+        :prompt => "Ask about Piplup",
+        :response => "Piplup is doing great! It loves showing off in contests.",
+        :affection => 2
+      }
+    ],
+    :closer => [
+      "See you around, {1}!",
+      "Let's battle again sometime!"
+    ]
+  },
+  {
+    :id => :DayCare1,
+    :name => "Daycare Lady",
+    :portrait => "Daycare1",
+    :sprite => "trainer_BREEDER_F",
+    :favorite_gifts => [:RARECANDY, :PPUP],
+    :opener => [
+      "Welcome to the Daycare! How can I help you today?",
+      "Your Pokémon are in good hands here!"
+    ],
+    :chat => [
+      {
+        :prompt => "Ask about eggs",
+        :response => "We have a few eggs ready. Would you like one?",
+        :affection => 5
+      },
+      {
+        :prompt => "Talk about training",
+        :response => "Your Pokémon are growing stronger every day!",
+        :affection => 3
+      }
+    ],
+    :closer => [
+      "Come back soon!",
+      "Take good care of your Pokémon!"
+    ]
+  }
+]

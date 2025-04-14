@@ -108,7 +108,7 @@ SellPrice = 100
 FieldUse = OnPokemon
 BattleUse = OnPokemon
 Flags = Fling_30
-Description = Fluffy and warm, perfect for crafting.
+Description = Soft yet tough, perfect for crafting.
 
 #-------------------------------
 [PURPLEWOOL]
@@ -139,11 +139,11 @@ Flags = Fling_30
 Description = Keeps you cozy even in the coldest weather.
 
 #-------------------------------
-[BROWNWOOL]
-Name = Brown Wool
-NamePlural = Brown Wools
-PortionName = brown wool
-PortionNamePlural = brown wools
+[EARTHYWOOL]
+Name = Earthy Wool
+NamePlural = Earthy Wools
+PortionName = earthy wool
+PortionNamePlural = earthy wools
 Pocket = 2
 Price = 200
 SellPrice = 100

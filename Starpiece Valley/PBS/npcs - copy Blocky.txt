@@ -1,0 +1,47 @@
+[NPC:lucas]
+Name = Lucas
+Portrait = lucas
+Sprite = lucas
+FavoriteGifts = POKEBALL, FOSSIL
+
+[DIALOGUE]
+Open = Hi /PN! How's your research going?
+Open = Have you discovered any new Pokémon?
+Chat = Discuss fossils | I'm studying ancient Pokémon fossils in the cave system. | Affection=5
+Chat = Ask about team | My Riolu has been evolving well in battles! | Affection=3
+Close = Let's share findings again soon!
+Close = Good luck with your Pokédex!
+
+[NPC:dawn]
+Name = Dawn
+Portrait = dawn
+Sprite = dawn
+FavoriteGifts = POTION, REPEL
+
+[DIALOGUE]
+Open = Hey /PN! Ready for another adventure?
+Open = How's your team doing?
+Chat = Talk about contests | I've been practicing my contest moves. They're getting better! | Affection=4
+Chat = Ask about Piplup | Piplup is doing great! It loves showing off in contests. | Affection=2
+Close = See you around, /PN!
+Close = Let's battle again sometime!
+
+[NPC:daycare_lady]
+Name = Daycare Lady
+Portrait = daycare1
+Sprite = daycare1
+FavoriteGifts = RARECANDY, PPUP
+
+[DIALOGUE]
+Open = Welcome to the Daycare! How can I help you today?
+Open = Your Pokémon are in good hands here!
+Chat = Ask about eggs | We have a few eggs ready. Would you like one? | Affection=5
+Chat = Talk about training | Your Pokémon are growing stronger every day! | Affection=3
+Close = Come back soon!
+Close = Take good care of your Pokémon!
+
+[FORM:daycare_lady_holiday]
+Conditions = [Festival]
+Portrait = daycare_lady_hat
+Open = Happy Festival! We're giving out special eggs today!
+Chat = Ask about eggs | These festival eggs have unique patterns! | Affection=7
