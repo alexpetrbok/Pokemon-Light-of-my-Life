@@ -1,3 +1,12 @@
+#Clear = 0
+#Rain = 1
+#Storm = 2
+#Snow = 3
+#Blizzard = 4
+#Sandstorm = 5
+#HeavyRain = 6
+#Sun = 7
+
 def pbCastformDebugTool
   # Main menu options
   options = [

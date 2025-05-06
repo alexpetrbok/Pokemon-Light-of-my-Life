@@ -397,7 +397,7 @@ def pbUpdateNPCGraphics(event_id = nil)
   if event_id
     # Update a specific event
     event = $game_map.events[event_id]
-    if event && event.name.downcase == "npc"
+    if event && event.name.downcase == "pbnpc"
       npc_id = $npc_event_to_id[event.id]
       if npc_id
         npc = GameData::NPC.try_get(npc_id)
@@ -413,7 +413,7 @@ def pbUpdateNPCGraphics(event_id = nil)
   else
     # Update all NPC events on the current map
     events = $game_map.events.values
-    npc_events = events.select { |e| e.name.downcase == "npc" }
+    npc_events = events.select { |e| e.id > 200 }
     npc_events.each do |event|
       npc_id = $npc_event_to_id[event.id]
       if npc_id
@@ -558,7 +558,7 @@ end
 # Call pbForceMapRefresh after spawning events to ensure they are displayed.
 #===============================================================================
 
-def pbSpawnEvent(event_id, x, y, sprite = nil, script = nil, event_name = "Event", movement_type = 3)
+def pbSpawnEvent(event_id, x, y, sprite = nil, script = nil, event_name = "OutdoorLight", movement_type = 3)
   # Create event object
   new_event = RPG::Event.new(x, y)
   new_event.id = event_id

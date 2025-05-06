@@ -1,18 +1,66 @@
 ﻿#-------------------------------
+# Standard Egg Items (200 buy / 100 sell)
+#-------------------------------
 [FRIEDEGG]
 Name = Fried Egg
 NamePlural = Fried Eggs
-PortionName = fried egg
+PortionName = a fried egg
 PortionNamePlural = fried eggs
 Pocket = 2
 Price = 200
 SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
+FieldUse = Direct
 Flags = Fling_30
-Description = It's already cooked, perfect for breakfast on the go.
+Description = Torchic's sunny-side up special. Restores 50 energy. Warning: May contain embers.
 
-#-------------------------------
+[GREENEGG]
+Name = Green Egg
+NamePlural = Green Eggs
+PortionName = a green egg
+PortionNamePlural = green eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = Direct
+Flags = Fling_30
+Description = Rowlet's veggie breakfast. Restores 50 energy. Surprisingly not ham-flavored.
+
+[NAVYEGG]
+Name = Navy Egg
+NamePlural = Navy Eggs
+PortionName = a navy egg
+PortionNamePlural = navy eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = Direct
+Flags = Fling_30
+Description = Quaxly's omelet rations. Restores 50 energy. Sailor-approved!
+
+[BLUEEGG]
+Name = Blue Egg
+NamePlural = Blue Eggs
+PortionName = a blue egg
+PortionNamePlural = blue eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = Direct
+Flags = Fling_30
+Description = Ducklett's beautiful blue breakfast. Restores 50 energy. Not actually blue inside.
+
+[PLAINEGG]
+Name = Plain Egg
+NamePlural = Plain Eggs
+PortionName = a plain egg
+PortionNamePlural = plain eggs
+Pocket = 2
+Price = 200
+SellPrice = 100
+FieldUse = Direct
+Flags = Fling_30
+Description = Pidove's plain protein. Restores 50 energy. It's flavor doesn't stand out.
+
 [SCRAMBLEDEGG]
 Name = Scrambled Egg
 NamePlural = Scrambled Eggs
@@ -21,274 +69,212 @@ PortionNamePlural = scrambled eggs
 Pocket = 2
 Price = 200
 SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
+FieldUse = Direct
 Flags = Fling_30
-Description = Fluffy and delicious, a quick and easy meal.
+Description = Psyduck's scrambled eggs. Restores 50 energy. Already scrambled in the shell!
 
 #-------------------------------
-[BLUEEGG]
-Name = Blue Egg
-NamePlural = Blue Eggs
-PortionName = blue egg
-PortionNamePlural = blue eggs
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A rare blue egg with a unique flavor.
-
-#-------------------------------
-[GREENEGG]
-Name = Green Egg
-NamePlural = Green Eggs
-PortionName = green egg
-PortionNamePlural = green eggs
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A vibrant green egg, said to have healing properties.
-
-#-------------------------------
-[NAVYEGG]
-Name = Navy Egg
-NamePlural = Navy Eggs
-PortionName = navy egg
-PortionNamePlural = navy eggs
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A deep blue egg with a rich, savory taste.
-
+# Deluxe Egg Items (500 buy / 250 sell)
 #-------------------------------
 [STONEEGG]
 Name = Stone Egg
 NamePlural = Stone Eggs
-PortionName = stone egg
+PortionName = a stone egg
 PortionNamePlural = stone eggs
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A hard-shelled egg with a rocky texture.
+Price = 500
+SellPrice = 250
+FieldUse = Direct
+Flags = Fling_50
+Description = Tyrunt's fossilized breakfast. Restores 100 energy. May contain actual fossils.
 
-#-------------------------------
 [VOIDEGG]
 Name = Void Egg
 NamePlural = Void Eggs
-PortionName = void egg
+PortionName = a void egg
 PortionNamePlural = void eggs
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A mysterious egg that seems to absorb light.
+Price = 500
+SellPrice = 250
+FieldUse = Direct
+Flags = Fling_50
+Description = Giratina's interdimensional omelet. Restores 100 energy. Tastes like antimatter.
 
-#-------------------------------
-[SOFTWOOL]
-Name = Soft Wool
-NamePlural = Soft Wools
-PortionName = soft wool
-PortionNamePlural = soft wools
+[SOFTBOILEDEGG]
+Name = Softboiled Egg
+NamePlural = Softboiled Eggs
+PortionName = a softboiled egg
+PortionNamePlural = softboiled eggs
 Pocket = 2
-Price = 200
-SellPrice = 100
+Price = 500
+SellPrice = 250
 FieldUse = OnPokemon
 BattleUse = OnPokemon
 Flags = Fling_30
-Description = Soft yet tough, perfect for crafting.
+Description = Chansey's healing specialty. Restores 120 HP. Shell not included.
 
 #-------------------------------
-[PURPLEWOOL]
-Name = Purple Wool
-NamePlural = Purple Wools
-PortionName = purple wool
-PortionNamePlural = purple wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A vibrant purple wool with a silky texture.
-
+# Standard Milk Items (300 buy / 150 sell)
 #-------------------------------
-[WARMWOOL]
-Name = Warm Wool
-NamePlural = Warm Wools
-PortionName = warm wool
-PortionNamePlural = warm wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = Keeps you cozy even in the coldest weather.
 
-#-------------------------------
-[EARTHYWOOL]
-Name = Earthy Wool
-NamePlural = Earthy Wools
-PortionName = earthy wool
-PortionNamePlural = earthy wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A sturdy and earthy-colored wool.
-
-#-------------------------------
-[SOUNDPROOFWOOL]
-Name = Soundproof Wool
-NamePlural = Soundproof Wools
-PortionName = soundproof wool
-PortionNamePlural = soundproof wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = Dense wool that muffles sound.
-
-#-------------------------------
-[BLUEWOOL]
-Name = Blue Wool
-NamePlural = Blue Wools
-PortionName = blue wool
-PortionNamePlural = blue wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A cool blue wool with a smooth finish.
-
-#-------------------------------
-[REDWOOL]
-Name = Red Wool
-NamePlural = Red Wools
-PortionName = red wool
-PortionNamePlural = red wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A fiery red wool full of energy.
-
-#-------------------------------
-[YELLOWWOOL]
-Name = Yellow Wool
-NamePlural = Yellow Wools
-PortionName = yellow wool
-PortionNamePlural = yellow wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = Bright and cheerful, like a sunny day.
-
-#-------------------------------
-[FLUFFYWOOL]
-Name = Fluffy Wool
-NamePlural = Fluffy Wools
-PortionName = fluffy wool
-PortionNamePlural = fluffy wools
-Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = Incredibly soft and lightweight.
-
-
-#-------------------------------
 [GOGOMILK]
-Name = Go Go Milk
-NamePlural = Go Go Milks
-PortionName = go go milk
-PortionNamePlural = go go milks
+Name = GoGo Milk
+NamePlural = GoGo Milks
+PortionName = GoGo Milk
+PortionNamePlural = GoGo Milks
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
+Price = 300
+SellPrice = 150
+FieldUse = Direct
 Flags = Fling_30
-Description = Energizing milk from Skiddo.
+Description = Gogoat's grassy goodness. Enough caffeine to make you Go Go.
 
+[COCONUTMILK]
+Name = Coconut Milk
+NamePlural = Coconut Milks
+PortionName = coconut milk
+PortionNamePlural = coconut milks
+Pocket = 2
+Price = 300
+SellPrice = 150
+FieldUse = Direct
+Flags = Fling_30
+Description = Exeggutor's tropical treat. Restores 80 energy.
+
+#-------------------------------
+# Standard Truffles (400 buy / 200 sell)
 #-------------------------------
 [MAGICTRUFFLE]
 Name = Magic Truffle
 NamePlural = Magic Truffles
-PortionName = magic truffle
+PortionName = a magic truffle
 PortionNamePlural = magic truffles
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A rare truffle with mysterious properties.
+Price = 400
+SellPrice = 200
+Flags = Fling_40
+Description = Spoink's psychic mushroom. They will not let you see the future.
 
-#-------------------------------
 [SPICYTRUFFLE]
 Name = Spicy Truffle
 NamePlural = Spicy Truffles
-PortionName = spicy truffle
+PortionName = a spicy truffle
 PortionNamePlural = spicy truffles
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A fiery truffle that packs a punch.
+Price = 400
+SellPrice = 200
+Flags = Fling_40
+Description = Tepig's fire-infused fungus. Not for the faint of tongue!
 
-#-------------------------------
 [TASTYTRUFFLE]
 Name = Tasty Truffle
 NamePlural = Tasty Truffles
-PortionName = tasty truffle
+PortionName = a tasty truffle
 PortionNamePlural = tasty truffles
 Pocket = 2
-Price = 200
-SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A delicious truffle with a rich flavor.
+Price = 400
+SellPrice = 200
+Flags = Fling_40
+Description = Lechonk's gourmet find. Snout-approved!
 
-#-------------------------------
 [FROZENTRUFFLE]
 Name = Frozen Truffle
 NamePlural = Frozen Truffles
-PortionName = frozen truffle
+PortionName = a frozen truffle
 PortionNamePlural = frozen truffles
 Pocket = 2
+Price = 400
+SellPrice = 200
+Flags = Fling_50
+Description = Swinub's glacial delicacy. Perfect on Vanillite icecream!
+
+#-------------------------------
+# Wool Items (All 200 buy / 100 sell)
+#-------------------------------
+[SOFTWOOL]
+Name = Soft Wool
+NamePlural = Soft Wools
+Pocket = 1
 Price = 200
 SellPrice = 100
-FieldUse = OnPokemon
-BattleUse = OnPokemon
-Flags = Fling_30
-Description = A chilly truffle that freezes on contact.
+Description = Buneary's floof. So soft yet surprisingly tough.
+
+[BLUEWOOL]
+Name = Blue Wool
+NamePlural = Blue Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Nidoran♀'s toxic fluff. Surprisingly safe to handle.
+
+[PURPLEWOOL]
+Name = Purple Wool
+NamePlural = Purple Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Nidoran♂'s royal threads. Handle with horn-proof gloves.
+
+[WARMWOOL]
+Name = Warm Wool
+NamePlural = Warm Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Scorbunny's heated hide. Thin yet .
+
+[EARTHYWOOL]
+Name = Earthy Wool
+NamePlural = Earthy Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Bunnelby's dirt-infused fur. Smells like fresh soil.
+
+[SOUNDPROOFWOOL]
+Name = Soundproof Wool
+NamePlural = Soundproof Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Whismur's noise-canceling fluff. Perfect for earmuffs!
+
+[WATERPROOFWOOL]
+Name = Waterproof Wool
+NamePlural = Waterproof Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Azurill's aquatic fur. Stays dry even underwater by trapping bubbles.
+
+[YELLOWWOOL]
+Name = Yellow Wool
+NamePlural = Yellow Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Mareep's static-charged fleece. Hair standing up optional.
+
+[FLUFFYWOOL]
+Name = Fluffy Wool
+NamePlural = Fluffy Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Wooloo's cloud-like coat. Bouncier than it looks.
+
+[COTTONWOOL]
+Name = Cotton Wool
+NamePlural = Cotton Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Cottonee's fairy floss. May attract Jigglypuffs.
+
+[CANDYWOOL]
+Name = Candy Wool
+NamePlural = Candy Wools
+Pocket = 1
+Price = 200
+SellPrice = 100
+Description = Swirlix's sweet treat. Not for eating (despite appearances).

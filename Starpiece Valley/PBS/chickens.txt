@@ -1,4 +1,87 @@
-Torchic,FRIEDEGG,Sunny,Summer
-Psyduck,SCRAMBLEDEGG,Rain,Spring
-Ducklett,BLUEEGG,Rain,All
-Rowlet,GREENEGG,Clear,Fall
+# Chickens and Ducks
+Torchic,FRIEDEGG,Sunny,Summer       # Fire type
+Combusken,FRIEDEGG,Sunny,Summer
+Blaziken,FRIEDEGG,Sunny,Summer
+
+Rowlet,GREENEGG,Clear,Fall          # Grass/Ghost
+Dartrix,GREENEGG,Clear,Fall
+Decidueye,GREENEGG,Clear,Fall
+Rowlet_1,GREENEGG,FOG,Fall	    # Hisuian form
+Dartrix_1,GREENEGG,FOG,Fall
+Decidueye_1,GREENEGG,FOG,Fall
+
+Quaxly,NAVYEGG,Rain,Spring         # Water type
+Quaxwell,NAVYEGG,Rain,Spring
+Quaquaval,NAVYEGG,Rain,Spring
+
+Ducklett,BLUEEGG,Rain,Summer       # Water/Flying
+Swanna,BLUEEGG,Rain,Summer
+
+Pidove,PLAINEGG,Clear,Fall       # Normal/Flying
+Tranquill,PLAINEGG,Clear,Fall
+Unfezant,PLAINEGG,Clear,Fall
+
+Psyduck,SCRAMBLEDEGG,Rain,Spring   # Water type
+Golduck,SCRAMBLEDEGG,Rain,Spring
+
+Tyrunt,STONEEGG,Sunny,Fall       # Rock/Dragon
+Tyrantrum,STONEEGG,Sunny,Fall
+
+Giratina,VOIDEGG,Fog,Winter          # Ghost/Dragon
+Giratina_1,VOIDEGG,Fog,Winter
+
+# Bunnies
+Buneary,SOFTWOOL,Clear,Spring      # Normal type
+Lopunny,SOFTWOOL,Clear,Spring
+Nidoranfe,BLUEWOOL,Clear,Fall     # Poison type
+Nidorina,BLUEWOOL,Clear,Fall
+Nidoqueen,BLUEWOOL,Clear,Fall
+Nidoranma,PURPLEWOOL,Clear,Fall
+Nidorino,PURPLEWOOL,Clear,Fall
+Nidoking,PURPLEWOOL,Clear,Fall
+Scorbunny,WARMWOOL,Sunny,Summer    # Fire type
+Raboot,WARMWOOL,Sunny,Summer
+Cinderace,WARMWOOL,Sunny,Summer
+Bunnelby,EARTHYWOOL,Clear,Winter     # Ground type
+Diggersby,EARTHYWOOL,Clear,Winter
+Whismur,SOUNDPROOFWOOL,Clear,Summer # Normal type
+Loudred,SOUNDPROOFWOOL,Clear,Summer
+Exploud,SOUNDPROOFWOOL,Clear,Summer
+Azurill,WATERPROOFWOOL,Rain,Spring # Water type
+Marill,WATERPROOFWOOL,Rain,Spring
+Azumarill,WATERPROOFWOOL,Rain,Spring
+Magearna,ARTIFICIALWOOL,Clear,Winter # Steel/Fairy
+
+# Sheep
+Mareep,YELLOWWOOL,Rain,Spring      # Electric type
+Flaaffy,YELLOWWOOL,Rain,Spring
+Ampharos,YELLOWWOOL,Rain,Spring
+Wooloo,FLUFFYWOOL,Clear,Fall     # Normal type
+Dubwool,FLUFFYWOOL,Clear,Fall
+Cottonee,COTTONWOOL,Sunny,Summer   # Grass type
+Whimsicott,COTTONWOOL,Sunny,Summer
+Swirlix,CANDYWOOL,Clear,Fall     # Fairy type
+Slurpuff,CANDYWOOL,Clear,Fall
+
+# Cows and Goats
+Miltank,MOOMOOMILK,Clear,Fall    # Normal type
+Skiddo,GOGOMILK,Clear,Spring       # Grass type
+Gogoat,GOGOMILK,Clear,Spring
+Happiny,SOFTBOILEDEGG,Clear,Winter # Normal type
+Chansey,SOFTBOILEDEGG,Clear,Winter
+Blissey,SOFTBOILEDEGG,Clear,Winter
+Exeggcute,COCONUTMILK,Sunny,Summer # Grass/Psychic
+Exeggutor,COCONUTMILK,Sunny,Summer
+Exeggutor_1,COCONUTMILK,Sunny,Summer # Grass/Dragon
+
+# Pigs
+Spoink,MAGICTRUFFLE,Clear,Spring   # Psychic type
+Grumpig,MAGICTRUFFLE,Clear,Spring
+Tepig,SPICYTRUFFLE,Sunny,Summer    # Fire type
+Pignite,SPICYTRUFFLE,Sunny,Summer
+Emboar,SPICYTRUFFLE,Sunny,Summer
+Lechonk,TASTYTRUFFLE,Clear,Fall    # Normal type
+Oinkologne,TASTYTRUFFLE,Clear,Fall
+Swinub,FROZENTRUFFLE,Snow,Winter   # Ice/Ground
+Piloswine,FROZENTRUFFLE,Snow,Winter
+Mamoswine,FROZENTRUFFLE,Snow,Winter

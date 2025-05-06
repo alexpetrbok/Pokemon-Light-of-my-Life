@@ -1,6 +1,15 @@
 #===============================================================================
 # Item Display System
 #===============================================================================
+
+# Single-line function to display the item sprite and text
+
+def pbShowItemDisplay(item, quantity)
+  $item_display = ItemDisplaySprite.new(item, quantity)
+end
+
+
+
 class ItemDisplaySprite
   def initialize(item, quantity, viewport = nil)
     @viewport = viewport || Viewport.new(0, 0, Graphics.width, Graphics.height)
@@ -87,7 +96,3 @@ class ItemDisplaySprite
   end
 end
 
-# Single-line function to display the item sprite and text
-def pbShowItemDisplay(item, quantity)
-  $item_display = ItemDisplaySprite.new(item, quantity)
-end
