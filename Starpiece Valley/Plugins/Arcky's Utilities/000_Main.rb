@@ -56,24 +56,28 @@ SHINY    = :shiny
 
 # Utilities
 def getDistrictName(mapPos, mapData = nil)
-  return "" if mapPos.nil?
-  mapPos = mapPos.town_map_position if !mapPos.is_a?(Array)
-  mapData = pbLoadTownMapData if mapData.nil? && Essentials::VERSION.include?("20")
+  regionName = "Unknown"
+  mapPos = mapPos.town_map_position if !mapPos.nil? && !mapPos.is_a?(Array)
+  if mapPos.nil?
+    Console.echoln_li _INTL("The current map has no MapPosition defined in the map_metadata.txt PBS file.")
+    return regionName
+  end
   mapData = GameData::TownMap.get(mapPos[0]) if mapData.nil?
-  regionName = Essentials::VERSION.include?("20") ? MessageTypes::RegionNames : MessageTypes::REGION_NAMES
-  if ARMSettings::USE_REGION_DISTRICTS_NAMES
-    ARMSettings::REGION_DISTRICTS.each do |region, rangeX, rangeY, districtName|
+  regionName = PokemonRegionMap_Scene::RegionNames
+  if ARMSettings::UseRegionDistrictsNames
+    ARMSettings::RegionDistricts.each do |region, rangeX, rangeY, districtName|
       if mapPos[0] == region && mapPos[1].between?(rangeX[0], rangeX[1]) && mapPos[2].between?(rangeY[0], rangeY[1])
-        scripts = Essentials::VERSION.include?("20") ? MessageTypes::ScriptTexts : MessageTypes::SCRIPT_TEXTS
+        scripts = PokemonRegionMap_Scene::ScriptTexts
         return pbGetMessageFromHash(scripts, districtName)
       end
     end
   end
-  return pbGetMessage(regionName, mapPos[0]) if Essentials::VERSION.include?("20")
-  return pbGetMessageFromHash(regionName, mapData.name.to_s) if Essentials::VERSION.include?("21")
+  return pbGetMessageFromHash(regionName, mapData.name.to_s)
 end
 
 def convertIntegerOrFloat(number)
+  return 0 if number.nan?
+  return 0 unless number.is_a?(Integer) || number.is_a?(Float)
   number = number.to_i if number.to_i == number
   return number
 end
@@ -207,13 +211,26 @@ def convertToRegularHash(obj)
 end
 
 def switchesForDistricts
-  return if !ARMSettings::PROGRESS_COUNTER
+  return if !ARMSettings::ProgressCounter
   hash = getDistrictProgress
   return if hash.nil?
   hash.each do |district, progress|
-    next if (switch = ARMSettings::PROGRESS_SWITCHES[district]).nil?
+    next if (switch = ARMSettings::ProgressSwitches[district]).nil?
     $game_switches[switch] = progress.to_i == 100
   end
+end
+
+def mergeArrayToString(array)
+  if array.length > 1
+    return array[0..-2].join(", ") + " and " + array[-1]
+  else
+    return array[0]
+  end
+end
+
+def getDateFromString(date)
+  dateArray = date.split('-')
+  return Time.local(dateArray[0], dateArray[1], dateArray[2])
 end
 
 # Tracker Methods
@@ -234,6 +251,7 @@ def registerSpecies(type, species, gender, form, shiny)
   mapID = $game_map.map_id
   return if [speciesID, gender, shiny].all?(&:nil?)
   spCounter, spMapCounter, lastSpCounter, lastSpMapCounter = getCounters(type, mapID)
+  return if !spCounter
   spCounter[speciesID] ||= [[[], []], [[], []]]
   spCounter[speciesID][gender][shiny][form] ||= 0
   spCounter[speciesID][gender][shiny][form] += 1
@@ -268,17 +286,16 @@ def validateSpecies(species, gender, shiny)
 end
 
 def getCounters(type, mapID)
-  counter1, counter2, counter3, counter4 =  case type
-                                            when SEEN
-                                              [$ArckyGlobal.seenSpeciesCount, $ArckyGlobal.seenSpeciesCountMap,
-                                              $ArckyGlobal.lastSeenSpeciesForm, $ArckyGlobal.lastSeenSpeciesFormMap]
-                                            when CAUGHT
-                                              [$ArckyGlobal.caughtSpeciesCount, $ArckyGlobal.caughtSpeciesCountMap,
-                                              $ArckyGlobal.lastCaughtSpeciesForm]
-                                            when DEFEATED
-                                              [$ArckyGlobal.defeatedSpeciesCount, $ArckyGlobal.defeatedSpeciesCountMap]
-                                            end
-  return counter1, counter2, counter3, counter4
+  case type
+  when SEEN
+    return [$ArckyGlobal.seenSpeciesCount, $ArckyGlobal.seenSpeciesCountMap,
+            $ArckyGlobal.lastSeenSpeciesForm, $ArckyGlobal.lastSeenSpeciesFormMap]
+  when CAUGHT
+    return [$ArckyGlobal.caughtSpeciesCount, $ArckyGlobal.caughtSpeciesCountMap,
+            $ArckyGlobal.lastCaughtSpeciesForm]
+  when DEFEATED
+    return [$ArckyGlobal.defeatedSpeciesCount, $ArckyGlobal.defeatedSpeciesCountMap]
+  end
 end
 
 def countSeenSpecies(species, gender = nil, form = nil, shiny = false)
@@ -351,42 +368,13 @@ def getCounterSpecies(type, species, gender, form, shiny, map = nil, allForms = 
   return array.flatten.compact.sum
 end
 
-if Essentials::VERSION.include?("20")
-  module SaveData
-    class Value
-      def initialize(id, &block)
-        validate id => Symbol, block => Proc
-        @id = id
-        @loaded = false
-        @load_in_bootup = false
-        @reset_on_new_game = false
-        instance_eval(&block)
-        raise "No save_value defined for save value #{id.inspect}" if @save_proc.nil?
-        raise "No load_value defined for save value #{id.inspect}" if @load_proc.nil?
-      end
-
-      def reset_on_new_game
-        @reset_on_new_game = true
-      end
-
-      def reset_on_new_game?
-        return @reset_on_new_game
-      end
-
-      # Marks all values that aren't loaded on bootup as unloaded.
-      def self.mark_values_as_unloaded
-        @values.each do |value|
-          value.mark_as_unloaded if !value.load_in_bootup? || value.reset_on_new_game?
-        end
-      end
-
-      # Loads each {Value}'s new game value, if one is defined. Done when starting a
-      # new game.
-      def self.load_new_game_values
-        @values.each do |value|
-          value.load_new_game_value if value.has_new_game_proc? && (!value.loaded? || value.reset_on_new_game?)
-        end
-      end
-    end
+# Fixes Camera problem with ENLS Fancy Camera plugin :D
+def pbWait(duration)
+  timer_start = System.uptime
+  until System.uptime - timer_start >= duration
+    yield System.uptime - timer_start if block_given?
+    Graphics.update
+    Input.update
+    pbUpdateSceneMap if $amount.nil? || $amount.empty?
   end
 end

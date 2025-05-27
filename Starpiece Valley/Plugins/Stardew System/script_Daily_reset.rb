@@ -25,6 +25,8 @@ module GameData
       # Advance the time to 6 AM
       UnrealTime.advance_to(06,00,00)
 
+      NPCSystem.daily_schedule_update
+
       # Increment the day counter
       now = pbGetTimeNow
       @game_day = now.day
@@ -49,7 +51,7 @@ module GameData
       	else
           # Player passed out with no energy left
           $player_energy.modify_daily(-20)  
-	end
+	      end
       elsif now.hour > 2
         # Player went to bed before midnight
         $player_energy.modify_daily(10)  # Bonus: Increase daily max by 10
@@ -68,5 +70,14 @@ module GameData
 end
 
 
+def pbInitialGameLoading
 
+  # Load NPC data and dialog files
+  GameData::NPC.load
+  load_dialogs
+
+
+  GameData::Chicken.load
+
+end
 

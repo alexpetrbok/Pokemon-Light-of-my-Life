@@ -1,4 +1,4 @@
 ﻿Name       = Arcky's Utilities
-Version    = 1.0.2
-Essentials = 20.1, 21.1
+Version    = 1.0.8
+Essentials = 21.1
 Credits    = Arcky

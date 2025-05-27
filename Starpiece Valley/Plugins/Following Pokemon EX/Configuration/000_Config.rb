@@ -38,10 +38,10 @@ module FollowingPkmn
   # Example: TONE_BLEED, TONE_CONFUSE, TONE_INFATUATION
 
   # Time Taken for Follower to increase Friendship when first in party (in seconds)
-  FRIENDSHIP_TIME_TAKEN     = 125
+  FRIENDSHIP_TIME_TAKEN     = 3600    # 3600 = 1 hr
 
   # Time Taken for Follower to find an item when first in party (in seconds)
-  ITEM_TIME_TAKEN           = 375
+  ITEM_TIME_TAKEN           = 40000   #40,000 = 11 hr
 
   # Whether the Follower always stays in its move cycle (like HGSS) or not.
   ALWAYS_ANIMATE            = true

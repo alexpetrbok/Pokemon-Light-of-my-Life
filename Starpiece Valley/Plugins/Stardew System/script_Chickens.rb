@@ -226,7 +226,7 @@ module GameData
       species_data = GameData::Species.try_get(species)
       return [species] if species_data.nil? || !species_data.evolutions
       
-      [species] + species_data.evolutions.map { |e| e[:species] }
+      [species] + species_data.evolutions.map { |e| e[0]} #e[:species] }
     end
 
     def self.get(species)
