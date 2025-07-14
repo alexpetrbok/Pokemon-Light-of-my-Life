@@ -1,4 +1,75 @@
 def load_dialogs
+  
+  GameData::NPC.set_dialog(:ENGINEER, {
+    default: {
+      opener: [
+        { text: "Careful where you step. One wrong move and the whole circuit shorts." }
+      ],
+      chat: [
+        { prompt: "What are you building?", response: "Right now? A solar-powered Pokéball printer. Don't ask." },
+        { prompt: "Why so many gadgets?", response: "Because everything breaks. People, too." },
+        { prompt: "Do you ever sleep?", response: "Only during firmware updates." }
+      ],
+      closer: [
+        { text: "Let me know if you find a rare alloy or a therapist." }
+      ]
+    },
+    work: {
+      opener: [
+        { text: "Wiring up a voltage regulator. Try not to breathe too loud." }
+      ],
+      chat: [
+        { prompt: "Can I help?", response: "Got a steady hand and 0.01mm precision? No? Thought so." }
+      ],
+      closer: [
+        { text: "Back to the sparks and cursing." }
+      ]
+    },
+    storm: {
+      opener: [
+        { text: "Storm’s great for charging batteries. Not so great for staying alive." }
+      ]
+    },
+    winter: {
+      opener: [
+        { text: "Cold makes everything brittle. Including my patience." }
+      ]
+    }
+  })
+
+  GameData::NPC.set_dialog(:POKECAFE, {
+    default: {
+      opener: [
+        { text: "Hiya! What’ll it be today, sweet or spicy?" }
+      ],
+      chat: [
+        { prompt: "What’s your specialty?", response: "Lava Cookies with a berry glaze. Sweet heat is my style!" },
+        { prompt: "Why start a café?", response: "It’s the little smiles. People unwind when there’s something warm in their hands." },
+        { prompt: "Any regulars?", response: "A Zorua sneaks in every Thursday. Pretends to be a customer." }
+      ],
+      closer: [
+        { text: "Come back soon, cutie — I mean, customer!" }
+      ]
+    },
+    work: {
+      opener: [
+        { text: "Watch the counter while I flip these Poképuffs?" }
+      ],
+      chat: [
+        { prompt: "Can I help?", response: "If you can stir and smile, you’re hired!" }
+      ],
+      shop: [
+        { prompt: "Treats and Items", response: "What can I get for you?" }
+        #{ prompt: "Pokemon Massage", response: "Which lil critter needs some affection?" }
+      ],
+    },
+    winter: {
+      opener: [
+        { text: "Hot cocoa? I've got five kinds." }
+      ]
+    }
+  })
+
   GameData::NPC.set_dialog(:RANCHER, {
     default: {
       opener: [
@@ -74,35 +145,6 @@ def load_dialogs
     }
   })
 
-  GameData::NPC.set_dialog(:POKECAFE, {
-    default: {
-      opener: [
-        { text: "Hiya! What’ll it be today, sweet or spicy?" }
-      ],
-      chat: [
-        { prompt: "What’s your specialty?", response: "Lava Cookies with a berry glaze. Sweet heat is my style!" },
-        { prompt: "Why start a café?", response: "It’s the little smiles. People unwind when there’s something warm in their hands." },
-        { prompt: "Any regulars?", response: "A Zorua sneaks in every Thursday. Pretends to be a customer." }
-      ],
-      closer: [
-        { text: "Come back soon, cutie — I mean, customer!" }
-      ]
-    },
-    work: {
-      opener: [
-        { text: "Watch the counter while I flip these Poképuffs?" }
-      ],
-      chat: [
-        { prompt: "Can I help?", response: "If you can stir and smile, you’re hired!" }
-      ]
-    },
-    winter: {
-      opener: [
-        { text: "Hot cocoa? I've got five kinds." }
-      ]
-    }
-  })
-
   GameData::NPC.set_dialog(:PROGRAMMER, {
     default: {
       opener: [
@@ -128,43 +170,6 @@ def load_dialogs
     storm: {
       opener: [
         { text: "Thunderstorm? Perfect ambiance." }
-      ]
-    }
-  })
-
-  GameData::NPC.set_dialog(:ENGINEER, {
-    default: {
-      opener: [
-        { text: "Careful where you step. One wrong move and the whole circuit shorts." }
-      ],
-      chat: [
-        { prompt: "What are you building?", response: "Right now? A solar-powered Pokéball printer. Don't ask." },
-        { prompt: "Why so many gadgets?", response: "Because everything breaks. People, too." },
-        { prompt: "Do you ever sleep?", response: "Only during firmware updates." }
-      ],
-      closer: [
-        { text: "Let me know if you find a rare alloy or a therapist." }
-      ]
-    },
-    work: {
-      opener: [
-        { text: "Wiring up a voltage regulator. Try not to breathe too loud." }
-      ],
-      chat: [
-        { prompt: "Can I help?", response: "Got a steady hand and 0.01mm precision? No? Thought so." }
-      ],
-      closer: [
-        { text: "Back to the sparks and cursing." }
-      ]
-    },
-    storm: {
-      opener: [
-        { text: "Storm’s great for charging batteries. Not so great for staying alive." }
-      ]
-    },
-    winter: {
-      opener: [
-        { text: "Cold makes everything brittle. Including my patience." }
       ]
     }
   })

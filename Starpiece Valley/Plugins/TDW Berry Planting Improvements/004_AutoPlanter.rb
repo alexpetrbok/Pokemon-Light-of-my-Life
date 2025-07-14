@@ -1,7 +1,12 @@
-def pbAutoPlantBerry(events, map = nil)
+def pbAutoPlantBerry(events = nil, map = nil)
+    events ||= pbGetBerryPlantEvents
     if !PluginManager.installed?("TDW Berry Core and Dex","1.1")
         Console.echo_warn("TDW Berry Core and Dex v1.1 is required to use autoplanting.") 
         return pbMessage(_INTL("Autoplanting cannot be done."))
+    end
+    if Settings::BERRY_USE_BERRY_SEEDS
+        Console.echo_warn("Autoplanting berry seeds is not yet supported.") 
+        return pbMessage(_INTL("Oh I don't know how to plant seeds yet. Maybe one day."))
     end
     pbMessage(_INTL("I can plant some Berries for you!"))
     return if !pbConfirmMessage(_INTL("Do you want me to plant some of your Berries?"))
@@ -26,9 +31,10 @@ def pbAutoPlantBerry(events, map = nil)
     end
 end
 
-def pbPlantBerriesAutomatically(events, map_id, berries)
+def pbPlantBerriesAutomatically(events = nil, map_id, berries)
     map_id ||= $game_map.map_id
     berries.shuffle!
+    events ||= pbGetBerryPlantEvents
     events.each {|event|
         data = $PokemonGlobal.eventvars[[map_id,event]]
         next Console.echo_warn _INTL("Event #{event} doesn't have BerryPlantData.")  if data.nil? || !data.is_a?(BerryPlantData) 
@@ -40,4 +46,8 @@ def pbPlantBerriesAutomatically(events, map_id, berries)
     }
     #$scene.updateSpritesets
     return berries.empty? ? nil : berries
+end
+
+def pbGetBerryPlantEvents
+  return $game_map.events.values.select { |event| event.name.downcase.include?("berryplant") }
 end

@@ -37,18 +37,87 @@ module NPCSystem
   end
 
   # ---------- Daily Gifts ----------
-  def self.gift_count(npc_id)
+  def self.track_gift_given(npc_id, weight = 1)
     @daily_gifts[npc_id] ||= 0
+    @daily_gifts[npc_id] += weight
   end
 
-  def self.give_gift(npc_id)
-    @daily_gifts[npc_id] ||= 0
-    @daily_gifts[npc_id] += 1
+  def self.gift_limit_reached?(npc_id)
+    (@daily_gifts[npc_id] || 0) >= 5
   end
+
 
   def self.reset_daily_gifts
     @daily_gifts.clear
     @daily_gifts_detailed.clear
+  end
+
+  def self.gift_type_weight(item)
+    data = GameData::Item.get(item)
+    return 2 if data.is_evolution_stone? || data.is_fossil? || data.price >= 3000
+    1
+  end
+
+  def self.give_gift(npc_id)
+    npc = GameData::NPC.try_get(npc_id)
+    return unless npc
+
+  
+    item = pbChooseItem
+    return unless item
+
+    # Relationship item logic
+    if item == :STARPIECE_NECKLACE
+      if affection(npc_id) > 200 && npc.relationship_state == :Single
+        npc.relationship_state = :Dating_Player
+        pbMessage("#{npc.name} accepts the Starpiece Necklace. You're now dating!")
+      else 
+        pbMessage("#{npc.name} doesn't feel ready for something that serious...")
+        return
+      end
+    elsif item == :SOULDEW_RING
+      if affection(npc_id) > 700 && npc.relationship_state == :Dating_Player
+        npc.relationship_state = :Married_Player
+        pbMessage("#{npc.name} accepts the Souldew Ring. You're going to get married!")
+      else
+        pbMessage("#{npc.name} looks away... This moment isn't right.")
+        return
+      end
+    end
+
+    return if GameData::Item.get(item).is_important?
+
+    gift_weight = gift_type_weight(item)
+    if gift_limit_reached?(npc_id) || (@daily_gifts[npc_id] || 0) + gift_weight > 5
+      pbMessage("You've already given too many gifts today.")
+      return
+    end
+
+    # Calculate affection
+    base_affection = npc.fav_gifts[item] || (npc.bad_gifts[item] ? -2 : 1)
+
+    # Relationship multiplier
+    multiplier = case npc.relationship_state
+                when :Dating_Player then 2
+                when :Married_Player then 3
+                else 1
+                end
+
+    total_affection = base_affection * multiplier
+
+    # Gift limit tracking
+    weight = gift_type_weight(item)
+    if gift_limit_reached?(npc_id) || (@daily_gifts[npc_id] || 0) + weight > 5
+      pbMessage("You've already given too many gifts today.")
+      return
+    end
+
+    # Give gift
+    pbMessage("#{npc.name} accepts your #{GameData::Item.get(item).name}!")
+    track_gift_given(npc_id, gift_weight)
+    add_affection(npc_id, total_affection)
+    $bag.remove(item)
+    pbShowItemDisplay(item, -1)
   end
 
   # Placeholder - called once per day per NPC
@@ -57,48 +126,69 @@ module NPCSystem
     reset_daily_gifts
   end
 
-  def self.start_interaction(npc_input)
+  def self.talk_to(npc_input)
     npc = npc_input.is_a?(Symbol) || npc_input.is_a?(String) ? GameData::NPC.try_get(npc_input.to_sym) : npc_input
-    
     return unless npc
 
-    show_dialog(npc, :opener)
+    show_dialog(npc.id, :opener)
     npc_main_loop(npc)
-    show_dialog(npc, :closer)
+    show_dialog(npc.id, :closer)
   end
 
   def self.npc_main_loop(npc)
     loop do
-      cmd = pbMessage("What would you like to do?", ["Chat", "Gift", "Activity", "Bye"], 4)
-      case cmd
-      when 0 then show_dialog(npc, :chat)
-      when 1 then give_gift(npc.id)
-      when 2 then do_activity(npc.id)
-      else break
+      choices = []
+      actions = []
+
+      # Shop only if working
+      if npc.state == :work
+        choices << "Shop"
+        actions << -> { show_dialog(npc.id, :shop) }
       end
+
+      # Always available
+      choices << "Chat"
+      actions << -> { show_dialog(npc.id, :chat) }
+
+      choices << "Give Gift"
+      actions << -> { give_gift(npc.id) }
+
+      
+
+      # Activities only if at home or leisure
+      if [:home, :leisure].include?(npc.state)
+        choices << "Spend Time"
+        actions << -> { show_dialog(npc.id, :activity) }
+      end
+
+      # 🔒 Placeholder checks for future filtering of dialog types
+      # if npc.affection >= 100
+      #   choices << "Special Event"
+      #   actions << -> { show_dialog(npc.id, :event) }
+      # end
+
+      # if npc.relationship_state == :dating
+      #   choices << "Date"
+      #   actions << -> { start_date_scene(npc.id) }
+      # end
+
+      # if quest_active?(:gardener_help)
+      #   choices << "Ask about Garden"
+      #   actions << -> { show_dialog(npc.id, :quest) }
+      # end
+
+      choices << "[Back]"
+      choice = pbMessage("What would you like to do?", choices)
+      break if choice == choices.size - 1
+
+      actions[choice].call
     end
   end
 
-  def self.start_work_interaction(npc_input)
+
+
+  def self.show_dialog(npc_input, type)
     npc = npc_input.is_a?(Symbol) || npc_input.is_a?(String) ? GameData::NPC.try_get(npc_input.to_sym) : npc_input
-    return unless npc
-
-    show_dialog(npc, :opener)
-    loop do
-      cmd = pbMessage("What would you like to do?", ["Shop", "Sell", "Chat", "Gift", "Bye"], 5)
-      case cmd
-      when 0 then open_shop(npc_id)
-      when 1 then open_sell(npc_id)
-      when 2 then show_dialog(npc, :chat)
-      when 3 then give_gift(npc.id)
-      else break
-      end
-    end
-    show_dialog(npc, :closer)
-  end
-
-  def self.show_dialog(npc, type)
-    #npc = npc_input.is_a?(Symbol) || npc_input.is_a?(String) ? GameData::NPC.try_get(npc_input.to_sym) : npc_input
     unless npc
       puts "❌ NPC not found: #{npc_input.inspect}"
       return
@@ -152,36 +242,6 @@ module NPCSystem
   end
 
 
-  def self.give_gift(npc_id)
-    npc = GameData::NPC.try_get(npc_id)
-    return unless npc
-
-    items = $PokemonBag.all_items
-    item_choices = items.map { |i| [GameData::Item.get(i).name, i] }
-    choice = pbChooseItem(item_choices)
-    return unless choice
-
-    type = get_gift_type(choice)
-    daily_gifts = NPCSystem.give_gift(npc_id)
-    limit = type == :treasure ? 1 : 3
-    if daily_gifts[type] >= limit
-      pbMessage("You've already given too many #{type.to_s.capitalize}s today.")
-      return
-    end
-
-    affection = npc.gifts[choice.upcase] || 1
-    update_affection(npc_id, affection)
-    pbMessage("#{npc.name} accepted the #{GameData::Item.get(choice).name}!")
-    daily_gifts[type] += 1
-    $PokemonBag.remove(choice)
-  end
-
-  def self.get_gift_type(item_symbol)
-    data = GameData::Item.get(item_symbol)
-    return :treasure if data.is_evolution_stone? || data.is_fossil?
-    return :snack if data.is_berry? || data.is_medicine?
-    :snack
-  end
 
   def self.do_activity(npc_id)
     # Placeholder - perform an activity with this NPC
@@ -189,15 +249,6 @@ module NPCSystem
     update_affection(npc_id, 2)
   end
 
-  def self.open_shop(npc_id)
-    # Placeholder - opens the NPC's shop
-    pbMessage("Opening shop...")
-  end
-
-  def self.open_sell(npc_id)
-    # Placeholder - lets player sell items to the NPC
-    pbMessage("Selling items...")
-  end
 
 
 #===============================================================================
@@ -231,10 +282,11 @@ module NPCSystem
   end
 
   def self.daily_schedule_update
-    GameData::NPC.each do |npc|
-      NPCSystem.daily_npc_update(npc.id)
-      run_schedule_for(npc.id)
-    end
+    NPCSystem.daily_npc_update
+    #GameData::NPC.each do |npc|
+      #NPCSystem.daily_npc_update(npc.id)
+      #run_schedule_for(npc.id)
+    #end
   end
 
   def get_schedule_for_today(npc)
@@ -272,6 +324,39 @@ def npc_in_state?(npc, state)
   return active_state == state
 end
 
+def debug_set_all_npcs_relationship
+  affection_levels = {
+    "💙 50 (Acquaintance)" => 50,
+    "💖 300 (Dating Threshold)" => 300,
+    "💍 950 (Marriage Threshold)" => 950
+  }
+
+  relationship_states = {
+    "🔓 Single" => :single,
+    "💞 Dating Player" => :Dating_Player,
+    "💘 Dating Spouse (Other)" => :Dating_Spouse,
+    "💍 Married Player" => :Married_Player,
+    "💔 Married Spouse (Other)" => :Married_Spouse
+  }
+
+  aff_choice = pbMessage("Set affection to:", affection_levels.keys)
+  return if aff_choice < 0
+  aff_value = affection_levels.values[aff_choice]
+
+  state_choice = pbMessage("Set relationship state to:", relationship_states.keys)
+  return if state_choice < 0
+  state_value = relationship_states.values[state_choice]
+
+  GameData::NPC.each do |npc|
+    NPCSystem.set_affection(npc.id, aff_value)
+    npc.relationship_state = state_value
+  end
+
+  $bag.add(:STARPIECENECKLACE, 5)
+  $bag.add(:SOULDEWRING, 5)
+
+  pbMessage("All NPCs updated: Affection = #{aff_value}, State = #{state_value}")
+end
 
 
 #===============================================================================
@@ -354,7 +439,7 @@ module GameData
 
     def self.load
       @@data.clear
-      load_test_npcs
+      load_npcs
     end
 
 
@@ -382,13 +467,8 @@ def pbNPC(id, interaction_type = :talk)
 
   # Handle daily affection bonus
   NPCSystem.interacted_today?(id)
-
-  # Run appropriate interaction
-  case interaction_type
-  when :talk     then NPCSystem.start_interaction(npc)
-  when :work     then NPCSystem.start_work_interaction(npc)
-  else pbMessage("Unknown interaction type.")
-  end
+  
+  NPCSystem.talk_to(npc)
 
   # Close portraits
   Rf.close_portrait

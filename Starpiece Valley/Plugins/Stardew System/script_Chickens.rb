@@ -252,7 +252,7 @@ def pbInitializeChickenSlots
   chicken_events.each do |event|
     species = GameData::Chicken::DATA.keys.sample
     $chicken_slots << ChickenData.new(species, event.id)
-    event.character_name = "Followers/#{species.to_s.upcase}"
+    event.character_name = species.sprite_name
   end
 end
 
@@ -273,6 +273,7 @@ def pbGetChickenBySlot(slot)
   return chicken
 end
 
+#===============================================================================
 # Compile chicken data on game load
 # Add to the very end of your script:
 #$Events.on_start_game += proc {
@@ -474,23 +475,153 @@ def pbCollectEggs(chicken = nil)
   end
 end
 
-def pbUpdateChickenOutsideStatus
-  $chicken_slots.each do |chicken|
-    chicken_data = GameData::Chicken.get(chicken.species)
-    season = pbGetSeason
-    weather = $game_screen.weather_type
-
-    if chicken_data.season_pref == season || chicken_data.season_pref == :All
-      if chicken_data.weather_pref == weather
-        chicken.went_outside = 2 # Favorite weather/season
-      else
-        chicken.went_outside = 1 # Went outside, but not favorite weather/season
-      end
-    else
-      chicken.went_outside = 0 # Stayed inside
-    end
+def pbOutdoorChickens
+  # Get current environment data
+  current_weather = $WeatherSystem.actualWeather[0].mainWeather
+  current_season = pbGetSeason
+  is_outdoor = $game_map.metadata&.outdoor_map
+  
+  # Debug header
+  season_name = ["Spring", "Summer", "Fall", "Winter"][current_season] || "Unknown"
+  weather_name = WeatherConfig.weather_names[current_weather] || "None"
+  
+  puts "======================================="
+  puts "Chicken Outdoor Check"
+  puts "Current Map: #{$game_map.name} (#{$game_map.map_id})"
+  puts "Outdoor Map: #{is_outdoor ? 'Yes' : 'No'}"
+  puts "Season: #{season_name}"
+  puts "Weather: #{weather_name}"
+  puts "======================================="
+  
+  # Clear existing chicken events if not already done
+  ChickenSlotManager.slots.each_with_index do |chicken, slot_idx|
+    next unless chicken
+    event_id = ChickenSlotManager::BASE_EVENT_ID + slot_idx
+    $game_map.events[event_id]&.erase
   end
+  
+  # Process each chicken slot
+  ChickenSlotManager.slots.each_with_index do |chicken, slot_idx|
+    next unless chicken  # Skip empty slots
+    
+    chicken_data = GameData::Chicken.get(chicken.species)
+    next unless chicken_data  # Skip if no chicken data
+    
+    # Check if this chicken should be outdoors
+    should_be_outside = false
+    
+    if is_outdoor
+      # Check weather preference (convert symbols to match your weather system)
+      weather_match = case chicken_data.weather_pref
+                      when :Sunny then current_weather == :Sun
+                      when :Rain then current_weather == :Rain
+                      when :Snow then current_weather == :Snow
+                      when :Fog then current_weather == :Fog
+                      when :Clear then current_weather == :None
+                      else false
+                      end
+      
+      # Check season preference
+      season_match = case chicken_data.season_pref
+                     when :Spring then current_season == 0
+                     when :Summer then current_season == 1
+                     when :Fall then current_season == 2
+                     when :Winter then current_season == 3
+                     when :All then true
+                     else false
+                     end
+      
+      should_be_outside = weather_match || season_match
+
+    end
+    
+    # Spawn or hide the chicken accordingly
+    event_id = ChickenSlotManager::BASE_EVENT_ID + slot_idx
+    if should_be_outside
+      # Spawn chicken outdoors
+      x, y = 64, 32 + slot_idx
+      sprite_path = chicken.sprite_name
+      
+      if $game_map.events[event_id]
+        event = $game_map.events[event_id]
+        event.moveto(x, y)
+        event.character_name = sprite_path
+      else
+        pbSpawnEvent(
+          event_id,
+          x, y,
+          sprite_path,
+          "pbChicken(#{slot_idx})",
+          "Chicken_#{slot_idx}",
+          1
+        )
+      end
+      chicken.went_outside = 2  # Mark as being outside in preferred conditions
+    else
+      # Hide chicken (move to indoor position or erase)
+      x, y = ChickenSlotManager.get_chicken_coordinates(slot_idx, true)
+      if $game_map.events[event_id]
+        event = $game_map.events[event_id]
+        event.moveto(x, y)
+        event.character_name = ""  # Hide sprite
+      end
+      chicken.went_outside = 0  # Mark as being inside
+    end
+    
+    # Debug output for this chicken
+    puts "Slot #{slot_idx + 1}: #{chicken.species}"
+    puts "  Current Match: Weather #{weather_match ? '✓' : '✗'}, Season #{season_match ? '✓' : '✗'}"
+    puts "  Outdoor Status: #{should_be_outside ? 'SHOULD BE OUTSIDE' : 'should stay inside'}"
+    puts "  Current Location: #{chicken.went_outside == 2 ? 'Outside (happy)' : chicken.went_outside == 1 ? 'Outside' : 'Inside'}"
+    puts "---------------------------------------"
+
+    event = $game_map.events[event_id]
+    event&.refresh
+  end
+  
+  $game_map.need_refresh = true
 end
+
+def pbSpawnEvent(event_id, x, y, sprite_name, trigger_condition, event_name, direction = 2)
+  # Create a new RPG::Event object
+  new_event = RPG::Event.new(x, y)
+  new_event.id = event_id
+  new_event.name = event_name || "Event#{event_id}"
+
+  # Create a new event page
+  new_page = RPG::Event::Page.new
+  new_page.graphic.character_name = sprite_name
+  new_page.graphic.character_hue = 0
+  new_page.graphic.direction = direction
+  new_page.graphic.pattern = 2
+  
+  
+  
+
+  # Action Button trigger
+  new_page.trigger = 0
+
+  # Add interaction script if provided
+  if trigger_condition
+    new_page.list = [RPG::EventCommand.new(355, 0, [trigger_condition])]
+  else
+    new_page.list = [RPG::EventCommand.new(0)]
+  end
+
+  # Assign page and add to map
+  new_event.pages = [new_page]
+  $game_map.events[event_id] = Game_Event.new($game_map.map_id, new_event)
+
+  # Force refresh
+  $game_map.events[event_id].transparent = false
+  $game_map.events[event_id].through = false
+  $game_map.events[event_id].refresh
+  $scene.spriteset&.update  # Force redraw if in-game
+
+  puts "Spawned chicken #{sprite_name} at (#{x}, #{y})"
+  return $game_map.events[event_id]
+end
+
 
 #===============================================================================
 # Chicken Slot System with Event Spawning
@@ -548,8 +679,8 @@ module ChickenSlotManager
     event.character_name = sprite_path
     event.refresh
 
-    $PokemonGlobal.dynamic_event_ids << event_id
-    pbForceMapRefresh
+    #$PokemonGlobal.dynamic_event_ids << event_id
+    #pbForceMapRefresh
   end
 
   def self.get_chicken_coordinates(slot_idx, indoor=false)

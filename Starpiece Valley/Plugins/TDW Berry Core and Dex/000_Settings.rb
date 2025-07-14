@@ -7,7 +7,7 @@ module Settings
         # If true, the Berrydex will appear in the Pause Menu if the player has access. 
         # Otherwise, you'll need to set up other ways to view it using pbBerryDex.
         #--------------------------------------------------------------------------------	
-        SHOW_BERRYDEX_IN_PAUSE_MENU       = false
+        SHOW_BERRYDEX_IN_PAUSE_MENU       = true
 
         #--------------------------------------------------------------------------------
         # If true, any berries you receive before you get the BerryDex will not be 

@@ -1,4 +1,18 @@
 ﻿#-------------------------------
+[STARPIECENECKLACE]
+Name = Starpiece Necklace
+NamePlural = Starpiece Necklaces
+Pocket = 1
+Price = 50000
+Description = A sparkling necklace said to carry the light of the stars. Given to someone shows your romantic feelings.
+#-------------------------------
+[SOULDEWRING]
+Name = Souldew Ring
+NamePlural = Souldew Rings
+Pocket = 1
+Price = 100000
+Description = A beautiful pair of rings soul-bonded together, a symbol of deep commitment and love. Given to your soulmate to propose marriage. 
+#-------------------------------
 [DAYCARESIGHT]
 Name = Day-Care Sight
 NamePlural = Day-Care Sights

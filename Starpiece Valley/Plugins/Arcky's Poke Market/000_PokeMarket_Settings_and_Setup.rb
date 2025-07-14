@@ -140,6 +140,29 @@ module APMSettings
     OutroTextSaturday: ["Thank you for your purchase. \nEnjoy the rest of your Saturday."]
   }
 
+  DefaultSeller = {
+    IntroText: ["Hi there. Take a look at what we have today."],
+    CategoryText: ["What kind of item are you looking for?"],
+    BuyItemAmount: ["How many {1} would you like?"],
+    BuyItemAmountDiscount: ["{1} is on sale for {2} instead of {3}. How many would you like?"],
+    BuyItemAmountOvercharge: ["{1} is currently {2} instead of {3}. How many would you like?"],
+    BuyItem: ["You want {1} {2}? That’ll be {3}."],
+    BuyItemMult: ["You want {1} {2}? That’ll be {3}."],
+    BuyItemImportant: ["You want {1}? That’ll be {2}."],
+    BuyOutOfStock: ["Sorry, we’re out of {1}. More expected {2}."],
+    BuyThanks: ["Thanks for your purchase."],
+    BuyBonusMult: ["Here’s a little something extra: {1}."],
+    NotEnoughMoney: ["You don’t have enough money."],
+    NoRoomInBag: ["Looks like your bag’s full."],
+    SellItemAmount: ["How many {1} do you want to sell?"],
+    SellItem: ["I can offer {1} for that. Sound good?"],
+    CantSellItem: ["Sorry, I can’t buy that item."],
+    MenuReturnText: ["Anything else you need?"],
+    BillCheckOut: ["That’ll be {2} for {1}."],
+    OutroText: ["See you again."]
+  }
+
+
   ShelfOne = {
     # Text when talking to a shelf in the mart.
     IntroShelf: ["Is there anything catching your eye?", "How nice, you can buy items from the shelf now too! :P"],
@@ -168,7 +191,25 @@ module APMSettings
     # Text when removing an item from your basket (changing the amount to 0). {1} = quantity {2} item name {3} bill decreased by x amount.
     ShelfRemoveAmountItem: ["You removed {1} {2} from you basket. Your bill was decreased by {3}", "{1} {2} were removed from your basket. Your bill has decrease by {3}"],
   }
+
+  DefaultShelf = {
+    IntroShelf: ["Feel free to browse. Grab what you need."],
+    ShelfAmountItem: ["How many {1} would you like to add to your basket?"],
+    ShelfChangeAmountItem: ["You have {2} {1} in your basket. Change amount?"],
+    ShelfLimitAmountItem: ["That’s the most {1} we have in stock."],
+    ShelfOutOfStock: ["We’re out of {1}, try again {2}."],
+    ShelfItemAmountDiscount: ["{2} is discounted. How many do you want?"],
+    ShelfItemAmountOvercharge: ["{2} is marked up today. How many do you want?"],
+    NotEnoughMoney: ["You don’t have enough {1} to add {2}."],
+    NotEnoughMoneyItem: ["You're out of {1}. Adjust your {2} amount?"],
+    NotEnoughMoneyAmount: ["How many {1} do you want instead?"],
+    ShelfIncreaseAmountItem: ["Added {1} {2}. Bill increased by {3}."],
+    ShelfDecreaseAmountItem: ["Removed {1} {2}. Bill decreased by {3}."],
+    ShelfRemoveAmountItem: ["Removed {1} {2}. Bill adjusted by {3}."]
+  }
+
 end
+
 
 # If it would be easier to setup stores here then you only need to add an event script line saying pbStore1 or whatever you called the method.
 # Since you're more limited in space in the event, it could be easier to manage your stores here (or you can make .rb files for each store)
@@ -205,4 +246,101 @@ def pbTmShelf
     ["daily",
       [:TM01, 3], :TM02, :TM03, :TM04, :TM05, :TM06, :TM07, :ESCAPEROPE
     ], currency: "coins")
+end
+
+
+# -------------------------------
+# 🏥 Pokecenter Shelf
+def pbShelfPokecenter
+  pbShelfMart([
+    :POTION, :SUPERPOTION, :HYPERPOTION, :MAXPOTION, :FULLRESTORE,
+    :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :BURNHEAL, :ICEHEAL,
+    :FULLHEAL, :REVIVE, :MAXREVIVE,
+    :ETHER, :MAXETHER, :ELIXIR, :MAXELIXIR,
+    :POKEBALL, :GREATBALL
+  ], speech: "DefaultShelf")
+end
+
+# -------------------------------
+# 🐄 Rancher Shop
+def pbShopRancher
+  pbPokemonMart([
+    :MIRACLESEED, :SOFTSAND, :HONEY, :MULCH,
+    :MOOMOOMILK, :LUMIOSEGALETTE
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# 🌿 Gardener Shop
+def pbShopGardener
+  pbPokemonMart([
+    :ORANBERRY, :SITRUSBERRY, :LUMBERRY, :CHERIBERRY,
+    :PECHABERRY, :RAWSTBERRY, :LEPPABERRY,
+    :MULCH, :SPRAYDUCK, :HM_CUT
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# 🍰 Pokecafe Shop
+def pbShopPokecafe
+  pbPokemonMart([:RARECANDY,
+    :PROTEIN, :IRON, :CARBOS, :CALCIUM, :ZINC, :HPUP,
+    :REPEL, :SUPERREPEL,
+    :SEAINCENSE, :LUCKINCENSE, :SOOTHEBELL
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# ☕ Cafe Shop
+def pbShopCafe
+  pbPokemonMart([
+    :MOOMOOMILK, :CASTELIACONE, :LAVACOOKIE, :OLDGATEAU,
+    :TINYMUSHROOM, :BIGMUSHROOM, :BALMMUSHROOM,
+    :HONEY, :FRESHWATER, :LEMONADE, :SODAPOP,
+    :ENERGYPOWDER, :HEALPOWDER, :COFFEE
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# ⚒️ Blacksmith Shop
+def pbShopBlacksmith
+  pbPokemonMart([
+    :POKEBALL, :GREATBALL, :ULTRABALL,
+    :HEAVYBALL, :DUSKBALL, :FRIENDBALL, :QUICKBALL, :NESTBALL,
+    :REPEATBALL, :TIMERBALL, :LUXURYBALL, :NETBALL, :DIVEBALL,
+    :HM_ROCKSMASH,
+    :METALCOAT, :UPGRADE, :DUBIOUSDISC, :PROTECTOR, :MAGMARIZER,
+    :ELECTIRIZER, :REAPERCLOTH, :DEEPSEATOOTH, :DEEPSEASCALE,
+    :KINGSROCK, :RAZORCLAW, :RAZORFANG, :DRAGONSCALE
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# 🧭 Adventurer Shop
+def pbShopAdventurer
+  pbPokemonMart([
+    :REPEL, :SUPERREPEL, :MAXREPEL, :ESCAPEROPE,
+    :DOWSINGMCHN, :TREASUREMAP,
+    :FIRESTONE, :WATERSTONE, :THUNDERSTONE, :LEAFSTONE,
+    :MOONSTONE, :SUNSTONE, :SHINYSTONE, :DUSKSTONE, :DAWNSTONE, :ICESTONE,
+    :LEFTOVERS, :BLACKBELT, :HARDSTONE, :MAGNET, :NEVERMELTICE, :SCOPELENS,
+    :EXPSHARE, :FOCUSBAND, :QUICKCLAW
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# 🌊 Diver Shop
+def pbShopDiver
+  pbPokemonMart([
+    :OLDROD, :GOODROD, :SUPERROD,
+    :BAIT, :HM_SURF, :HM_DIVE
+  ], speech: "DefaultSeller", useCat: true)
+end
+
+# -------------------------------
+# 🐦 Birdkeeper Shelf Only
+def pbShelfBirdkeeper
+  pbShelfMart([
+    :AIRMAIL, :BUBBLEMAIL, :FLAMEMAIL, :FLOWERMESSAGE, :HM_FLY
+  ], speech: "DefaultShelf")
 end
