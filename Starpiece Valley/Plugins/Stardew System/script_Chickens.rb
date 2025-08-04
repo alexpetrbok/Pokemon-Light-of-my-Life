@@ -164,14 +164,6 @@ class ChickenData
     @eggs_ready = [@eggs_ready, 3].min
   end
 
-  def daily_interaction(slot)# Daily interaction
-    chicken = ChickenSlotManager.slots[slot]
-    unless chicken.interacted_today
-      chicken.happiness = [chicken.happiness + 10, 255].min
-      chicken.interacted_today = true
-      pbMessage("#{chicken.species} enjoyed the attention!")
-    end
-  end
 end
 
 #===============================================================================
@@ -273,6 +265,15 @@ def pbGetChickenBySlot(slot)
   return chicken
 end
 
+def daily_interaction(chicken)# Daily interaction
+  #chicken = ChickenSlotManager.slots[slot]
+  unless chicken.interacted_today
+    chicken.happiness = [chicken.happiness + 10, 255].min
+    chicken.interacted_today = true
+    pbMessage("#{chicken.species} enjoyed the attention!")
+  end
+end
+
 #===============================================================================
 # Compile chicken data on game load
 # Add to the very end of your script:
@@ -323,6 +324,15 @@ def pbChicken(slot)
       break
     end
   end
+end
+
+def get_chicken_by_pokemon(pkmn)
+  return nil unless pkmn
+  ChickenSlotManager.slots.each do |chicken|
+    next unless chicken && chicken.pokemon
+    return chicken if chicken.pokemon == pkmn
+  end
+  return nil
 end
 
 #===============================================================================
@@ -452,8 +462,6 @@ def pbCollectEggs(chicken = nil)
       pbMessage("Collected #{chicken.egg_count} #{GameData::Item.get(item).name} from #{chicken.species}!")
       chicken.egg_count = 0 # Reset egg count
       chicken.egg_flag = false # Reset egg flag
-    else
-      pbMessage("No eggs to collect from #{chicken.species}.")
     end
   else
     # Collect eggs from all chickens
@@ -808,4 +816,61 @@ def pbReturnChickenToPC(slot_idx)
     pbEraseThisEvent
   end
 
+end
+
+def swap_chicken(chicken)
+  slot_idx = ChickenSlotManager.slots.index(chicken)
+  return pbMessage("Couldn't find chicken slot.") if slot_idx.nil?
+
+  commands = [
+    _INTL("Swap with Party Pokémon"),
+    _INTL("Swap with Box Pokémon"),
+    _INTL("Send to PC"),
+    _INTL("Cancel")
+  ]
+  choice = pbMessage(_INTL("What would you like to do with {1}?", chicken.pokemon.name), commands, -1)
+
+  case choice
+  when 0  # Swap with Party
+    pbChoosePokemon(1, 2)  # Store selection in $game_variables[1]
+    party_idx = $game_variables[1]
+    return pbMessage("Cancelled.") if party_idx.nil? || party_idx < 0
+    party_pkmn = $player.party[party_idx]
+    return pbMessage("No Pokémon in that slot.") unless party_pkmn
+
+    # Swap the Pokémon
+    $player.party[party_idx] = chicken.pokemon
+    ChickenSlotManager.slots[slot_idx] = ChickenData.new(party_pkmn, ChickenSlotManager::BASE_EVENT_ID + slot_idx)
+    pbMessage(_INTL("Swapped with {1} from your party!", party_pkmn.name))
+
+  when 1  # Swap with Box
+    scene = PokemonStorageScene.new
+    screen = PokemonStorageScreen.new(scene, $PokemonStorage)
+    box_selection = screen.pbChoosePokemon
+    return pbMessage("Cancelled.") unless box_selection
+
+    box, index = box_selection
+    box_pkmn = $PokemonStorage[box, index]
+    return pbMessage("No Pokémon in that box slot.") unless box_pkmn
+
+    # Swap the Pokémon
+    $PokemonStorage[box, index] = chicken.pokemon
+    ChickenSlotManager.slots[slot_idx] = ChickenData.new(box_pkmn, ChickenSlotManager::BASE_EVENT_ID + slot_idx)
+    pbMessage(_INTL("Swapped with {1} from the PC!", box_pkmn.name))
+
+  when 2  # Send to PC
+    if $PokemonStorage.pbStoreCaught(chicken.pokemon)
+      ChickenSlotManager.slots[slot_idx] = nil
+      pbMessage(_INTL("{1} was sent to the PC.", chicken.pokemon.name))
+    else
+      pbMessage("No space in the PC to store this chicken.")
+    end
+
+  else
+    # Cancelled or Exit
+    pbMessage("Cancelled.")
+  end
+
+  # Refresh chicken visuals
+  $box_ranch.setup_ranch_pokemon if $box_ranch
 end
