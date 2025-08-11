@@ -109,7 +109,7 @@ end
 #===============================================================================
 class ChickenData
   attr_accessor :species, :hunger, :happiness,:egg_count, :event_id
-  attr_accessor :interacted_today, :went_outside, :egg_flag, :shiny
+  attr_accessor :interacted_today, :went_outside, :shiny
   attr_accessor :pokemon 
 
   def initialize(pkmn, event_id)
@@ -122,7 +122,6 @@ class ChickenData
     @egg_count = 0
     @interacted_today = false
     @went_outside = 0
-    @egg_flag = false
   end
 
   def sprite_name
@@ -416,7 +415,8 @@ end
 # Egg Functions
 #===============================================================================
 def pbProduceEggs
-  $chicken_slots.each do |chicken|
+  #$chicken_slots.each do |chicken|
+  ChickenSlotManager.slots.compact.each do |chicken|
     # Update hunger
     if chicken.went_outside >= 1
       chicken.hunger = 100 # Outdoor chickens always full
@@ -425,8 +425,8 @@ def pbProduceEggs
       chicken.hunger = [chicken.hunger, 0].max
     end
 
-    # Produce eggs if conditions are met and egg_flag is false
-    if !chicken.egg_flag && chicken.hunger > 50
+    # Produce eggs if conditions are met
+    if  chicken.hunger > 20
       chicken.egg_count = 0
       # Base 50% chance for 1 egg
       chicken.egg_count += 1 if rand(100) < 50
@@ -436,13 +436,14 @@ def pbProduceEggs
       if chicken.went_outside == 2 # Favorite weather/season
         chicken.egg_count += 1 if rand(100) < 20
       end
-      chicken.egg_flag = true # Prevent continuous egg production
+      
     end
 
-    # Reset went_outside for the next day
+    # Reset chicken for the next day
     chicken.went_outside = 0
+    chicken.interacted_today = false
   end
-  pbMessage("Eggs have been produced for all chickens!")
+  #pbMessage("Eggs have been produced for all chickens!")
 end
 
 def pbCheckStats(chicken)
@@ -459,27 +460,29 @@ def pbCollectEggs(chicken = nil)
     if chicken.egg_count > 0
       item = GameData::Chicken.get(chicken.species).item
       $bag.add(item, chicken.egg_count)
-      pbMessage("Collected #{chicken.egg_count} #{GameData::Item.get(item).name} from #{chicken.species}!")
+      pbShowItemDisplay(item, chicken.egg_count)
+      #pbMessage("Collected #{chicken.egg_count} #{GameData::Item.get(item).name} from #{chicken.species}!")
       chicken.egg_count = 0 # Reset egg count
-      chicken.egg_flag = false # Reset egg flag
     end
   else
     # Collect eggs from all chickens
     total_eggs = 0
-    $chicken_slots.each do |chicken|
+    #$chicken_slots.each do |chicken|
+    ChickenSlotManager.slots.compact.each do |chicken|
       if chicken.egg_count > 0
         item = GameData::Chicken.get(chicken.species).item
-        $bag.add(item, chicken.egg_count)
+        pbPCItemStore(item, chicken.egg_count)
+        #$bag.add(item, chicken.egg_count)
+        pbShowItemDisplay(item, chicken.egg_count)
         total_eggs += chicken.egg_count
         chicken.egg_count = 0 # Reset egg count
-        chicken.egg_flag = false # Reset egg flag
       end
     end
-    if total_eggs > 0
-      pbMessage("Collected #{total_eggs} eggs from all chickens!")
-    else
-      pbMessage("No eggs to collect.")
-    end
+    #if total_eggs > 0
+      #pbMessage("Collected #{total_eggs} eggs from all chickens!")
+    #else
+      #pbMessage("No eggs to collect.")
+    #end
   end
 end
 

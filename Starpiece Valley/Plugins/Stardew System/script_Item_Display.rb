@@ -8,6 +8,13 @@ def pbShowItemDisplay(item, quantity)
   $item_display = ItemDisplaySprite.new(item, quantity)
 end
 
+def pbPCItemStore(item, qty = 1)  
+  if !$PokemonGlobal.pcItemStorage
+          $PokemonGlobal.pcItemStorage = PCItemStorage.new
+        end
+    storage = $PokemonGlobal.pcItemStorage
+    storage.add(item, qty)
+end
 
 
 class ItemDisplaySprite
@@ -17,9 +24,15 @@ class ItemDisplaySprite
 
     # Create item sprite
     @item_sprite = Sprite.new(@viewport)
-    @item_sprite.bitmap = Bitmap.new("Graphics/Items/#{item}")  # Load item sprite
-    @item_sprite.zoom_x = 0.75  # Scale down 50%
-    @item_sprite.zoom_y = 0.75  # Scale down 50%
+    path = "Graphics/Items/#{item}"
+    if pbResolveBitmap(path)
+      @item_sprite.bitmap = Bitmap.new(path)
+    else
+      @item_sprite.bitmap = Bitmap.new("Graphics/Items/000")
+    end
+
+    @item_sprite.zoom_x = 0.75  # Scale down 75%
+    @item_sprite.zoom_y = 0.75  # Scale down 75%
     @item_sprite.x = Graphics.width - 142  # Upper right-hand side
     @item_sprite.y = 112  # Position underneath the EXP bar
     @item_sprite.z = 1
@@ -36,6 +49,11 @@ class ItemDisplaySprite
     # Set text
     itemname = (quantity > 1) ? GameData::Item.get(item).portion_name_plural : GameData::Item.get(item).portion_name
     text = _INTL("{1} x{2}", itemname, quantity)
+
+    # ---- Wrap to two lines if it would run off the right edge ----
+    right_margin   = 12
+    max_text_width = Graphics.width - right_margin - @text_sprite.x
+
     @text_sprite.bitmap.clear
     pbDrawTextPositions(@text_sprite.bitmap, [[text, 0, 0, :left, Color.new(255, 255, 255), Color.new(0, 0, 0)]])
 
@@ -49,6 +67,7 @@ class ItemDisplaySprite
     @text_sprite.opacity = 0
     @visible = true
   end
+
 
   def update
     return unless @visible

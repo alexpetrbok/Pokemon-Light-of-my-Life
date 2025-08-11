@@ -35,7 +35,11 @@ def pbPlantBerriesAutomatically(events = nil, map_id, berries)
     map_id ||= $game_map.map_id
     berries.shuffle!
     events ||= pbGetBerryPlantEvents
-    events.each {|event|
+
+    # normalize to integer IDs
+    event_ids = events.map { |e| e.is_a?(Game_Event) ? e.id : e.to_i }
+
+    event_ids.each {|event|
         data = $PokemonGlobal.eventvars[[map_id,event]]
         next Console.echo_warn _INTL("Event #{event} doesn't have BerryPlantData.")  if data.nil? || !data.is_a?(BerryPlantData) 
         next if data.planted?

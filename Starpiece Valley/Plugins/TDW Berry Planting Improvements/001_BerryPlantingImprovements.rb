@@ -647,7 +647,7 @@ def pbInitializeAllBerryPlants(zone: nil, soil: nil, reset: false)
     berry_plant.town_map_location = [region_id, event.x, event.y]
   end
 
-  pbMessage(_INTL("Initialized {1} berry plants!", initialized)) if initialized > 0
+  #puts(_INTL("Initialized {1} berry plants!", initialized)) if initialized > 0
 end
 
 

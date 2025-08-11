@@ -13,6 +13,24 @@ Pocket = 1
 Price = 100000
 Description = A beautiful pair of rings soul-bonded together, a symbol of deep commitment and love. Given to your soulmate to propose marriage. 
 #-------------------------------
+[CUTITEM]
+Name = Axe
+NamePlural = Axes
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A sturdy axe for chopping small trees and gathering wood. Uses energy with each swing.
+#-------------------------------
+[ROCKSMASHITEM]
+Name = Pickaxe
+NamePlural = Pickaxes
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A heavy pickaxe for breaking rocks and collecting stone. Uses energy with each strike.
+#-------------------------------
 [DAYCARESIGHT]
 Name = Day-Care Sight
 NamePlural = Day-Care Sights

@@ -98,7 +98,7 @@ Price = 500
 SellPrice = 250
 FieldUse = Direct
 Flags = Fling_50
-Description = Giratina's interdimensional omelet. Restores 100 energy. Tastes like antimatter.
+Description = Giratina's interdimensional omelet. Restores 100 energy. Void of calories.
 
 [SOFTBOILEDEGG]
 Name = Softboiled Egg
@@ -111,7 +111,7 @@ SellPrice = 250
 FieldUse = OnPokemon
 BattleUse = OnPokemon
 Flags = Fling_30
-Description = Chansey's healing specialty. Restores 120 HP. Shell not included.
+Description = Chansey's healing specialty. Restores 120 HP. Soft as a hug.
 
 #-------------------------------
 # Standard Milk Items (300 buy / 150 sell)
@@ -205,7 +205,7 @@ NamePlural = Blue Wools
 Pocket = 1
 Price = 200
 SellPrice = 100
-Description = Nidoran♀'s toxic fluff. Surprisingly safe to handle.
+Description = NidoQueen's fluff coated in poison. Surprisingly safe to handle.
 
 [PURPLEWOOL]
 Name = Purple Wool
@@ -213,7 +213,7 @@ NamePlural = Purple Wools
 Pocket = 1
 Price = 200
 SellPrice = 100
-Description = Nidoran♂'s royal threads. Handle with horn-proof gloves.
+Description = NidoKing's toxin infused wool. The color of royalty.
 
 [WARMWOOL]
 Name = Warm Wool
@@ -221,7 +221,7 @@ NamePlural = Warm Wools
 Pocket = 1
 Price = 200
 SellPrice = 100
-Description = Scorbunny's heated hide. Thin yet .
+Description = Scorbunny's heated hide. Thin yet holds heat well.
 
 [EARTHYWOOL]
 Name = Earthy Wool
@@ -278,3 +278,11 @@ Pocket = 1
 Price = 200
 SellPrice = 100
 Description = Swirlix's sweet treat. Not for eating (despite appearances).
+
+[ARTIFICIALWOOL]
+Name = Artificial Wool
+NamePlural = Artificial Wools
+Pocket = 1
+Price = 300
+SellPrice = 150
+Description = A soft, metallic thread spun by Magearna. Lightweight, durable, and immune to pests.
