@@ -1,336 +1,410 @@
-﻿# See the documentation on the wiki to learn how to edit this file.
-#-------------------------------
+﻿#-------------------------------
 [CHERIBERRY]
-HoursPerStage = 3
-DryingPerHour = 15
-Yield = 2,5
+HoursPerStage  = 24
+DryingPerHour  = 3
+Yield          = 3,5
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[CHESTOBERRY]
-HoursPerStage = 3
-DryingPerHour = 15
-Yield = 2,5
+[CHESTOBERRY]   # blue, super hard -> cold tolerant
+HoursPerStage  = 30
+DryingPerHour  = 4
+Yield          = 3,5
+PreferredZones = SpringFarm, WinterFarm, Greenhouse
 #-------------------------------
 [PECHABERRY]
-HoursPerStage = 3
-DryingPerHour = 15
-Yield = 2,5
+HoursPerStage  = 24
+DryingPerHour  = 3
+Yield          = 3,5
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[RAWSTBERRY]
-HoursPerStage = 3
-DryingPerHour = 15
-Yield = 2,5
+[RAWSTBERRY]    # bitter, hard -> cooler half
+HoursPerStage  = 30
+DryingPerHour  = 4
+Yield          = 3,5
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[ASPEARBERRY]
-HoursPerStage = 3
-DryingPerHour = 15
-Yield = 2,5
+[ASPEARBERRY]   # sour, super hard -> winter single
+HoursPerStage  = 28
+DryingPerHour  = 4
+Yield          = 3,5
+PreferredZones = WinterFarm, Greenhouse
 #-------------------------------
 [LEPPABERRY]
-HoursPerStage = 4
-DryingPerHour = 15
-Yield = 2,5
+HoursPerStage  = 30
+DryingPerHour  = 4
+Yield          = 3,5
+PreferredZones = SummerFarm, Greenhouse
 #-------------------------------
-[ORANBERRY]
-HoursPerStage = 4
-DryingPerHour = 15
-Yield = 2,5
+[ORANBERRY]     # blue theme
+HoursPerStage  = 26
+DryingPerHour  = 3
+Yield          = 3,5
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [PERSIMBERRY]
-HoursPerStage = 4
-DryingPerHour = 15
-Yield = 2,5
+HoursPerStage  = 28
+DryingPerHour  = 3
+Yield          = 3,5
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[LUMBERRY]
-HoursPerStage = 12
-DryingPerHour = 8
-Yield = 2,5
+[LUMBERRY]      # uncommon utility; slow, lower yield
+HoursPerStage  = 36
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[SITRUSBERRY]
-HoursPerStage = 8
-DryingPerHour = 7
-Yield = 2,5
+[SITRUSBERRY]   # utility, warm seasons
+HoursPerStage  = 32
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[FIGYBERRY]
-HoursPerStage = 5
-DryingPerHour = 10
-Yield = 1,5
+[FIGYBERRY]     # spicy → warm
+HoursPerStage  = 32
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[WIKIBERRY]
-HoursPerStage = 5
-DryingPerHour = 10
-Yield = 1,5
+[WIKIBERRY]     # dry, hard → cooler late
+HoursPerStage  = 32
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, WinterFarm, Greenhouse
 #-------------------------------
-[MAGOBERRY]
-HoursPerStage = 5
-DryingPerHour = 10
-Yield = 1,5
+[MAGOBERRY]     # sweet → warm early
+HoursPerStage  = 32
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[AGUAVBERRY]
-HoursPerStage = 5
-DryingPerHour = 10
-Yield = 1,5
+[AGUAVBERRY]    # bitter, super hard → cold ok
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, WinterFarm, Greenhouse
 #-------------------------------
-[IAPAPABERRY]
-HoursPerStage = 5
-DryingPerHour = 10
-Yield = 1,5
+[IAPAPABERRY]   # very sour, soft → late cool single
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = WinterFarm, Greenhouse
 #-------------------------------
-[RAZZBERRY]
-HoursPerStage = 2
-DryingPerHour = 35
-Yield = 2,10
+[RAZZBERRY]     # slow-bulk, warm→cool
+HoursPerStage  = 40
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[BLUKBERRY]
-HoursPerStage = 2
-DryingPerHour = 35
-Yield = 2,10
+[BLUKBERRY]     # blue, soft → late warm→cool
+HoursPerStage  = 42
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
 [NANABBERRY]
-HoursPerStage = 2
-DryingPerHour = 35
-Yield = 2,10
+HoursPerStage  = 44
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, Greenhouse
 #-------------------------------
-[WEPEARBERRY]
-HoursPerStage = 2
-DryingPerHour = 35
-Yield = 2,10
+[WEPEARBERRY]   # bitter+sour → cool
+HoursPerStage  = 44
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, WinterFarm, Greenhouse
 #-------------------------------
-[PINAPBERRY]
-HoursPerStage = 2
-DryingPerHour = 35
-Yield = 2,10
+[PINAPBERRY]    # spicy+sour → warm seasons
+HoursPerStage  = 40
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[POMEGBERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+[POMEGBERRY]    # EV utility
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [KELPSYBERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[QUALOTBERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+[QUALOTBERRY]   # grows in rain → cool half
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, WinterFarm, Greenhouse
 #-------------------------------
-[HONDEWBERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+[HONDEWBERRY]   # rare gift → cooler
+HoursPerStage  = 36
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[GREPABERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+[GREPABERRY]    # tender sweet+tangy → warm early
+HoursPerStage  = 34
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[TAMATOBERRY]
-HoursPerStage = 8
-DryingPerHour = 8
-Yield = 1,5
+[TAMATOBERRY]   # spicy/hot → NOT winter
+HoursPerStage  = 36
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[CORNNBERRY]
-HoursPerStage = 6
-DryingPerHour = 10
-Yield = 2,10
+[CORNNBERRY]    # slow-bulk, dry → cool/late
+HoursPerStage  = 46
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[MAGOSTBERRY]
-HoursPerStage = 6
-DryingPerHour = 10
-Yield = 2,10
+[MAGOSTBERRY]   # slow-bulk, sweet → warm
+HoursPerStage  = 42
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[RABUTABERRY]
-HoursPerStage = 6
-DryingPerHour = 10
-Yield = 2,10
+[RABUTABERRY]   # bitter outside → cool
+HoursPerStage  = 46
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[NOMELBERRY]
-HoursPerStage = 6
-DryingPerHour = 10
-Yield = 2,10
+[NOMELBERRY]    # very sour, super hard → warm
+HoursPerStage  = 42
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[SPELONBERRY]
-HoursPerStage = 15
-DryingPerHour = 8
-Yield = 2,15
+[SPELONBERRY]   # very spicy → warm
+HoursPerStage  = 48
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[PAMTREBERRY]
-HoursPerStage = 15
-DryingPerHour = 8
-Yield = 3,15
+[PAMTREBERRY]   # sea/blue vibe, very soft → warm→cool
+HoursPerStage  = 48
+DryingPerHour  = 4
+Yield          = 3,10
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[WATMELBERRY]
-HoursPerStage = 15
-DryingPerHour = 8
-Yield = 2,15
+[WATMELBERRY]   # huge sweet → warm→cool
+HoursPerStage  = 48
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[DURINBERRY]
-HoursPerStage = 15
-DryingPerHour = 8
-Yield = 3,15
+[DURINBERRY]    # extremely bitter → cool
+HoursPerStage  = 46
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
-[BELUEBERRY]
-HoursPerStage = 15
-DryingPerHour = 8
-Yield = 2,15
+[BELUEBERRY]    # blue, very soft → warm
+HoursPerStage  = 42
+DryingPerHour  = 4
+Yield          = 2,10
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[OCCABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+[OCCABERRY]     # resist suite (rare/special group A)
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
 [PASSHOBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[WACANBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+[WACANBERRY]    # very soft → warm
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [RINDOBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[YACHEBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+[YACHEBERRY]    # blue/cold → winter
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = WinterFarm, Greenhouse
 #-------------------------------
 [CHOPLEBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [KEBIABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [SHUCABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
-[COBABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+[COBABERRY]     # blue, very hard → cool half
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [PAYAPABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [TANGABERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [CHARTIBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [KASIBBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [HABANBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [COLBURBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 40
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [BABIRIBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [CHILANBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 38
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[LIECHIBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+[LIECHIBERRY]   # stat-boost suite (rare/special group B; hardest)
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
 [GANLONBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [SALACBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
 [PETAYABERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [APICOTBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [LANSATBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 48
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [STARFBERRY]
-HoursPerStage = 24
-DryingPerHour = 4
-Yield = 1,5
+HoursPerStage  = 48
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
-[ENIGMABERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+[ENIGMABERRY]   # special mythic (rare/special group C; cold nights theme)
+HoursPerStage  = 46
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = WinterFarm, Greenhouse
 #-------------------------------
 [MICLEBERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 44
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [CUSTAPBERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 44
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm, Greenhouse
 #-------------------------------
 [JABOCABERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 44
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [ROWAPBERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 44
+DryingPerHour  = 6
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [ROSELIBERRY]
-HoursPerStage = 18
-DryingPerHour = 6
-Yield = 1,5
+HoursPerStage  = 42
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = SpringFarm, SummerFarm, Greenhouse
 #-------------------------------
 [KEEBERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 42
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
 #-------------------------------
 [MARANGABERRY]
-HoursPerStage = 24
-DryingPerHour = 7
-Yield = 1,5
+HoursPerStage  = 42
+DryingPerHour  = 5
+Yield          = 2,4
+PreferredZones = AutumnFarm, WinterFarm, Greenhouse
+#-------------------------------
+[HOPOBERRY]
+HoursPerStage  = 30
+DryingPerHour  = 4
+Yield          = 2,4
+PreferredZones = SummerFarm, AutumnFarm,  Greenhouse
+
+##add gracidea flowers and mushrooms 

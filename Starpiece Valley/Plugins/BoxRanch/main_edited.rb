@@ -196,19 +196,6 @@ class BoxRanch
       next unless chicken
       pokemon_list << chicken.pokemon
     end
-
-    
-    # Always create a test Pokémon (if none exist)
-    if pokemon_list.empty?
-      test_pokemon = Pokemon.new(:EEVEE, 5)
-      pokemon_list.push(test_pokemon)
-      
-      # Also add a water Pokémon
-      if !@water_tiles.empty?
-        water_test = Pokemon.new(:MARILL, 5)
-        pokemon_list.push(water_test)
-      end
-    end
     
     # Sort Pokémon into water and land Pokémon
     water_pokemon = []

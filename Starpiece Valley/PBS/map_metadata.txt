@@ -122,7 +122,7 @@ Name = Town
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[076]   # River Estuary
+[076]   # Estuary
 Name = River Estuary
 Outdoor = true
 Bicycle = true
@@ -137,14 +137,29 @@ Name = Lab
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[079]   # Bug Meadows
+[079]   # Meadows
+Name = Bug Meadows
 Outdoor = true
 Bicycle = true
 #-------------------------------
-[080]   # Mountain Path
+[080]   # Hot Springs
+Name = Mountain Path
 Outdoor = true
 Bicycle = true
 #-------------------------------
 [081]   # Mines
+Name = Mines
 Outdoor = true
 Bicycle = true
+#-------------------------------
+[087]   # Cave Dungeon 1
+Name = Cave Dungeon 1
+Dungeon = true
+#-------------------------------
+[088]   # Cave Dungeon 2
+Name = Cave Dungeon 2
+Dungeon = true
+#-------------------------------
+[090]   # Cave Dungeon 3
+Outdoor = true
+Dungeon = true

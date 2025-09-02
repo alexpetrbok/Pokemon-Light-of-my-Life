@@ -11,6 +11,19 @@ Tile = 0,walls
 DoubleWalls = true
 FloorPatchUnderWalls = true
 #-------------------------------
+[8]   # Dungeon fire
+Autotile = 1,floor_patch
+Tile = 0,void
+Tile = 40,void_decoration
+Tile = 41,void_decoration
+Tile = 48,void_decoration_large
+Tile = 42,floor
+Tile = 37,floor_decoration_large
+Tile = 50,floor_decoration_large
+Tile = 0,walls
+DoubleWalls = true
+FloorPatchUnderWalls = true
+#-------------------------------
 [23]   # Dungeon forest
 Autotile = 1,floor_decoration
 Tile = 40,void
@@ -27,21 +40,3 @@ LargeVoidTiles = true
 LargeWallTiles = true
 ThinNorthWallOffset = -8
 #-------------------------------
-[37]   # Leafy forest Dungeon
-Autotile = 1,floor
-Autotile = 2,floor_decoration
-Autotile = 3,floor_patch
-Autotile = 4,floor_decoration
-Autotile = 5,floor_decoration
-Autotile = 6,floor_decoration
-Tile = 0,walls
-Tile = 0,void
-Tile = 42,floor_decoration
-Tile = 43,floor_decoration
-Tile = 48,floor_decoration_large
-Tile = 52,void_decoration_large
-#Tile = 50,floor_decoration_large
-#Tile = 54,floor_decoration_large
-DoubleWalls = true
-FloorPatchUnderWalls = true
-ThinNorthWallOffset = -8

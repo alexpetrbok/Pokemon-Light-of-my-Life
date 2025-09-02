@@ -193,7 +193,7 @@ class BerryPlantData
             new_growth_hour = @time_alive / 3600
             if new_growth_hour > old_growth_hour
                 (new_growth_hour - old_growth_hour).times do
-                    if @moisture_level > 0
+                    if @moisture_level > 0 
                         @moisture_level -= drying_per_hour
                     else
                         @yield_penalty += 1
@@ -367,12 +367,40 @@ class BerryPlantData
         tdw_berry_plant_plant(berry_id)
         @seed_id = seed_id
         @withered_item = nil
-        @preferred_weather = (@berry_id && @event && pbBerryPreferredWeatherEnabled? ) ? GameData::BerryData.try_get(@berry_id).preferred_weather : nil
-        @preferred_zone = @berry_id && @event && pbBerryPreferredZonesEnabled? && GameData::BerryData.try_get(@berry_id).preferred_zones.include?(@plant_zone)
-        @unpreferred_zone = @berry_id && @event && pbBerryUnpreferredZonesEnabled? && !@preferred_zone && 
-                GameData::BerryData.try_get(@berry_id).unpreferred_zones.include?(@plant_zone)
-        @preferred_soil = @berry_id && @event && @soil && pbBerryPreferredSoilEnabled? && 
-                GameData::BerryData.try_get(@berry_id).preferred_soil == @soil[:id]
+        
+        # Pre-fetch once
+        bd = (@berry_id && @event) ? TDW_BerrySafe.berry_data(@berry_id) : nil
+
+        # Preferred weather -> always an Array (possibly empty)
+        @preferred_weather = (pbBerryPreferredWeatherEnabled? && bd) ? TDW_BerrySafe.list(bd, :preferred_weather) : []
+
+        # Preferred / Unpreferred zone flags -> always booleans, safe if @plant_zone is nil
+        if pbBerryPreferredZonesEnabled? && bd
+        @preferred_zone = TDW_BerrySafe.includes?(bd, :preferred_zones, @plant_zone)
+        else
+        @preferred_zone = false
+        end
+
+        if pbBerryUnpreferredZonesEnabled? && bd && !@preferred_zone
+        @unpreferred_zone = TDW_BerrySafe.includes?(bd, :unpreferred_zones, @plant_zone)
+        else
+        @unpreferred_zone = false
+        end
+
+        # Preferred soil (boolean) -> safe if @soil or BerryData is missing
+        if pbBerryPreferredSoilEnabled? && bd && @soil && @soil[:id]
+        @preferred_soil = TDW_BerrySafe.equals?(bd, :preferred_soil, @soil[:id])
+        else
+        @preferred_soil = false
+        end
+        #@preferred_weather = (@berry_id && @event && pbBerryPreferredWeatherEnabled? ) ? tdw_safe_preferred_weather_for(@berry_id) : []
+        #@preferred_zone = @berry_id && @event && pbBerryPreferredZonesEnabled? && GameData::BerryData.try_get(@berry_id).preferred_zones.include?(@plant_zone)
+        #@unpreferred_zone = @berry_id && @event && pbBerryUnpreferredZonesEnabled? && !@preferred_zone && 
+        #        GameData::BerryData.try_get(@berry_id).unpreferred_zones.include?(@plant_zone)
+        #@preferred_soil = @berry_id && @event && @soil && pbBerryPreferredSoilEnabled? && 
+        #        GameData::BerryData.try_get(@berry_id).preferred_soil == @soil[:id]
+        
+        
         @time_in_stage = 0
         @watering_cans_used = []
         if Settings::BERRY_USE_WEED_MECHANICS
@@ -583,11 +611,13 @@ class BerryPlantData
     end
 
     def checkPreferredWeather
-        return true if @exposed_to_preferred_weather 
-        return false if !@preferred_weather || @growth_stage <= 1 || @growth_stage >= 5 
-        return true if $game_screen && @preferred_weather.include?($game_screen.weather_type)
-        return false
+        return true  if @exposed_to_preferred_weather
+        return false if !@preferred_weather || @preferred_weather.empty?
+        return false if @growth_stage <= 1 || @growth_stage >= 5
+        wt = ($game_screen) ? $game_screen.weather_type : nil
+        return (!!wt && @preferred_weather.include?(wt))
     end
+
 
     def getWeedGrowthChance
         return 0 unless Settings::BERRY_USE_WEED_MECHANICS
@@ -603,6 +633,8 @@ class BerryPlantData
         pests_chance += Settings::BERRY_HAS_WEEDS_TRAITS[:pest_chance] if Settings::BERRY_USE_WEED_MECHANICS && @event && @weeds
         pests_chance += @soil[:pest_chance] if @soil
         pests_chance += getWateringCansUsedTraits(:pest_chance) if @event
+        pests_chance -= 20 if $game_switches[72]
+        pests_chance = 0 if @plant_zone.to_s.downcase == "greenhouse"
         return pests_chance
     end
 
@@ -1750,6 +1782,140 @@ def pbDropBerrySeeds(berry_id, berry_yield)
     return false
 end
 
+def pbClearBerryTimeDelta
+  return unless $PokemonGlobal && $PokemonGlobal.eventvars
+  now = pbGetTimeNow.to_i
+  region_id = 0
+
+  $PokemonGlobal.eventvars.each do |key, plant|
+    # key is [map_id, event_id]
+    #next unless key.is_a?(Array) && key[0] == map_id
+    next unless plant.is_a?(BerryPlantData)
+
+    # Ensure Town Map location exists (no need to rename the event)
+    ev_id = key[1]
+    ev    = $game_map.events[ev_id]
+    if plant.town_map_location.nil? && ev
+      plant.town_map_location = [region_id, ev.x, ev.y]
+    end
+
+    # Just sync timestamp; do NOT call update (which would advance growth)
+    plant.instance_variable_set(:@pests_timer, now)
+    plant.instance_variable_set(:@weeds_timer, now)
+    plant.instance_variable_set(:@time_last_updated, now)
+    $game_switches[71] = true
+  end
+end
+
+def pbDebugFillBerryPlants
+  # IDs of BerryPlant events on current map
+  events = []
+  $game_map.events.each_value do |e|
+    if e.name =~ /\ABerryPlant\b/i
+      events << e.id
+    end
+  end
+  return if events.empty?
+
+  # Collect berry item IDs (GameData::Item.each requires a block)
+  berry_ids = []
+  GameData::Item.each do |it|
+    berry_ids << it.id if it.is_berry?
+  end
+  if berry_ids.empty?
+    pbMessage(_INTL("No berry items defined."))
+    return
+  end
+
+  now       = pbGetTimeNow.to_i
+  region_id =  0
+  seeded    = 0
+
+  for eid in events
+    ev = $game_map.events[eid]
+    next if ev.nil?
+
+    key  = [$game_map.map_id, eid]
+    data = $PokemonGlobal.eventvars[key]
+
+    # Ensure BerryPlantData exists
+    if !data.is_a?(BerryPlantData)
+      data = BerryPlantData.new(ev)
+      $PokemonGlobal.eventvars[key] = data
+    end
+
+    # Ensure Town Map location is set (no renaming needed)
+    if data.town_map_location.nil?
+      data.town_map_location = [region_id, ev.x, ev.y]
+    end
+
+    # Reset to empty planting state, then plant a random berry
+    data.reset(true)
+    berry = berry_ids[rand(berry_ids.length)]
+    data.plant(berry)
+
+    # Randomize growth stage & internal timers
+    plant_def   = GameData::BerryPlant.get(berry)
+    # Fallback hours_per_stage if missing (shouldn't be)
+    hps         = plant_def ? plant_def.hours_per_stage : 12
+    time_per    = (hps * 3600)
+    time_per    = 3600 if time_per < 3600
+
+    max_stage = GameData::BerryPlant::NUMBER_OF_GROWTH_STAGES +
+                GameData::BerryPlant::NUMBER_OF_FULLY_GROWN_STAGES
+    stage     = rand(max_stage) + 1
+    time_in   = rand(time_per)
+
+    data.instance_variable_set(:@growth_stage, stage)
+    data.instance_variable_set(:@time_in_stage, time_in)
+    data.instance_variable_set(:@time_alive, ((stage - 1) * time_per) + time_in)
+    data.instance_variable_set(:@time_last_updated, now)
+
+    # Keep moisture healthy if variable exists
+    if data.instance_variable_defined?(:@moisture_level)
+      data.instance_variable_set(:@moisture_level, 100)
+    end
+
+    seeded += 1
+  end
+
+  pbMessage(_INTL("Filled {1} berry plots with random plants!", seeded)) if seeded > 0
+end
+
+
+
+# Update plant_zone / soil_type for a set of BerryPlant events (or all),
+# without resetting or harming existing plants.
+def pbSetBerryZones(event_ids = nil, zone: nil, soil: nil)
+  ids = event_ids || $game_map.events.values.select { |e| e.name =~ /\ABerryPlant\b/i }.map(&:id)
+  ids.each do |eid|
+    data = $PokemonGlobal.eventvars[[$game_map.map_id, eid]]
+    next unless data.is_a?(BerryPlantData)
+    data.plant_zone = zone if zone
+    data.soil_type  = soil if soil
+    # Keep Town Map location current (safe no-op if already set)
+    region_id = 0
+    ev = $game_map.events[eid]
+    data.town_map_location = [region_id, ev.x, ev.y]
+  end
+end
+
+# Example seasonal mapping; tweak names to match your PBS zones.
+SEASON_ZONES = {
+  0 => "SpringFarm",  # spring
+  1 => "SummerFarm",  # summer
+  2 => "AutumnFarm",  # fall
+  3 => "WinterFarm"   # winter
+}
+
+def pbApplySeasonalZones(event_ids = nil, soil: nil)
+  pbClearBerryTimeDelta()
+  season = pbGetSeason
+  zone   = SEASON_ZONES[season]
+  pbSetBerryZones(event_ids, zone: zone, soil: soil)
+end
+
+
 #===============================================================================
 # Watering sprites, Seed check
 #===============================================================================
@@ -1825,4 +1991,103 @@ class Game_Player < Game_Character
         return image
     end
 
+end
+
+def pbDebugListBerryPlants(map_id = $game_map.map_id)
+  return unless $PokemonGlobal && $PokemonGlobal.eventvars
+  total = 0
+  puts "=== BerryPlants on Map #{map_id} (#{pbGetBasicMapNameFromId(map_id) rescue ""}) ==="
+  $game_map.events.each_value do |ev|
+    next unless ev.name =~ /\ABerryPlant\b/i
+    key  = [$game_map.map_id, ev.id]
+    data = $PokemonGlobal.eventvars[key]
+    unless data.is_a?(BerryPlantData)
+      # Initialize missing data so we can inspect it
+      data = BerryPlantData.new(ev)
+      $PokemonGlobal.eventvars[key] = data
+    end
+    total += 1
+
+    zone   = (data.respond_to?(:plant_zone) && data.plant_zone) ? data.plant_zone : "(none)"
+    soil   = if data.instance_variable_defined?(:@soil) && data.instance_variable_get(:@soil).is_a?(Hash)
+               (data.instance_variable_get(:@soil)[:id] rescue nil) || "(none)"
+             else
+               "(none)"
+             end
+    berry  = (data.respond_to?(:berry_id) ? data.berry_id : nil) || "(empty)"
+    stage  = (data.instance_variable_defined?(:@growth_stage) ? data.instance_variable_get(:@growth_stage) : nil) || 0
+    moist  = (data.instance_variable_defined?(:@moisture_level) ? data.instance_variable_get(:@moisture_level) : nil)
+    weeds  = (data.instance_variable_defined?(:@weeds) ? data.instance_variable_get(:@weeds) : false)
+    pests  = (data.instance_variable_defined?(:@pests) ? data.instance_variable_get(:@pests) : false)
+    ypen   = (data.instance_variable_defined?(:@yield_penalty) ? data.instance_variable_get(:@yield_penalty) : 0)
+    wither = (data.instance_variable_defined?(:@withered_item) ? data.instance_variable_get(:@withered_item) : nil)
+
+    tmloc  = if data.respond_to?(:town_map_location) && data.town_map_location
+               data.town_map_location.join(",")
+             else
+               "(nil)"
+             end
+
+    puts sprintf(
+      "ID:%-3d XY:(%2d,%2d) Zone:%-12s Soil:%-10s Berry:%-14s Stage:%-2d Moist:%-3s Weeds:%-5s Pests:%-5s YPen:%-2d Withered:%s TMap:[%s]",
+      ev.id, ev.x, ev.y, zone.to_s, soil.to_s, berry.to_s, stage, (moist.nil? ? "-" : moist.to_s),
+      weeds ? "yes" : "no", pests ? "yes" : "no", ypen, (wither || "-").to_s, tmloc
+    )
+  end
+  puts "=== Total BerryPlants found: #{total} ==="
+  pbMessage(_INTL("{1} BerryPlants listed in console.", total))
+end
+
+# ===== Universal safe fetch/normalize for BerryData fields (RMXP/Ruby 1.8 safe) =====
+module TDW_BerrySafe
+  # Return BerryData or nil (no exceptions)
+  def self.berry_data(berry_id)
+    begin
+      GameData::BerryData.try_get(berry_id)
+    rescue
+      nil
+    end
+  end
+
+  # Normalize anything to a downcased Symbol (or nil)
+  def self.norm_sym(x)
+    return nil if x.nil?
+    begin
+      s = x.is_a?(Symbol) ? x.to_s : x.to_s
+      s = s.strip.gsub(/\s+/, "")
+      s.downcase.to_sym
+    rescue
+      nil
+    end
+  end
+
+  # Get a normalized array from a BerryData list field (e.g., :preferred_zones, :preferred_weather)
+  def self.list(data, meth)
+    return [] unless data && data.respond_to?(meth)
+    raw = data.send(meth) rescue nil
+    return [] if !raw || (raw.respond_to?(:empty?) && raw.empty?)
+    arr = []
+    # Essentials older Ruby: no map(&:to_sym), do it manually
+    for v in raw
+      ns = self.norm_sym(v)
+      arr << ns if ns
+    end
+    arr
+  end
+
+  # Safe equality for single-valued fields (e.g., :preferred_soil)
+  def self.equals?(data, meth, value)
+    return false unless data && data.respond_to?(meth)
+    lhs = data.send(meth) rescue nil
+    return false if lhs.nil? || value.nil?
+    self.norm_sym(lhs) == self.norm_sym(value)
+  end
+
+  # Safe include? check for list fields
+  def self.includes?(data, meth, value)
+    return false if value.nil?
+    lst = self.list(data, meth)
+    return false if lst.empty?
+    lst.include?(self.norm_sym(value))
+  end
 end

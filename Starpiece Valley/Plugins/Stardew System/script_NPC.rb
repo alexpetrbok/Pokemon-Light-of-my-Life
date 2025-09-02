@@ -4,32 +4,92 @@
 
 module NPCSystem
   @affection_data = {}
+  @relationship_state_data = {}
+  @state_data = {}
   @daily_interacted = {}
   @daily_gifts = {}
   @daily_gifts_detailed = {}
 
+    # --- id normalization (so symbols/strings behave) ---
+  def self._key(id)
+    return nil if id.nil?
+    id.is_a?(Symbol) ? id : id.to_s.upcase.to_sym
+  end
+
+  # --- quick seeding defaults (only if you want a default) ---
+  def self._ensure_defaults(id)
+    k = _key(id)
+    @affection_data[k]           = 50        unless @affection_data.key?(k)
+    @relationship_state_data[k]  = :single  unless @relationship_state_data.key?(k)
+    @state_data[k]               = :work    unless @state_data.key?(k)
+    k
+  end
+
+  def self.bootstrap_minimal!
+    GameData::NPC.each { |npc| _ensure_defaults(npc.id) }
+  end
 
   # ---------- Affection ----------
   def self.affection(npc_id)
-    @affection_data[npc_id] ||= 0
+    k = _ensure_defaults(npc_id)
+    @affection_data[k]
   end
 
   def self.set_affection(npc_id, value)
-    @affection_data[npc_id] = value
+    k = _ensure_defaults(npc_id)
+    @affection_data[k] = value.to_i
   end
 
   def self.add_affection(npc_id, amount)
-    @affection_data[npc_id] ||= 0
-    @affection_data[npc_id] += amount
+    k = _ensure_defaults(npc_id)
+    @affection_data[k] += amount.to_i
   end
 
-      # ---------- Daily Interaction ----------
+  # ---------- Relationship State ----------
+  # valid examples: :single, :dating_player, :married_player
+  def self.relationship_state(npc_id)
+    k = _ensure_defaults(npc_id)
+    @relationship_state_data[k]
+  end
+
+  def self.set_relationship_state(npc_id, state_sym)
+    k = _ensure_defaults(npc_id)
+    @relationship_state_data[k] = (state_sym || :single).to_sym
+  end
+
+  # Convenience checks
+  def self.single?(npc_id)         = relationship_state(npc_id) == :single
+  def self.dating_player?(npc_id)  = relationship_state(npc_id) == :dating_player
+  def self.married_player?(npc_id) = relationship_state(npc_id) == :married_player
+
+  # ---------- Behavior / Schedule State ----------
+  # examples: :idle, :work, :home, :leisure, :social, :sleep
+  def self.state(npc_id)
+    k = _ensure_defaults(npc_id)
+    @state_data[k]
+  end
+
+  def self.set_state(npc_id, state_sym)
+    k = _ensure_defaults(npc_id)
+    @state_data[k] = (state_sym || :idle).to_sym
+  end
+
+  # ---------- Daily Interaction ----------
+  def self.daily_interaction(npc_id)
+    k = _key(npc_id)
+    unless interacted_today?(k)
+      add_affection(k, 4)
+      # DEBUG: First talk today → small affection bonus applied
+      set_interacted_today(k)
+    end
+  end
+  
   def self.interacted_today?(npc_id)
-    @daily_interacted[npc_id] == true
+    @daily_interacted[_key(npc_id)] == true
   end
 
   def self.set_interacted_today(npc_id)
-    @daily_interacted[npc_id] = true
+    @daily_interacted[_key(npc_id)] = true
   end
 
   def self.reset_daily_interactions
@@ -37,9 +97,23 @@ module NPCSystem
   end
 
   # ---------- Daily Gifts ----------
-  def self.track_gift_given(npc_id, weight = 1)
-    @daily_gifts[npc_id] ||= 0
-    @daily_gifts[npc_id] += weight
+  def self.track_gift_given(npc_id, weight = 1, item: nil)
+    k = _key(npc_id)
+    @daily_gifts[k] ||= 0
+    @daily_gifts[k] += weight.to_i
+
+    if (weight>1) && !item.nil?
+      puts "⚠️ Warning: Important gift given!"
+      @daily_gifts_detailed[k] ||= []
+      @daily_gifts_detailed[k] << {
+        item:   item,            # Symbol (e.g., :LAVACOOKIE)
+        weight: weight.to_i,     # our gift weighting
+      }
+    end
+  end
+
+  def self.gift_count(npc_id)
+    @daily_gifts[_key(npc_id)] || 0
   end
 
   def self.gift_limit_reached?(npc_id)
@@ -48,6 +122,17 @@ module NPCSystem
 
 
   def self.reset_daily_gifts
+    # PLACEHOLDER: Overnight “thank-you mail” chance for important gifts.
+    # Example heuristic: if any entry has weight >= 2 (evo stones/fossils/expensive),
+    # roll a small chance to queue mail from this NPC for tomorrow morning.
+    # @daily_gifts_detailed.each do |npc_key, entries|
+    #   next if entries.nil? || entries.empty?
+    #   important = entries.any? { |e| e[:weight].to_i >= 2 }
+    #   if important && rand(100) < 20
+    #     # TODO: enqueue_thank_you_mail(npc_key)  # your mail system hook
+    #   end
+    # end
+
     @daily_gifts.clear
     @daily_gifts_detailed.clear
   end
@@ -67,7 +152,7 @@ module NPCSystem
     return unless item
 
     # Relationship item logic
-    if item == :STARPIECE_NECKLACE
+    if item == :STARPIECENECKLACE
       if affection(npc_id) > 200 && npc.relationship_state == :Single
         npc.relationship_state = :Dating_Player
         pbMessage("#{npc.name} accepts the Starpiece Necklace. You're now dating!")
@@ -75,7 +160,7 @@ module NPCSystem
         pbMessage("#{npc.name} doesn't feel ready for something that serious...")
         return
       end
-    elsif item == :SOULDEW_RING
+    elsif item == :SOULDEWRING
       if affection(npc_id) > 700 && npc.relationship_state == :Dating_Player
         npc.relationship_state = :Married_Player
         pbMessage("#{npc.name} accepts the Souldew Ring. You're going to get married!")
@@ -114,7 +199,7 @@ module NPCSystem
 
     # Give gift
     pbMessage("#{npc.name} accepts your #{GameData::Item.get(item).name}!")
-    track_gift_given(npc_id, gift_weight)
+    track_gift_given(npc_id, gift_weight, GameData::Item.get(item).name)
     add_affection(npc_id, total_affection)
     $bag.remove(item)
     pbShowItemDisplay(item, -1)
@@ -160,17 +245,25 @@ module NPCSystem
         choices << "Spend Time"
         actions << -> { show_dialog(npc.id, :activity) }
       end
+      # Activities if at home or leisure
+      if [:home, :leisure].include?(npc.state)
+        choices << "Spend Time"
+        actions << -> {
+          # DEBUG: placeholder for activity scene start (e.g., minigame, timed hangout)
+          # start_activity_scene(npc.id)
+          show_dialog(npc.id, :activity)
+        }
 
-      # 🔒 Placeholder checks for future filtering of dialog types
-      # if npc.affection >= 100
-      #   choices << "Special Event"
-      #   actions << -> { show_dialog(npc.id, :event) }
-      # end
-
-      # if npc.relationship_state == :dating
-      #   choices << "Date"
-      #   actions << -> { start_date_scene(npc.id) }
-      # end
+        # NEW — Date option appears when dating (you can add an affection floor if desired)
+        if npc.dating_player?
+          choices << "Date"
+          actions << -> {
+            # DEBUG: placeholder date scene trigger
+            # start_date_scene(npc.id)
+            show_dialog(npc.id, :date)
+          }
+        end
+      end
 
       # if quest_active?(:gardener_help)
       #   choices << "Ask about Garden"
@@ -179,12 +272,16 @@ module NPCSystem
 
       choices << "[Back]"
       choice = pbMessage("What would you like to do?", choices)
-      break if choice == choices.size - 1
+      break if choice == choices.size - 1 || choice < 0
 
-      actions[choice].call
+      action = actions[choice]
+      if action
+        action.call
+      else
+        puts "⚠️ No action bound for choice index #{choice} (#{choices[choice]})"
+      end
     end
   end
-
 
 
   def self.show_dialog(npc_input, type)
@@ -200,30 +297,28 @@ module NPCSystem
       return
     end
 
-    # Normalize state key
     state_key = npc.state.to_sym rescue :default
-
-    # Get dialog for current state or fallback to default
     dialog_set = dialog[state_key] || dialog[:default]
     unless dialog_set
       puts "⚠️ No dialog for state :#{state_key} or :default for #{npc.id}"
       return
     end
 
-    # Get dialog for specific type (e.g., :chat, :opener, :closer)
     type_dialog = dialog_set[type]
     unless type_dialog.is_a?(Array) && !type_dialog.empty?
       puts "⚠️ No dialog of type :#{type} for #{npc.id} in state :#{state_key}"
       return
     end
 
-    # Display dialog
-    if type == :chat
+    # Decide menu vs. linear: if any entry has :prompt, treat as a menu
+    uses_menu = type_dialog.any? { |entry| entry.key?(:prompt) }
+
+    if uses_menu
       choices = type_dialog.map { |entry| entry[:prompt] }
       choices << "[Back]"
 
       loop do
-        choice = pbMessage("What do you want to say?", choices)
+        choice = pbMessage("What do you want to choose?", choices)
         break if choice < 0 || choices[choice] == "[Back]"
 
         selected = type_dialog[choice]
@@ -232,11 +327,22 @@ module NPCSystem
         else
           puts "⚠️ Missing response for prompt: #{selected[:prompt]}"
         end
+
+        # Optional line-level script hook (e.g., open shop)
+        if selected[:script].respond_to?(:call)
+          # DEBUG: running attached script for this entry
+          selected[:script].call
+        end
       end
     else
-      # Normal linear display for opener/closer
+      # Linear display expects :text entries
       type_dialog.each do |entry|
         pbMessage(entry[:text]) if entry[:text]
+        # Optional script after a text line
+        if entry[:script].respond_to?(:call)
+          # DEBUG: running attached script after linear text
+          entry[:script].call
+        end
       end
     end
   end
@@ -254,22 +360,6 @@ module NPCSystem
 #===============================================================================
 # NPC Scheduling and Spawning
 #===============================================================================
-  def self.run_schedule_for(npc_id)
-    npc = GameData::NPC.try_get(npc_id)
-    return unless npc
-
-    now = Graphics.frame_count / Graphics.frame_rate
-    schedule = npc.schedule[now]
-    return unless schedule
-
-    map_id = schedule[:map_id]
-    event_id = schedule[:event_id]
-    x = schedule[:x]
-    y = schedule[:y]
-
-    spawn_npc(map_id, event_id, npc.sprite, x, y)
-  end
-
   def self.spawn_npc(map_id, event_id, sprite, x, y)
     map = $MapFactory.getMap(map_id)
     event = map.events[event_id]
@@ -332,7 +422,7 @@ def debug_set_all_npcs_relationship
   }
 
   relationship_states = {
-    "🔓 Single" => :single,
+    "🔓 Single" => :Single,
     "💞 Dating Player" => :Dating_Player,
     "💘 Dating Spouse (Other)" => :Dating_Spouse,
     "💍 Married Player" => :Married_Player,
@@ -368,23 +458,53 @@ module GameData
     @@dialogs = {}
 
     attr_reader :id, :name, :birthday
-    attr_accessor :spouse, :affection, :relationship_state
+    attr_accessor :spouse, :schedule,  :dialog
     attr_accessor :fav_gifts, :bad_gifts, :log
-    attr_accessor :schedule, :state, :dialog
 
     def initialize(hash)
       @id                 = hash[:id].to_sym
       @name               = hash[:name]
       @birthday           = hash[:birthday]
       @spouse             = hash[:spouse]
-      @affection          = 20
-      @relationship_state = :single
       @fav_gifts          = hash[:fav_gifts] || {}
       @bad_gifts          = hash[:bad_gifts] || {}
       @schedule           = hash[:schedule] || {}
       @dialog             = hash[:dialog] || {}
       @log                = {}
-      @state              = :work
+    end
+
+    def affection
+      NPCSystem.affection(@id)
+    end
+
+    def affection=(val)
+      NPCSystem.set_affection(@id, val)
+    end
+
+    def add_affection(delta)
+      NPCSystem.add_affection(@id, delta)
+    end
+
+    # Relationship
+    def relationship_state
+      NPCSystem.relationship_state(@id)
+    end
+
+    def relationship_state=(sym)
+      NPCSystem.set_relationship_state(@id, sym)
+    end
+
+    def single?         = NPCSystem.single?(@id)
+    def dating_player?  = NPCSystem.dating_player?(@id)
+    def married_player? = NPCSystem.married_player?(@id)
+
+    # Behavior / schedule state
+    def state
+      NPCSystem.state(@id)
+    end
+
+    def state=(sym)
+      NPCSystem.set_state(@id, sym)
     end
 
     # --- Class methods for managing NPCs ---
@@ -466,7 +586,7 @@ def pbNPC(id, interaction_type = :talk)
   Rf.new_portrait(portrait)
 
   # Handle daily affection bonus
-  NPCSystem.interacted_today?(id)
+  NPCSystem.daily_interaction(id)
   
   NPCSystem.talk_to(npc)
 

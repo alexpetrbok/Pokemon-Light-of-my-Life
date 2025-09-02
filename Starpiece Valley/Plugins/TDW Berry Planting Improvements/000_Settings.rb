@@ -35,7 +35,7 @@ module Settings
         # Chance out of 100 that a dug up berry is kept. Otherwise, it will break apart
         # and not be returned to the player.
         #--------------------------------------------------------------------------------	
-        BERRY_DIG_UP_KEEP_CHANCE            = 25
+        BERRY_DIG_UP_KEEP_CHANCE            = 75
 
         #--------------------------------------------------------------------------------
         # Define items that can drop from a berry plant once it fully withers (replants
@@ -50,7 +50,7 @@ module Settings
         #--------------------------------------------------------------------------------	
         BERRY_WITHERED_ITEMS                = [
             [5,:BIGROOT],
-            [1,:DropParentBerry]
+            [20,:DropParentBerry]
         ]
 
     #====================================================================================
@@ -92,7 +92,7 @@ module Settings
         #--------------------------------------------------------------------------------
         # Base chance out of 100 that berry mutation will occur without mulch influence.
         #--------------------------------------------------------------------------------		
-        BERRY_BASE_MUTATION_CHANCE          = 20
+        BERRY_BASE_MUTATION_CHANCE          = 7
 
         #--------------------------------------------------------------------------------
         # List of Mulch items that will impact the chance of berry mutations occuring
@@ -117,7 +117,7 @@ module Settings
         # - BERRY_MUTATION_COUNT is set to 1, and the plant will produce 5 berries.
         #   The plant will produce 4 original berries and 1 mutated berry.
         #--------------------------------------------------------------------------------		
-        BERRY_MUTATION_COUNT                = 1
+        BERRY_MUTATION_COUNT                = 3
     
         #--------------------------------------------------------------------------------
         # To give a hint to the player that a plant will produce a mutated berry, set a
@@ -255,7 +255,7 @@ module Settings
         #--------------------------------------------------------------------------------
         # Set how many Berries are needed to be used to create mulch in a composter.
         #--------------------------------------------------------------------------------	
-        COMPOSTER_BERRY_AMOUNT              = 3
+        COMPOSTER_BERRY_AMOUNT              = 5
         #--------------------------------------------------------------------------------
         # Set how many bags of mulch will be dispensed each time using the composter.
         #--------------------------------------------------------------------------------	
@@ -355,10 +355,10 @@ module Settings
         
         BERRY_PREFERRED_WEATHER_TRAITS = {
             :yield              => 2, # Positive increases final yield, negative decreases it
-            :hours_per_stage    => 0, # Positive makes it grow slower, negative makes it faster
-            :drying_per_hour    => 0, # Positive makes it dry out faster, negative makes it slower
-            :mutation_chance    => 0, # Positive increases mutation chance, negative decreases it
-            :max_replants       => 0  # Positive increases max replants, negative decreases them
+            :hours_per_stage    => -8, # Positive makes it grow slower, negative makes it faster
+            :drying_per_hour    => -2, # Positive makes it dry out faster, negative makes it slower
+            :mutation_chance    => 2, # Positive increases mutation chance, negative decreases it
+            :max_replants       => 1  # Positive increases max replants, negative decreases them
         }
 
         #--------------------------------------------------------------------------------
@@ -370,17 +370,17 @@ module Settings
         
         BERRY_PREFERRED_ZONE_TRAITS = {
             :yield              => 2, # Positive increases final yield, negative decreases it
-            :hours_per_stage    => -1, # Positive makes it grow slower, negative makes it faster
-            :drying_per_hour    => -1, # Positive makes it dry out faster, negative makes it slower
-            :mutation_chance    => 5, # Positive increases mutation chance, negative decreases it
+            :hours_per_stage    => -6, # Positive makes it grow slower, negative makes it faster
+            :drying_per_hour    => 0, # Positive makes it dry out faster, negative makes it slower
+            :mutation_chance    => 3, # Positive increases mutation chance, negative decreases it
             :max_replants       => 2  # Positive increases max replants, negative decreases them
         }
 
         BERRY_UNPREFERRED_ZONE_TRAITS = {
             :yield              => -2, # Positive increases final yield, negative decreases it
-            :hours_per_stage    => 2, # Positive makes it grow slower, negative makes it faster
-            :drying_per_hour    => 0, # Positive makes it dry out faster, negative makes it slower
-            :mutation_chance    => 0, # Positive increases mutation chance, negative decreases it
+            :hours_per_stage    => 8, # Positive makes it grow slower, negative makes it faster
+            :drying_per_hour    => 2, # Positive makes it dry out faster, negative makes it slower
+            :mutation_chance    => -3, # Positive increases mutation chance, negative decreases it
             :max_replants       => -2  # Positive increases max replants, negative decreases them
         }
 
@@ -392,9 +392,9 @@ module Settings
         
         BERRY_PREFERRED_SOIL_TRAITS = {
             :yield              => 2, # Positive increases final yield, negative decreases it
-            :hours_per_stage    => -1, # Positive makes it grow slower, negative makes it faster
-            :drying_per_hour    => 0, # Positive makes it dry out faster, negative makes it slower
-            :mutation_chance    => 0, # Positive increases mutation chance, negative decreases it
+            :hours_per_stage    => -3, # Positive makes it grow slower, negative makes it faster
+            :drying_per_hour    => -1, # Positive makes it dry out faster, negative makes it slower
+            :mutation_chance    => 2, # Positive increases mutation chance, negative decreases it
             :max_replants       => 2  # Positive increases max replants, negative decreases them
         }
 
@@ -409,7 +409,7 @@ module Settings
         #--------------------------------------------------------------------------------
         # Number of hours between weed growth checks.
         #--------------------------------------------------------------------------------	
-        BERRY_WEED_HOURS_BETWEEN_CHECKS     = 2
+        BERRY_WEED_HOURS_BETWEEN_CHECKS     = 12
 
         #--------------------------------------------------------------------------------
         # Chance out of 100 that weeds will grow during each check.
@@ -456,7 +456,7 @@ module Settings
         #--------------------------------------------------------------------------------
         # Number of hours between checks for pests to attach themselves to a berry plant.
         #--------------------------------------------------------------------------------	
-        BERRY_PEST_HOURS_BETWEEN_CHECKS     = 2
+        BERRY_PEST_HOURS_BETWEEN_CHECKS     = 12
 
         #--------------------------------------------------------------------------------
         # Chance out of 100 that pests will attach themselves to a berry plant during 
@@ -482,7 +482,7 @@ module Settings
         #--------------------------------------------------------------------------------	
         
         BERRY_HAS_PESTS_TRAITS = {
-            :hours_per_stage    => 2, # Positive makes it grow slower, negative makes it faster
+            :hours_per_stage    => 6, # Positive makes it grow slower, negative makes it faster
             :drying_per_hour    => 0, # Positive makes it dry out faster, negative makes it slower
             :mutation_chance    => -5 # Positive increases mutation chance, negative decreases it
         }
@@ -508,7 +508,7 @@ module Settings
         #--------------------------------------------------------------------------------
         # If true, the player shows an animation while watering berry plants.
         #--------------------------------------------------------------------------------	
-        BERRY_SHOW_WATERING_ANIMATION       = true
+        BERRY_SHOW_WATERING_ANIMATION       = false #true
 
         #--------------------------------------------------------------------------------
         # Set the spriteset to use for individual players. The order of the sprites
@@ -523,7 +523,7 @@ module Settings
         # If true, the player won't be given the option to water a berry plant if it 
         # already has maxed moisture.
         #--------------------------------------------------------------------------------	
-        BERRY_PREVENT_WATERING_IF_MAXED     = false
+        BERRY_PREVENT_WATERING_IF_MAXED     = true
 
         #--------------------------------------------------------------------------------
         # If true, berry plants will always be watered if it's raining on the same map. 
@@ -539,7 +539,7 @@ module Settings
         # If BERRY_WATERING_MUST_FILL is true, set how many times a watering can can be
         # used to water berry plants before becoming empty.
         #--------------------------------------------------------------------------------	
-        BERRY_WATERING_USES_BEFORE_EMPTY    = 8
+        BERRY_WATERING_USES_BEFORE_EMPTY    = 12
 
         #--------------------------------------------------------------------------------
         # List of watering can items that have different number of times they can be used 

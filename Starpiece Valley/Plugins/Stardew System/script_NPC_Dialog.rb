@@ -48,7 +48,7 @@ def load_dialogs
         { prompt: "Any regulars?", response: "A Zorua sneaks in every Thursday. Pretends to be a customer." }
       ],
       closer: [
-        { text: "Come back soon, cutie — I mean, customer!" }
+        { text: "See you later!" }
       ]
     },
     work: {
@@ -59,9 +59,13 @@ def load_dialogs
         { prompt: "Can I help?", response: "If you can stir and smile, you’re hired!" }
       ],
       shop: [
-        { prompt: "Treats and Items", response: "What can I get for you?" }
-        #{ prompt: "Pokemon Massage", response: "Which lil critter needs some affection?" }
+        { prompt: "Treats and Items", response: "What can I get for you?", :script => -> { pbShopPokecafe}},
+        { prompt: "Pokemon Massage", response: "Which lil critter needs some affection?" }
       ],
+      closer: [
+        #{ text: "Come back soon, cutie — I mean, customer!", :condition: -> { NPCSystem.affection(:POKECAFE) >100}},
+        { text: "Come back soon!" }
+      ]
     },
     winter: {
       opener: [
