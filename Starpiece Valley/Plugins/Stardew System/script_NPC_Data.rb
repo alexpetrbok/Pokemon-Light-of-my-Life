@@ -37,9 +37,9 @@ def load_npcs
     id: "POKECAFE",
     name: "Robyn",
     spouse: "ENGINEER",
-    birthday: "fall 9",
+    birthday: "autumn 24",
     fav_gifts: {
-      :MOOMOOMILK => 10,
+      :PLUMEFOSSIL => 10,
       :LAVACOOKIE => 3,
       :CHESTOBERRY => 2
     },

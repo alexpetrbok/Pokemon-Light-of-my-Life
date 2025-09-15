@@ -708,6 +708,257 @@ end
 #===============================================================================
 # BerryPlant Overwrite
 #===============================================================================
+# Streamlined, energy-aware, quiet interaction.
+# Call from a BerryPlant event:  Script: pbBerrySpotQuickMenu
+
+# Short label matching the default flow vibe
+def pbBerryStageLabel(plant)
+  return _INTL("Empty Soil") unless plant && plant.planted?
+  return _INTL("ready to Harvest") if plant.respond_to?(:grown?) && plant.grown?
+  stg = (plant.instance_variable_defined?(:@growth_stage) ? plant.instance_variable_get(:@growth_stage).to_i : 1)
+  case stg
+  when 1 then _INTL("Planted")
+  when 2 then _INTL("Sprouted")
+  when 3 then _INTL("Growing")
+  else        _INTL("Blooming")
+  end
+end
+
+def pbBerrySpotQuickMenu(ev = nil, quiet = true)
+  ev ||= pbMapInterpreter.get_self
+  return if !ev
+
+  data = $PokemonGlobal.eventvars[[$game_map.map_id, ev.id]]
+  unless data.is_a?(BerryPlantData)
+    data = BerryPlantData.new(ev)
+    $PokemonGlobal.eventvars[[$game_map.map_id, ev.id]] = data
+  end
+
+  # --- Pests auto-attack immediately unless too tired ---
+  pests = (data.instance_variable_defined?(:@pests) ? data.instance_variable_get(:@pests) : false)
+  if pests
+    if $player_energy && $player_energy.modify_energy(ENERGY_PESTS)
+      if defined?(pbStartBerryPlantPestBattle)
+        pbStartBerryPlantPestBattle(data)
+      else
+        data.instance_variable_set(:@pests, false)
+        data.instance_variable_set(:@pests_timer, pbGetTimeNow.to_i)
+      end
+      return
+    else
+      pbMessage(_INTL("Pests are eating your berries, but you're too tired to do anything..."))
+      return
+    end
+  end
+
+  planted   = data.planted?
+  grown     = (planted && data.respond_to?(:grown?) ? data.grown? : false)
+  weeds     = (data.instance_variable_defined?(:@weeds) ? data.instance_variable_get(:@weeds) : false)
+  moisture  = (data.instance_variable_defined?(:@moisture_level) ? (data.instance_variable_get(:@moisture_level) || 0) : 0)
+  dry_enough_to_water = (planted && moisture <= 70)   # tweak threshold to taste
+
+  # --- Stage-based facing like the default handler ---
+  if planted
+    if grown
+      ev.turn_up
+    else
+      stg = (data.instance_variable_defined?(:@growth_stage) ? data.instance_variable_get(:@growth_stage).to_i : 1)
+      case stg
+        when 1; ev.turn_down
+        when 2; ev.turn_down
+        when 3; ev.turn_left
+        else   ev.turn_right
+      end
+    end
+  end
+
+  # Header (berry name + default-style stage label)
+  berry_id   = (planted ? data.berry_id : nil)
+  berry_name = (berry_id ? GameData::Item.get(berry_id).name : _INTL("Empty Soil"))
+  header_txt = planted ? _INTL("The {1} is {2}", berry_name, pbBerryStageLabel(data)) : _INTL("Empty Soil")
+
+  # Build options
+  entries = []
+  if planted
+    entries << [_INTL("Harvest"),    :harvest]      if grown
+    entries << [_INTL("Upkeep"),   :maintain]       if (dry_enough_to_water && weeds) 
+    entries << [_INTL("Water"),      :water]        if dry_enough_to_water
+    entries << [_INTL("Pull weeds"), :weeds]        if weeds
+    can_dig = planted && !grown && (data.instance_variable_defined?(:@growth_stage) ? data.instance_variable_get(:@growth_stage).to_i : 1) <= 1
+    entries << [_INTL("Dig up"),       :dig]        if can_dig
+  else
+    entries << [_INTL("Plant"),      :plant]
+  end
+  entries << [_INTL("Mulch"),        :mulch]
+  
+  entries << [_INTL("Leave"),        :leave]        # keep last
+
+  idx = pbMessage(header_txt, entries.map { |e| e[0] }, -1)
+  return if idx < 0
+  action = entries[idx][1]
+
+  case action
+  when :leave
+    return
+
+  when :maintain
+    # Order: Weeds -> Water -> Harvest
+    if weeds
+      unless $player_energy && $player_energy.modify_energy(ENERGY_WEEDS)
+        pbMessage(_INTL("You're too tired to pull weeds.")); return
+      end
+      data.pullWeeds if data.respond_to?(:pullWeeds)
+      weeds = false
+    end
+    if dry_enough_to_water
+      unless $player_energy && $player_energy.modify_energy(ENERGY_WATER)
+        pbMessage(_INTL("You're too tired to water.")); return
+      end
+      if quiet
+        data.water
+      else
+        if defined?(pbBerryPlantWater)
+          pbBerryPlantWater(data)
+        else
+          data.water
+        end
+      end
+    end
+
+  when :water
+    if $player_energy && $player_energy.modify_energy(ENERGY_WATER)
+      if quiet
+        data.water
+      else
+        if defined?(pbBerryPlantWater)
+          pbBerryPlantWater(data)
+        else
+          data.water
+        end
+      end
+    else
+      pbMessage(_INTL("You're too tired to water."))
+    end
+    return
+
+  when :weeds
+    if $player_energy && $player_energy.modify_energy(ENERGY_WEEDS)
+      data.pullWeeds if data.respond_to?(:pullWeeds)
+    else
+      pbMessage(_INTL("You're too tired to pull weeds."))
+    end
+    return
+
+  when :harvest
+    if grown && $player_energy && $player_energy.modify_energy(ENERGY_HARVEST)
+      if quiet
+        qty = data.berry_yield
+        bid = data.berry_id
+        $bag.add(bid, qty)
+        pbShowItemDisplay(bid, qty) rescue nil
+        data.reset
+      else
+        if pbPickBerry(berry_id, data.berry_yield)
+          data.reset
+        end
+      end
+    else
+      pbMessage(_INTL("You're too tired to harvest.")) unless grown
+    end
+    return
+
+  when :mulch
+    unless $player_energy && $player_energy.modify_energy(ENERGY_MULCH)
+      pbMessage(_INTL("You're too tired to spread mulch.")); return
+    end
+    mulch = nil
+    pbFadeOutIn do
+      scene  = PokemonBag_Scene.new
+      screen = PokemonBagScreen.new(scene, $bag)
+      mulch  = screen.pbChooseItemScreen(proc { |item| GameData::Item.get(item).is_mulch? })
+    end
+    if mulch
+      md = GameData::Item.get(mulch)
+      if md.is_mulch?
+        data.mulch_id = mulch
+        $bag.remove(mulch)
+        pbMessage(_INTL("The {1} was scattered on the soil.", md.name)) unless quiet
+      else
+        pbMessage(_INTL("That won't fertilize the soil!")) unless quiet
+      end
+    end
+    return
+
+  when :plant
+    # Empty soil → choose a berry or seed based on settings
+    unless $player_energy && $player_energy.modify_energy(ENERGY_PLANT)
+      pbMessage(_INTL("You're too tired to plant.")); return
+    end
+    berry = nil
+    seed  = nil
+    planted_item = nil
+    pbFadeOutIn do
+      scene  = PokemonBag_Scene.new
+      screen = PokemonBagScreen.new(scene, $bag)
+      if Settings::BERRY_USE_BERRY_SEEDS
+        seed = screen.pbChooseItemScreen(proc { |it| GameData::Item.get(it).is_berry_seed? && GameData::Item.get(it).can_plant? })
+        if seed
+          if Settings::BERRY_MYSTERY_SEED_POOLS[seed]
+            pool = Settings::BERRY_MYSTERY_SEED_POOLS[seed]
+            pool.sort! { |a, b| b[1] <=> a[1] }
+            total = 0; pool.each { |a| total += a[1] }
+            rnd = rand(total)
+            pool.each do |b|
+              rnd -= b[1]
+              next if rnd >= 0
+              berry = b[0]; break
+            end
+          elsif seed.to_s.include?("_SEED")
+            berry = seed.to_s.sub("_SEED","").to_sym
+          end
+          planted_item = seed
+        end
+      else
+        berry = screen.pbChooseItemScreen(proc { |it| GameData::Item.get(it).is_berry? && GameData::Item.get(it).can_plant? })
+        planted_item = berry
+      end
+    end
+    if berry
+      $stats.berries_planted += 1 rescue nil
+      data.plant(berry, seed)
+      if Settings::BERRY_USE_BERRY_SEEDS && seed
+        $bag.remove(seed)
+      else
+        $bag.remove(berry)
+      end
+      unless quiet
+        soil_desc = (data.soil ? data.soil[:planting_description] : _INTL("soft, earthy"))
+        pbMessage(_INTL("The {1} was planted in the {2} soil.", GameData::Item.get(planted_item).name, soil_desc))
+      end
+    end
+    return
+
+  when :dig
+    if planted && (data.instance_variable_defined?(:@growth_stage) ? data.instance_variable_get(:@growth_stage).to_i : 1) <= 1
+      if ($player_energy && $player_energy.modify_energy(ENERGY_DIGBERRY))
+        bid = data.berry_id
+        data.reset(true)
+        $bag.add(bid, 1)
+        pbShowItemDisplay(bid, 1) rescue nil
+      else
+        pbMessage(_INTL("You're too tired to dig."))
+      end
+    else
+      pbMessage(_INTL("It’s too established to dig up now."))
+    end
+    return
+  end
+end
+
+
+
+
+
 
 def pbBerryPlantOrig
     interp = pbMapInterpreter
@@ -1070,11 +1321,12 @@ def pbBerryPlant
         end
         pbOtherInteractions if !not_planted
     else
-        pbBerryPlantOrig
+        #pbBerryPlantOrig
+        pbBerrySpotQuickMenu
         if Settings::BERRY_SHOW_WATERING_ANIMATION && $game_player.berry_watering
             $game_player.stop_watering_charset
         end
-        pbOtherInteractions if !not_planted
+        #pbOtherInteractions if !not_planted
     end
     if Settings::BERRY_PREFERRED_ZONE_WARNING && not_planted && berry_plant && 
                 berry_plant.berry_id && (berry_plant.plant_zone || berry_plant.soil)

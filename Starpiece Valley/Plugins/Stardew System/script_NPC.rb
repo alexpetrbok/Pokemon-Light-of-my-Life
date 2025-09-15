@@ -58,12 +58,20 @@ module NPCSystem
   end
 
   # Convenience checks
-  def self.single?(npc_id)         = relationship_state(npc_id) == :single
-  def self.dating_player?(npc_id)  = relationship_state(npc_id) == :dating_player
-  def self.married_player?(npc_id) = relationship_state(npc_id) == :married_player
+  def self.single?(npc_id)         = relationship_state(npc_id) == :Single
+  def self.dating_player?(npc_id)  = relationship_state(npc_id) == :Dating_Player || relationship_state(npc_id) == :Married_Player
+  def self.married_player?(npc_id) = relationship_state(npc_id) == :Married_Player
+  def self.dating_spouse?(npc_id)  = relationship_state(npc_id) == :Dating_Spouse || relationship_state(npc_id) == :Married_Spouse
 
   # ---------- Behavior / Schedule State ----------
   # examples: :idle, :work, :home, :leisure, :social, :sleep
+  # Leisure/free states you’ll use in schedules
+  FREE_STATES = [:leisure, :fish, :swim, :home, :walk]
+
+  def self.free_state?(state_sym)
+    FREE_STATES.include?(state_sym.to_sym)
+  end
+  
   def self.state(npc_id)
     k = _ensure_defaults(npc_id)
     @state_data[k]
@@ -96,8 +104,19 @@ module NPCSystem
     @daily_interacted.clear
   end
 
+  def self.current_season_symbol
+    case pbGetSeason
+      when 0 then :spring
+      when 1 then :summer
+      when 2 then :autumn
+      when 3 then :winter
+      else nil
+    end
+  end
+
+
   # ---------- Daily Gifts ----------
-  def self.track_gift_given(npc_id, weight = 1, item: nil)
+  def self.track_gift_given(npc_id, weight = 1, item=nil)
     k = _key(npc_id)
     @daily_gifts[k] ||= 0
     @daily_gifts[k] += weight.to_i
@@ -183,8 +202,8 @@ module NPCSystem
 
     # Relationship multiplier
     multiplier = case npc.relationship_state
-                when :Dating_Player then 2
-                when :Married_Player then 3
+                when :Dating_Player then 1.5
+                when :Married_Player then 2
                 else 1
                 end
 
@@ -199,7 +218,8 @@ module NPCSystem
 
     # Give gift
     pbMessage("#{npc.name} accepts your #{GameData::Item.get(item).name}!")
-    track_gift_given(npc_id, gift_weight, GameData::Item.get(item).name)
+    #track_gift_given(npc_id, gift_weight, GameData::Item.get(item).name)
+    track_gift_given(npc_id, gift_weight, item)
     add_affection(npc_id, total_affection)
     $bag.remove(item)
     pbShowItemDisplay(item, -1)
@@ -239,34 +259,21 @@ module NPCSystem
       actions << -> { give_gift(npc.id) }
 
       
-
-      # Activities only if at home or leisure
-      if [:home, :leisure].include?(npc.state)
-        choices << "Spend Time"
-        actions << -> { show_dialog(npc.id, :activity) }
-      end
       # Activities if at home or leisure
       if [:home, :leisure].include?(npc.state)
-        choices << "Spend Time"
-        actions << -> {
-          # DEBUG: placeholder for activity scene start (e.g., minigame, timed hangout)
-          # start_activity_scene(npc.id)
-          show_dialog(npc.id, :activity)
-        }
+        choices << "Activities"
+        actions << -> {show_dialog(npc.id, :activity)}
+        
 
         # NEW — Date option appears when dating (you can add an affection floor if desired)
         if npc.dating_player?
           choices << "Date"
-          actions << -> {
-            # DEBUG: placeholder date scene trigger
-            # start_date_scene(npc.id)
-            show_dialog(npc.id, :date)
-          }
+          actions << -> {show_dialog(npc.id, :date)}
         end
       end
 
       # if quest_active?(:gardener_help)
-      #   choices << "Ask about Garden"
+      #   choices << "Quest"
       #   actions << -> { show_dialog(npc.id, :quest) }
       # end
 
@@ -297,53 +304,159 @@ module NPCSystem
       return
     end
 
-    state_key = npc.state.to_sym rescue :default
-    dialog_set = dialog[state_key] || dialog[:default]
-    unless dialog_set
-      puts "⚠️ No dialog for state :#{state_key} or :default for #{npc.id}"
+    state_key = npc.state.to_s.downcase.to_sym
+    season_key = current_season_symbol
+    free_now   = free_state?(state_key)
+
+    # ----- gather candidate lists by source priority -----
+    # 1) state bucket
+    state_list = (dialog[state_key] && dialog[state_key][type]).is_a?(Array) ? dialog[state_key][type] : []
+
+    # 2) seasonal add-on to default
+    season_list = (season_key && dialog[season_key] && dialog[season_key][type]).is_a?(Array) ? dialog[season_key][type] : []
+
+    # 3) default bucket
+    default_list = (dialog[:default] && dialog[:default][type]).is_a?(Array) ? dialog[:default][type] : []
+
+    # nothing at all?
+    if state_list.empty? && season_list.empty? && default_list.empty?
+      puts "⚠️ No dialog of type :#{type} for #{npc.id} (state=#{state_key}, season=#{season_key || :none})"
       return
     end
 
-    type_dialog = dialog_set[type]
-    unless type_dialog.is_a?(Array) && !type_dialog.empty?
-      puts "⚠️ No dialog of type :#{type} for #{npc.id} in state :#{state_key}"
-      return
+    # ----- helpers: condition check + weighting -----
+    condition_true_weight  = 3   # favor entries with :condition == true
+    condition_nil_weight   = 1   # neutral entries with no :condition
+    source_state_weight    = 4   # source priority: state > seasonal-default > default
+    source_season_weight   = 2
+    source_default_weight  = 1
+
+    eval_condition = lambda do |entry|
+      return false if entry.nil?
+      cond = entry[:condition]
+      return false if cond == false
+      return true  if cond.nil?
+      return !!cond.call if cond.respond_to?(:call)
+      !!cond
     end
 
-    # Decide menu vs. linear: if any entry has :prompt, treat as a menu
-    uses_menu = type_dialog.any? { |entry| entry.key?(:prompt) }
+    entry_weight = lambda do |entry, source_weight|
+      base = eval_condition.call(entry) ? condition_true_weight : condition_nil_weight
+      base + source_weight
+    end
 
+    # decide menu vs linear from the highest-priority non-empty list
+    head = !state_list.empty? ? state_list : (!season_list.empty? ? season_list : default_list)
+    uses_menu = head.any? { |e| e.is_a?(Hash) && e.key?(:prompt) }
+
+    # ----- MENU MODE -----
     if uses_menu
-      choices = type_dialog.map { |entry| entry[:prompt] }
-      choices << "[Back]"
+      # build the full candidate pool (order matters for tiebreak randomness)
+      pool = []
+      state_list.each               { |e| pool << [e, source_state_weight] }
+      season_list.each    { |e| pool << [e, source_season_weight] }
+      default_list.each             { |e| pool << [e, source_default_weight] }
+
+      # filter out false conditions
+      pool.select! { |(e, _)| e.is_a?(Hash) && e[:prompt] && eval_condition.call(e) }
+
+
+      if pool.empty?
+        puts "⚠️ No valid menu entries for :#{type} (conditions filtered) on #{npc.id}"
+        return
+      end
+
+      # pagination / cycling
+      seen = {}
+      pool = pool.reject do |(e, _)|
+        key = e[:prompt].to_s
+        dup = seen[key]
+        seen[key] = true
+        dup
+      end
+
+      # score once and sort once to get a STABLE order for paging
+      scored_sorted = pool.map { |(e, srcw)| [e, entry_weight.call(e, srcw), srcw] }
+                          .sort_by { |(_e, w, _)| -w } # high weight first
+
+      # 2) Page through in slices of MENU_PAGE_SIZE
+      total_items = scored_sorted.length
+      start_index = 0
 
       loop do
-        choice = pbMessage("What do you want to choose?", choices)
-        break if choice < 0 || choices[choice] == "[Back]"
+        page = scored_sorted.slice(start_index, 5) || []
+        visible_entries = page.map(&:first)
 
-        selected = type_dialog[choice]
-        if selected[:response]
-          pbMessage(selected[:response])
-        else
-          puts "⚠️ Missing response for prompt: #{selected[:prompt]}"
+        remaining = total_items - (start_index + 5)
+        remaining = 0 if remaining < 0
+
+        choices = visible_entries.map { |e| e[:prompt] }
+        # add pager if more remain
+        choices << "[More]" if remaining > 0
+        choices << "[Back]"
+
+        # input
+        idx = pbMessage("What do you want to choose?", choices)
+        break if idx < 0 || choices[idx] == "[Back]"
+
+        if remaining > 0 && choices[idx] == "[More]"
+          start_index += 5
+          # wrap-around: once we reach the end, cycle back to the beginning
+          start_index = 0 if start_index >= scored_sorted.size
+          next
         end
 
-        # Optional line-level script hook (e.g., open shop)
-        if selected[:script].respond_to?(:call)
-          # DEBUG: running attached script for this entry
-          selected[:script].call
+        # resolve selected entry
+        selected_entry = visible_entries[idx]
+        unless selected_entry
+          puts "⚠️ Menu index out of range (idx=#{idx}) for #{npc.id}"
+          next
+        end
+
+        pbMessage(selected_entry[:response]) if selected_entry[:response]
+        if selected_entry[:script].respond_to?(:call)
+          # DEBUG: running attached script for this menu entry
+          selected_entry[:script].call
         end
       end
-    else
-      # Linear display expects :text entries
-      type_dialog.each do |entry|
-        pbMessage(entry[:text]) if entry[:text]
-        # Optional script after a text line
-        if entry[:script].respond_to?(:call)
-          # DEBUG: running attached script after linear text
-          entry[:script].call
-        end
+      return
+    end
+
+    # ----- LINEAR MODE -----
+    # Merge all three sources; seasonal/default carry lower weights.
+    candidates = []
+    state_list.each            { |e| candidates << [e, source_state_weight] }
+    season_list.each { |e| candidates << [e, source_season_weight] }
+    default_list.each          { |e| candidates << [e, source_default_weight] }
+
+    valid = candidates.select { |(e, _)| e.is_a?(Hash) && (e[:text] || e[:script]) && eval_condition.call(e) }
+    if valid.empty?
+      puts "⚠️ No valid linear entries for :#{type} on #{npc.id}"
+      return
+    end
+
+    # DEBUG: see where linear entries are coming from
+    puts "DEBUG LINEAR pool sizes: state=#{state_list.length}, seasonal=#{season_list.length}, default=#{default_list.length}, valid=#{valid.length}"
+
+    # weighted random across merged pool
+    weights = valid.map { |(e, srcw)| entry_weight.call(e, srcw) }
+    total   = [weights.sum, 1].max
+    roll    = rand(total)
+    acc     = 0
+    pick_i  = 0
+    weights.each_with_index do |w, i|
+      acc += w
+      if roll < acc
+        pick_i = i
+        break
       end
+    end
+
+    entry, _srcw = valid[pick_i]
+    pbMessage(entry[:text]) if entry[:text]
+    if entry[:script].respond_to?(:call)
+      # DEBUG: running attached script after linear text
+      entry[:script].call
     end
   end
 
@@ -352,7 +465,7 @@ module NPCSystem
   def self.do_activity(npc_id)
     # Placeholder - perform an activity with this NPC
     pbMessage("You spent some time with #{GameData::NPC.try_get(npc_id).name}.")
-    update_affection(npc_id, 2)
+    update_affection(npc_id, 8)
   end
 
 
@@ -546,14 +659,20 @@ module GameData
 
       npc.dialog ||= {}
 
-      dialog_hash.each do |state, dialogs|
-        npc.dialog[state] ||= {}
-        dialogs.each do |type, entries|
-          npc.dialog[state][type] ||= []
-          npc.dialog[state][type].concat(entries)
+      dialog_hash.each do |state, types_hash|
+        next unless types_hash.is_a?(Hash)
+        st = state.to_sym
+        npc.dialog[st] ||= {}
+
+        types_hash.each do |type, entries|
+          typ = type.to_sym
+          entries = [entries] if entries.is_a?(Hash)     # coerce single entry
+          npc.dialog[st][typ] ||= []
+          npc.dialog[st][typ].concat(entries)
         end
       end
     end
+
 
 
 

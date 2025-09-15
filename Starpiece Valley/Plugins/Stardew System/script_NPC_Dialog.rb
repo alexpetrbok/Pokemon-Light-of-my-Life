@@ -40,39 +40,98 @@ def load_dialogs
   GameData::NPC.set_dialog(:POKECAFE, {
     default: {
       opener: [
-        { text: "Hiya! What’ll it be today, sweet or spicy?" }
+        { text: "How are you?" }
       ],
       chat: [
-        { prompt: "What’s your specialty?", response: "Lava Cookies with a berry glaze. Sweet heat is my style!" },
-        { prompt: "Why start a café?", response: "It’s the little smiles. People unwind when there’s something warm in their hands." },
-        { prompt: "Any regulars?", response: "A Zorua sneaks in every Thursday. Pretends to be a customer." }
+        { prompt: "Why open a café?", response: "I saw too many Pokémon who needed a safe place to rest… so I decided to create one myself." },
+        { prompt: "How do you manage alone?", response: "Spreadsheets, late nights, and a lot of coffee. I’ll manage until I can hire help." },
+        { prompt: "Do you like your work?", response: "I love it. Even when I’m tired, seeing a Pokémon relax makes it worth it." }
       ],
       closer: [
-        { text: "See you later!" }
+        { text: "Take care, and give your partners some extra love for me." }
       ]
     },
+
     work: {
       opener: [
-        { text: "Watch the counter while I flip these Poképuffs?" }
+        { text: "Let me know if your Pokémon need grooming, training, or just a moment of calm." },
+        { text: "Welcome to the Pokécafé. How are your partners doing today?" }
       ],
       chat: [
-        { prompt: "Can I help?", response: "If you can stir and smile, you’re hired!" }
+        { prompt: "How do you purify shadow Pokémon?", response: "Gentle care. Treats, massages, patience… it’s slow, but kindness reaches through the darkness." },
+        { prompt: "Do you sell anything?", response: "Homemade treats, crafted to build trust and friendship." },
+        { prompt: "What drives you?", response: "Every rescued Pokémon reminds me why I started this. One smile at a time." },
+        { prompt: "Need any help?", response: "Maybe someday… I’d love to expand, but right now it’s just me." , condition: -> { NPCSystem.affection(:POKECAFE) >= 80 } },
+        { prompt: "Ever take breaks?", response: "Not really. But if you stuck around, maybe I’d actually rest." , condition: -> { NPCSystem.affection(:POKECAFE) >= 120 } }
       ],
       shop: [
-        { prompt: "Treats and Items", response: "What can I get for you?", :script => -> { pbShopPokecafe}},
-        { prompt: "Pokemon Massage", response: "Which lil critter needs some affection?" }
+        { prompt: "Friendship Treats", response: "Here—homemade and healthy.", :script => -> { pbShopPokecafe }},
+        { prompt: "Pokémon Massage", response: "Which partner needs some extra care?" } #pkmn.changeHappiness(groom)
       ],
       closer: [
-        #{ text: "Come back soon, cutie — I mean, customer!", :condition: -> { NPCSystem.affection(:POKECAFE) >100}},
-        { text: "Come back soon!" }
+        { text: "Come back anytime. The café’s doors are always open." }
+      ]
+    },
+
+    leisure: {
+      opener: [
+        { text: "I finally closed up for a while. Feels strange to step away." }
+      ],
+      chat: [
+        { prompt: "What do you do to relax?", response: "Fishing clears my head. Quiet water, no ledgers." },
+        { prompt: "Do you ever think about the future?", response: "Yes… I dream of turning this into something bigger. A shelter, a real rescue center." , condition: -> { NPCSystem.affection(:POKECAFE) >= 100 } }
+      ],
+      activity: [
+        { prompt: "Relax Together", response: "I could use a quiet moment… thank you." },
+        { prompt: "Field Rescue Call", response: "There’s a Shadow Pokémon sighting. Want to come?" , condition: -> { NPCSystem.affection(:POKECAFE) >= 140 } }
+      ],
+      date: [
+        { prompt: "Evening Walk", response: "That sounds… nice. I don’t get asked that often." , condition: -> { NPCSystem.dating_player?(:POKECAFE) } },
+        { prompt: "Cafe After Hours", response: "Just us, the lights low, and maybe a cup of cocoa." , condition: -> { NPCSystem.dating_player?(:POKECAFE) } }
+      ],
+      closer: [
+        { text: "I should head back soon… but this was good." }
+      ]
+    },
+
+    # Seasonal Flavors
+    spring: {
+      opener: [
+        { text: "Spring brings new life—and too many stray rescues at once." }
+      ],
+      chat: [
+        { prompt: "Spring favorite?", response: "Fresh berry tea. Sweet, simple, grounding." }
+      ]
+    },
+    summer: {
+      opener: [
+        { text: "Summer keeps me busy… and the heat drives a lot of Shadow Pokémon into town." }
+      ],
+      chat: [
+        { prompt: "Summer specialty?", response: "Chilled lemonade cookies. Keeps spirits high in the heat." }
+      ]
+    },
+    autumn: {
+      opener: [
+        { text: "Autumn walks help me clear my head. Haunted Woods are eerie, but strangely calming." }
+      ],
+      chat: [
+        { prompt: "Autumn favorite?", response: "Pumpkin spice… don’t laugh. It’s comforting." }
       ]
     },
     winter: {
       opener: [
-        { text: "Hot cocoa? I've got five kinds." }
+        { text: "Cold nights bring quiet here. It almost feels safe, for a while." }
+      ],
+      chat: [
+        { prompt: "Winter favorite?", response: "Spiced cocoa and soft blankets. The little things." }
+      ],
+      date: [
+        { prompt: "Hot Springs Trip", response: "Steam and starlight… I think I’d actually relax." , condition: -> { NPCSystem.dating_player?(:POKECAFE) } }
       ]
     }
   })
+
 
   GameData::NPC.set_dialog(:RANCHER, {
     default: {

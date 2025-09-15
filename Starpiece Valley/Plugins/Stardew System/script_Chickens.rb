@@ -877,3 +877,140 @@ def swap_chicken(chicken)
   # Refresh chicken visuals
   $box_ranch.setup_ranch_pokemon if $box_ranch
 end
+
+
+#===============================================================
+# ChickenBreeding: nightly breeder + 3-slot coop egg storage + helpers
+#===============================================================
+module ChickenBreeding
+  MAX_COOP_EGGS = 3
+  @eggs = []   # holds Pokemon egg objects
+
+  class << self
+    def eggs; @eggs; end
+    def count; @eggs.length; end
+    def full?; @eggs.length >= MAX_COOP_EGGS; end
+    def empty?; @eggs.empty?; end
+
+    # Add a Pokemon egg object to coop storage (returns true/false)
+    def add_egg(egg)
+      return false if full?
+      return false unless egg && egg.egg?
+      @eggs << egg
+      true
+    end
+
+    # Give all eggs to party first, then PC. Returns number moved.
+    def collect_all
+      moved = 0
+      @eggs.dup.each do |egg|
+        if $player.party_full?
+          break unless $PokemonStorage.pbStoreCaught(egg)
+        else
+          $player.party << egg
+        end
+        @eggs.delete(egg)
+        moved += 1
+      end
+      moved
+    end
+
+    # Collect a single egg by index (0-based). Returns true/false.
+    def collect_one(idx)
+      return false if idx < 0 || idx >= @eggs.length
+      egg = @eggs[idx]
+      return false unless egg
+      if $player.party_full?
+        return false unless $PokemonStorage.pbStoreCaught(egg)
+      else
+        $player.party << egg
+      end
+      @eggs.delete_at(idx)
+      true
+    end
+
+    # ----------------------------------------------------------
+    # Nightly breeder (call once per night)
+    #   - Uses chickens in ChickenSlotManager.slots
+    #   - Each valid mother gets one attempt to create 1 egg
+    #   - Stops when coop storage reaches 3 eggs
+    # Returns number produced tonight
+    # ----------------------------------------------------------
+    def nightly_breeding
+      return 0 if full?
+
+      chickens = ChickenSlotManager.slots.compact.select { |c| c && c.pokemon }
+      return 0 if chickens.empty?
+
+      mothers = chickens.select { |c| valid_mother?(c.pokemon) }
+      return 0 if mothers.empty?
+
+      produced = 0
+      mothers.each do |mom_chicken|
+        break if full?
+        mother = mom_chicken.pokemon
+
+        # Build father pool (exclude self)
+        fathers = chickens.reject { |c| c.equal?(mom_chicken) }.map(&:pokemon)
+        fathers.select! { |f| valid_father_for?(mother, f) }
+        next if fathers.empty?
+
+        # Chance per mother
+        if rand(100) < mother_attempt_chance(mother, mom_chicken)
+          father = pick_father(mother, fathers)
+          next unless father
+          egg = DayCare::EggGenerator.generate(mother, father)
+          produced += 1 if add_egg(egg)
+        end
+      end
+      produced
+    end
+
+    # ---------- helpers (compatibility + chances) ----------
+    def valid_mother?(pkmn)
+      return false unless pkmn && pkmn.is_a?(Pokemon)
+      sd = pkmn.species_data
+      return false if sd.egg_groups.include?(:Undiscovered)
+      return false if pkmn.genderless?
+      return false if pkmn.male?
+      pkmn.female?
+    end
+
+    def valid_father_for?(mother, father)
+      return false unless mother && father
+      fd = father.species_data
+      # Ditto father allowed
+      return true if fd.egg_groups.include?(:Ditto)
+      return false unless father.male?
+      share_egg_group?(mother, father)
+    end
+
+    def share_egg_group?(a, b)
+      ag = a.species_data.egg_groups
+      bg = b.species_data.egg_groups
+      !(ag & bg).empty?
+    end
+
+    # Base 20 + up to +12 from happiness + optional +10 if "outside perfect day"
+    def mother_attempt_chance(mother, mom_chicken_data = nil)
+      base = 20
+      base += [(mother.happiness / 20), 12].min
+      base += 10 if mom_chicken_data && mom_chicken_data.respond_to?(:went_outside) &&
+                    mom_chicken_data.went_outside == 2
+      base.clamp(0, 100)
+    end
+
+    # Bias toward same-species fathers (weight 3 vs 1)
+    def pick_father(mother, pool)
+      return nil if !pool || pool.empty?
+      weights = pool.map { |f| f.species == mother.species ? 3 : 1 }
+      total = weights.sum
+      r = rand(total)
+      pool.each_with_index do |f, i|
+        r -= weights[i]
+        return f if r < 0
+      end
+      pool.sample
+    end
+  end
+end

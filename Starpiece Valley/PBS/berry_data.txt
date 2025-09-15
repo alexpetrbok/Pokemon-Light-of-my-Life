@@ -535,3 +535,11 @@ Flavor = 10,10,30,30,10
 Smoothness = 50
 Color = Yellow
 Description = Its outside is very bitter, but its inside tastes like a sweet drink.
+#-------------------------------
+[HOPOBERRY]
+Size = 6.0
+Firmness = Hard
+Flavor = 0,10,0,10,0
+Smoothness = 25
+Color = Purple
+Description = An ancient berry prized for restoring vigor. Its dry-bitter flesh was used in old rituals to replenish strength.

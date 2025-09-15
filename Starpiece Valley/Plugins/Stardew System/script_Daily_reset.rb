@@ -1,7 +1,14 @@
+def is_late?()
+  # Check if the current time is between 2 AM and 6 AM
+  now = pbGetTimeNow
+  now.hour == 2 && now.hour < 4
+end
+
 module GameData
   class DailyClock
     attr_reader :game_day, :hr_schedule
 
+    UPDATE_LOOP_SWITCH_ID = 69
     FESTIVAL_SWITCH_ID = 70
     DOW_ORDER = [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
@@ -22,7 +29,6 @@ module GameData
       $item_display.update if $item_display && $item_display.visible?
 
       # Check if the player is late (past 2 AM)
-      pass_out if is_late?(now)
 
       update_schedule if now.hour != @hr_schedule
 
@@ -53,11 +59,16 @@ module GameData
       
       # Call existing functions for berry production, egg collection, NPC affection, etc.
       pbProduceEggs
+      produced = ChickenBreeding.nightly_breeding
+      puts "🐣 Bred #{produced} new chicks overnight." if produced > 0
+      $player.heal_party
 
+      $game_variables[UPDATE_LOOP_SWITCH_ID] = true
     end
 
-    def is_late?(now)
+    def is_late?()
       # Check if the current time is between 2 AM and 6 AM
+      now = pbGetTimeNow
       now.hour >= 2 && now.hour < 6
     end
 
@@ -159,23 +170,6 @@ module GameData
       nil
     end
 
-    def rest_bonus(energy)
-      now = pbGetTimeNow
-
-      if is_late?(now) 
-        if energy > 10
-          # Player passed out with energy left
-          $player_energy.modify_daily(-10)  
-      	else
-          # Player passed out with no energy left
-          $player_energy.modify_daily(-20)  
-	      end
-      elsif now.hour > 3
-        # Player went to bed before midnight
-        $player_energy.modify_daily(10)  # Bonus: Increase daily max by 10
-      end
-    end
-
     def advance_to_next_season
       now = pbGetTimeNow
 
@@ -206,25 +200,6 @@ module GameData
 
       # Return the new time for convenience
       return pbGetTimeNow
-    end
-
-
-    def pass_out
-      # Transfer the player to bed
-      pbFadeOutIn do
-        pbDismountBike
-        $game_temp.player_new_map_id    = 82
-        $game_temp.player_new_x         = 23
-        $game_temp.player_new_y         = 3
-        $game_temp.player_new_direction = 3
-        
-        $scene.transfer_player
-        $game_map.autoplay
-        $game_map.refresh
-        
-        # Call the daily reset function
-        daily_reset
-      end
     end
 
 
@@ -296,4 +271,28 @@ def skip_hours(hours, mins = 0)
 
   # Return new time if needed
   return pbGetTimeNow
+end
+# --- Helpers ---------------------------------------------------------------
+
+
+
+# Transfer with safety (optionally invisible during the move)
+def safe_transfer(map_id, x, y, dir = 2, invisible: false, autoplay: true)
+  pbFadeOutIn do
+    pbCancelVehicles
+    Followers.clear
+    pbDismountBike
+
+    $game_player.transparent = true if invisible
+    $game_temp.player_new_map_id    = map_id
+    $game_temp.player_new_x         = x
+    $game_temp.player_new_y         = y
+    $game_temp.player_new_direction = dir
+
+    $scene.transfer_player if $scene.is_a?(Scene_Map)
+    $game_map.autoplay if autoplay
+    $game_map.refresh
+
+    $game_player.transparent = false if invisible
+  end
 end

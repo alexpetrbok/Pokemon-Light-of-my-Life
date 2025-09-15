@@ -369,6 +369,174 @@ def pbStarterEggs
   viewport.dispose
   return chosen
 end
+
+def pbShowCoopEggsUI(show_names = false)
+  if ChickenBreeding.empty?
+    pbMessage(_INTL("There are no eggs in the coop."))
+    return :none
+  end
+
+  # Build a snapshot list of species (kept in sync as we take eggs)
+  species_list = ChickenBreeding.eggs.map { |e| e.species }
+
+  # --- Viewport / Sprites ---
+  viewport = Viewport.new(0, 0, Graphics.width, Graphics.height)
+  viewport.z = 99999
+  sprites = {}
+
+  # Dim background
+  sprites["bg"] = ColoredPlane.new(Color.new(0, 0, 0, 128), viewport)
+
+  # Egg sprites laid out evenly across screen width
+  egg_count = species_list.length
+  centers = []
+  egg_sprites = []
+  total_slots = egg_count + 1
+  # Place eggs at fractions of width: (1..egg_count) / (egg_count+1)
+  species_list.each_with_index do |species, i|
+    x_center = (Graphics.width * (i + 1)) / total_slots
+    centers << x_center
+
+    spr = Sprite.new(viewport)
+    spr.bitmap = resolve_egg_bitmap(species)
+    spr.x = x_center - (spr.bitmap.width / 2)
+    spr.y = (Graphics.height / 2) - (spr.bitmap.height / 2)
+    spr.z = 50
+    egg_sprites << spr
+  end
+
+  # Arrow
+  sprites["arrow"] = IconSprite.new(0, 0, viewport)
+  if pbResolveBitmap("Graphics/UI/arrow")
+    sprites["arrow"].setBitmap("Graphics/UI/arrow")
+  else
+    # Fallback: reuse cursor if needed
+    sprites["arrow"].setBitmap(Window_Base::CursorBitmap)
+  end
+  sprites["arrow"].z = 51
+
+  # Name window (optional)
+  if show_names
+    sprites["name"] = Window_UnformattedTextPokemon.newWithSize("",
+      0, Graphics.height - 64, Graphics.width, 64, viewport)
+    sprites["name"].z = 52
+    sprites["name"].visible = true
+  end
+
+  # Helper: update arrow (and name)
+  index = 0
+  update_arrow = proc do
+    if egg_sprites[index] && egg_sprites[index].bitmap
+      sprites["arrow"].x = egg_sprites[index].x + egg_sprites[index].bitmap.width / 2 - sprites["arrow"].bitmap.width / 2
+      sprites["arrow"].y = egg_sprites[index].y - 30
+    end
+    if show_names && sprites["name"]
+      name = GameData::Species.get(species_list[index]).real_name rescue "Egg"
+      sprites["name"].text = _INTL("{1}", name)
+    end
+  end
+  update_arrow.call
+
+  result = :cancel
+  loop do
+    Graphics.update
+    Input.update
+
+    if Input.trigger?(Input::USE)   # Take selected egg
+      pbPlayDecisionSE
+      if ChickenBreeding.collect_one(index)
+        # remove sprite + species entry
+        egg_sprites[index].bitmap.dispose if egg_sprites[index]&.bitmap
+        egg_sprites[index].dispose
+        egg_sprites.delete_at(index)
+        species_list.delete_at(index)
+        centers.delete_at(index)
+        egg_count -= 1
+        if egg_count <= 0
+          pbMessage(_INTL("You took the last egg."))
+          result = :took_last
+          break
+        else
+          index = [[index, egg_count - 1].min, 0].max
+          # Re-lay remaining eggs evenly
+          total_slots = egg_count + 1
+          egg_sprites.each_with_index do |spr, i|
+            x_center = (Graphics.width * (i + 1)) / total_slots
+            centers[i] = x_center
+            spr.x = x_center - (spr.bitmap.width / 2)
+          end
+          update_arrow.call
+          pbMessage(_INTL("You took an egg."))
+          result = :took_one
+        end
+      else
+        pbMessage(_INTL("You don't have room for that egg."))
+      end
+
+    elsif Input.trigger?(Input::ACTION) # Take All
+      moved = ChickenBreeding.collect_all
+      if moved > 0
+        pbMessage(_INTL("You took {1} egg(s).", moved))
+        result = :took_all
+        break
+      else
+        pbMessage(_INTL("You don't have room for more eggs."))
+      end
+
+    elsif Input.trigger?(Input::RIGHT)
+      index = (index + 1) % egg_count
+      pbPlayCursorSE
+      update_arrow.call
+
+    elsif Input.trigger?(Input::LEFT)
+      index = (index - 1) % egg_count
+      pbPlayCursorSE
+      update_arrow.call
+
+    elsif Input.trigger?(Input::BACK)
+      pbPlayCancelSE
+      result = :cancel
+      break
+    end
+  end
+
+  # Cleanup
+  sprites.each_value do |s|
+    if s.is_a?(Window)
+      s.dispose
+    else
+      s.bitmap.dispose if s.respond_to?(:bitmap) && s.bitmap
+      s.dispose
+    end
+  end
+  egg_sprites.each do |s|
+    next unless s && !s.disposed?
+    s.bitmap.dispose if s.bitmap
+    s.dispose
+  end
+  viewport.dispose
+
+  return result
+end
+
+# Loads a species-specific egg bitmap with graceful fallback.
+def resolve_egg_bitmap(species)
+  path = sprintf("Graphics/Pokemon/Eggs/%s", species)
+  if pbResolveBitmap(path)
+    return Bitmap.new(path)
+  end
+  if pbResolveBitmap("Graphics/Pokemon/Eggs/000")
+    return Bitmap.new("Graphics/Pokemon/Eggs/000")
+  end
+  # Last resort: species icon
+  begin
+    return Bitmap.new(GameData::Species.icon_filename(species))
+  rescue
+    # Plain 32x32 blank bitmap as emergency fallback
+    return Bitmap.new(32, 32)
+  end
+end
+
 ##__________________________________________________________________________________
 
 ## Egg Hunt
