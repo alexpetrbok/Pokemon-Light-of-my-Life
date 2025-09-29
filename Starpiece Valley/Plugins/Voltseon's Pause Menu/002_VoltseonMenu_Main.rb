@@ -120,16 +120,22 @@ class VoltseonsPauseMenu_Scene
     return if @hidden
     xvals = {:main => {}}
     yvals = {:main => {}}
+
+      # Safe defaulting hashes
+    xvals = Hash.new { |h, k| h[k] = {} }
+    yvals = Hash.new { |h, k| h[k] = {} }
+
     @sprites.each do |key, sprite|
       xvals[:main][key] = sprite.x
       yvals[:main][key] = sprite.y
     end
     @components.each_with_index do |component, i|
-      sprites = component.sprites
+      next if !component
+      sprites = (component.respond_to?(:sprites) ? component.sprites : nil)
+      next if !sprites
       cname = @component_names[i]
-      xvals[cname] = {}
-      yvals[cname] = {}
       sprites.each do |key, sprite|
+        next if !sprite || (sprite.respond_to?(:disposed?) && sprite.disposed?)
         xvals[cname][key] = sprite.x
         yvals[cname][key] = sprite.y
       end
@@ -140,24 +146,35 @@ class VoltseonsPauseMenu_Scene
       Graphics.update
       pbUpdateSceneMap
       @sprites.each do |key, sprite|
+        next if !sprite || (sprite.respond_to?(:disposed?) && sprite.disposed?)
+
         if key[/backshade/]
-          sprite.opacity = 255 * (1 - factor)
+          sprite.opacity = (255 * (1 - factor)).to_i
         elsif key[/location/]
-          sprite.x = xvals[:main][key] - (sprite.bitmap.width * factor)
-        elsif sprite.y >= (Graphics.height / 2)
-          sprite.y = yvals[:main][key] + ((Graphics.height / 2) * factor)
+          bw = (sprite.bitmap && !sprite.bitmap.disposed?) ? sprite.bitmap.width : 0
+          base_x = xvals[:main].fetch(key, sprite.x)
+          sprite.x = base_x - (bw * factor)
         else
-          sprite.y = yvals[:main][key] - ((Graphics.height / 2) * factor)
+          base_y = yvals[:main].fetch(key, sprite.y)
+          if sprite.y >= (Graphics.height / 2)
+            sprite.y = base_y + ((Graphics.height / 2) * factor)
+          else
+            sprite.y = base_y - ((Graphics.height / 2) * factor)
+          end
         end
       end
-      @components.each_with_index do |component, i|
-        sprites = component.sprites
-        cname = @component_names[i]
+      @components.each_with_index do |component, i2|
+        sprites = (component && component.respond_to?(:sprites)) ? component.sprites : nil
+        next if !sprites
+        cname = @component_names[i2]
+
         sprites.each do |key, sprite|
+          next if !sprite || (sprite.respond_to?(:disposed?) && sprite.disposed?)
+          base_y = yvals[cname].fetch(key, sprite.y)
           if sprite.y >= (Graphics.height / 2)
-            sprite.y = yvals[cname][key] + ((Graphics.height / 2) * factor)
+            sprite.y = base_y + ((Graphics.height / 2) * factor)
           else
-            sprite.y = yvals[cname][key] - ((Graphics.height / 2) * factor)
+            sprite.y = base_y - ((Graphics.height / 2) * factor)
           end
         end
       end

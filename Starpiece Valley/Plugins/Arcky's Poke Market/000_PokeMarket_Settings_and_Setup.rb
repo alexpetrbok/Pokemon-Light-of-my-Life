@@ -19,11 +19,20 @@ module APMSettings
   }
 
   BadgesForItems = {
-    1 => [:GREATBALL, :SUPERPOTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :BURNHEAL, :ICEHEAL, :REPEL, :ESCAPEROPE],
-    3 => [:HYPERPOTION, :SUPERREPEL, :REVIVE],
-    5 => [:ULTRABALL, :FULLHEAL, :MAXREPEL],
-    7 => [:MAXPOTION],
-    8 => [:FULLRESTORE]
+    1 => [:STRENGTHITEM], #Engineer
+    2 => [:SNAGMACHINE, :REPELITEM], #PokeCafe
+    3 => [:CUTITEM], #Gardener
+    4 => [:SADDLE, :INCUBATOR], #Rancher
+    5 => [:FLYITEM], #Birdkeeper
+    6 => [:WATERFALLITEM], #Librarian
+    7 => [:HEADBUTITEM], #Mushroom
+    8 => [:FLASHITEM], #BugCatcher
+    9 => [:DIVEITEM], #Programmer
+    10 => [:TELEPORT], #Witch
+    11 => [:ROCKSMASHITEM], #Blacksmith
+    12 => [:SURFITEM], #Diver
+    13 => [:DOWSINGMCHN, :DIGITEM], #ADVENTURER
+    14 => [:SWEETSCENTITEM], #BEAUTY
   }
 
   Discounts = {
@@ -208,6 +217,45 @@ module APMSettings
     ShelfRemoveAmountItem: ["Removed {1} {2}. Bill adjusted by {3}."]
   }
 
+  MinimalSeller = {
+    IntroText:          ["Welcome."],
+    CategoryText:       [],  # empty -> skip category screen entirely
+    BuyItemAmount:      ["How many {1}?"],
+    BuyItemAmountDiscount: ["{1} is {2} (was {3}). How many?"],
+    BuyItemAmountOvercharge: ["{1} is {2} (was {3}). How many?"],
+    BuyItem:            ["{1} {2}. Total {3}."],
+    BuyItemMult:        ["{1} {2}. Total {3}."],
+    BuyItemImportant:   ["{1}. Total {2}."],
+    BuyOutOfStock:      ["Out of {1}. Check back {2}."],
+    BuyThanks:          ["Thanks."],
+    BuyBonusMult:       ["Bonus: {1}."],
+    NotEnoughMoney:     ["Not enough money."],
+    NoRoomInBag:        ["Your bag is full."],
+    SellItemAmount:     ["How many {1}?"],
+    SellItem:           ["I can offer {1}. OK?"],
+    CantSellItem:       ["I can't buy that."],
+    MenuReturnText:     ["."],  # basically a no-op if billEnd: true
+    BillCheckOut:       ["{1}. Total {2}."],
+    OutroText:          ["Take care."]
+  }
+
+  MinimalShelf = {
+    IntroShelf:               ["Grab what you need."],
+    ShelfAmountItem:          ["How many {1} add?"],
+    ShelfChangeAmountItem:    ["You have {2} {1}. Change amount?"],
+    ShelfLimitAmountItem:     ["That's all {1} we have."],
+    ShelfOutOfStock:          ["{1} sold out. Try {2}."],
+    ShelfItemAmountDiscount:  ["{2} discounted. How many?"],
+    ShelfItemAmountOvercharge:["{2} marked up. How many?"],
+    NotEnoughMoney:           ["Not enough {1} for {2}."],
+    NotEnoughMoneyItem:       ["Out of {1}. Adjust {2}?"],
+    NotEnoughMoneyAmount:     ["How many {1} instead?"],
+    ShelfIncreaseAmountItem:  ["+{1} {2}. +{3} to bill."],
+    ShelfDecreaseAmountItem:  ["-{1} {2}. -{3} to bill."],
+    ShelfRemoveAmountItem:    ["Removed {1} {2}. Adjusted {3}."]
+  }
+
+
 end
 
 
@@ -258,89 +306,100 @@ def pbShelfPokecenter
     :FULLHEAL, :REVIVE, :MAXREVIVE,
     :ETHER, :MAXETHER, :ELIXIR, :MAXELIXIR,
     :POKEBALL, :GREATBALL
-  ], speech: "DefaultShelf")
+  ], speech: "MinimalShelf")
 end
 
-# -------------------------------
-# 🐄 Rancher Shop
-def pbShopRancher
-  pbPokemonMart([
-    :MIRACLESEED, :SOFTSAND, :HONEY, :MULCH,
-    :MOOMOOMILK, :LUMIOSEGALETTE
-  ], speech: "DefaultSeller", useCat: true)
-end
 
-# -------------------------------
-# 🌿 Gardener Shop
-def pbShopGardener
-  pbPokemonMart([
-    :ORANBERRY, :SITRUSBERRY, :LUMBERRY, :CHERIBERRY,
-    :PECHABERRY, :RAWSTBERRY, :LEPPABERRY,
-    :MULCH, :SPRAYDUCK, :HM_CUT
-  ], speech: "DefaultSeller", useCat: true)
-end
 
 # -------------------------------
 # 🍰 Pokecafe Shop
 def pbShopPokecafe
-  pbPokemonMart([:RARECANDY,
+  pbPokemonMart([
+    :SWEETHEART, :RARECANDY,
     :PROTEIN, :IRON, :CARBOS, :CALCIUM, :ZINC, :HPUP,
-    :REPEL, :SUPERREPEL,
-    :SEAINCENSE, :LUCKINCENSE, :SOOTHEBELL
-  ], speech: "DefaultSeller", useCat: true)
+    :REPEL, :SUPERREPEL, :MAXREPEL, :REPELITEM,
+    :SOOTHEBELL
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
-# -------------------------------
-# ☕ Cafe Shop
+def pbShelfPokecafe
+  pbShelfMart([
+    :PROTEIN, :IRON, :CARBOS, :CALCIUM, :ZINC, :HPUP,
+    :REPEL, :SUPERREPEL, :MAXREPEL
+  ], speech: "MinimalShelf")
+end
+
+def pbShopRancher
+  pbPokemonMart([
+    :MIRACLESEED, :SOFTSAND, :MULCH, :HONEY,
+    :MOOMOOMILK, :LUMIOSEGALETTE
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
+end
+
+def pbShopGardener
+  pbPokemonMart([
+    :ORANBERRY, :SITRUSBERRY, :LUMBERRY, :CHERIBERRY, :PECHABERRY, :RAWSTBERRY, :LEPPABERRY,
+    :MULCH, :SPRAYDUCK,
+    :CUTITEM   # your field item for Cut (matches your BadgesForItems mapping)
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
+end
+
 def pbShopCafe
   pbPokemonMart([
     :MOOMOOMILK, :CASTELIACONE, :LAVACOOKIE, :OLDGATEAU,
     :TINYMUSHROOM, :BIGMUSHROOM, :BALMMUSHROOM,
     :HONEY, :FRESHWATER, :LEMONADE, :SODAPOP,
     :ENERGYPOWDER, :HEALPOWDER, :COFFEE
-  ], speech: "DefaultSeller", useCat: true)
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
 # -------------------------------
 # ⚒️ Blacksmith Shop
 def pbShopBlacksmith
   pbPokemonMart([
+    # Balls
     :POKEBALL, :GREATBALL, :ULTRABALL,
     :HEAVYBALL, :DUSKBALL, :FRIENDBALL, :QUICKBALL, :NESTBALL,
     :REPEATBALL, :TIMERBALL, :LUXURYBALL, :NETBALL, :DIVEBALL,
-    :HM_ROCKSMASH,
-    :METALCOAT, :UPGRADE, :DUBIOUSDISC, :PROTECTOR, :MAGMARIZER,
-    :ELECTIRIZER, :REAPERCLOTH, :DEEPSEATOOTH, :DEEPSEASCALE,
-    :KINGSROCK, :RAZORCLAW, :RAZORFANG, :DRAGONSCALE
-  ], speech: "DefaultSeller", useCat: true)
+    # Field item
+    :ROCKSMASHITEM,  # your field item for Rock Smash (consistent with BadgesForItems)
+    
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
 # -------------------------------
 # 🧭 Adventurer Shop
 def pbShopAdventurer
   pbPokemonMart([
+    # Exploration
     :REPEL, :SUPERREPEL, :MAXREPEL, :ESCAPEROPE,
-    :DOWSINGMCHN, :TREASUREMAP,
+    :DOWSINGMCHN, :DIGITEM,
+    # Stones & treasures
     :FIRESTONE, :WATERSTONE, :THUNDERSTONE, :LEAFSTONE,
     :MOONSTONE, :SUNSTONE, :SHINYSTONE, :DUSKSTONE, :DAWNSTONE, :ICESTONE,
-    :LEFTOVERS, :BLACKBELT, :HARDSTONE, :MAGNET, :NEVERMELTICE, :SCOPELENS,
-    :EXPSHARE, :FOCUSBAND, :QUICKCLAW
-  ], speech: "DefaultSeller", useCat: true)
+    :METALCOAT, :UPGRADE, :DUBIOUSDISC, :PROTECTOR, :MAGMARIZER, :ELECTIRIZER,
+    :REAPERCLOTH, :DEEPSEATOOTH, :DEEPSEASCALE, :KINGSROCK, :RAZORCLAW, :RAZORFANG,
+    :DRAGONSCALE,
+    # Useful held items
+    :BLACKBELT, :HARDSTONE, :MAGNET, :NEVERMELTICE, :SCOPELENS,
+    :EXPSHARE, :FOCUSBAND, :QUICKCLAW, 
+
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
 # -------------------------------
 # 🌊 Diver Shop
 def pbShopDiver
   pbPokemonMart([
-    :OLDROD, :GOODROD, :SUPERROD,
-    :BAIT, :HM_SURF, :HM_DIVE
-  ], speech: "DefaultSeller", useCat: true)
+    :OLDROD, :GOODROD, :SUPERROD, :BAIT,
+    :SURFITEM, :DIVEITEM  # your field items for Surf/Dive per BadgesForItems
+  ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
 # -------------------------------
 # 🐦 Birdkeeper Shelf Only
 def pbShelfBirdkeeper
   pbShelfMart([
-    :AIRMAIL, :BUBBLEMAIL, :FLAMEMAIL, :FLOWERMESSAGE, :HM_FLY
-  ], speech: "DefaultShelf")
+    :AIRMAIL, :BUBBLEMAIL, :FLAMEMAIL, :FLOWERMESSAGE, :FLYITEM
+  ], speech: "MinimalShelf")
 end

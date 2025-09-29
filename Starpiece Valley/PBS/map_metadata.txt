@@ -111,6 +111,10 @@ Bicycle = true
 Name = Farm
 Outdoor = true
 Bicycle = true
+BattleBack = BEACH
+WildBattleBGM = XY 016 Battle! (Wild Pokemon)
+TrainerBattleBGM = XY 021 Battle! (Trainer Battle)
+Environment = None
 #-------------------------------
 [043]   # Lake
 Name = Lake
@@ -161,5 +165,6 @@ Name = Cave Dungeon 2
 Dungeon = true
 #-------------------------------
 [090]   # Cave Dungeon 3
+Name = Cave Dungeon 3
 Outdoor = true
 Dungeon = true

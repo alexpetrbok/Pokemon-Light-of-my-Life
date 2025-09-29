@@ -68,13 +68,13 @@ def load_npcs
     spouse: "RANCHER",
     birthday: "spring 4",
     fav_gifts: {
-      :BOTTLECAP => 10,
+      :ROOTFOSSIL => 10,
       :TINYMUSHROOM => 4,
       :SWEETHEART => 3
     },
     bad_gifts: {
-      :REVIVE => -3,
-      :BIGROOT => -2
+      :PROTEIN => -3,
+      :FLAMEPLATE => -2
     },
     schedule: {
       weekday: {

@@ -171,42 +171,324 @@ def load_dialogs
     }
   })
 
+
   GameData::NPC.set_dialog(:GARDENER, {
+  #===============================================================================
+  # Lily (GARDENER) — Dialogue (final format)
+  # Layers that can stack at runtime:
+  #   - base sections: :default, :work, :leisure
+  #   - seasonal overlays: :spring, :summer, :autumn, :winter
+  #   - relationship state overlays: :single, :dating_player, :married_player, :dating_spouse, :married_spouse
+  #
+  # Rules:
+  # - Romantic content only appears in :dating_player / :married_player.
+  # - Backstory + enemies→lovers arc with Sadie (RANCHER) are unlocked by:
+  #     Af  = NPCSystem.affection(:GARDENER)
+  #     SpA = NPCSystem.spouse_affection(:GARDENER)   # Lily↔Sadie arc meter
+  # - Player only talks to Lily (no NPC↔NPC live banter). Lily reports her side.
+  # - Shop/action scripts are placeholders; replace with your real handlers.
+  #===============================================================================
+  
+  #---------------------------------------------------------------------------
+    # DEFAULT (job-neutral; appears in any location/state; carries Af/SpA arcs)
+    #---------------------------------------------------------------------------
     default: {
       opener: [
-        { text: "Welcome. Mind the Lotad — they follow you if you drip water." }
+        { text: "Welcome. Mind the Lotad—they’ll follow you if you drip water." },
+        { text: "Oh! Hello again. I was just checking on my Tsareena." },
+        { text: "I hope you’re staying hydrated. The sun dries you out before you realize." }
       ],
+
       chat: [
-        { prompt: "What’s your favorite flower?", response: "Sunflora’s blooms. They always face the light, even on cloudy days." },
-        { prompt: "How did you learn gardening?", response: "My grandmother taught me. She said each plant has a rhythm, like music." },
-        { prompt: "Any rare finds lately?", response: "A rainbow-colored Budew sprouted last week. I named her Prism." }
+        # Personal & Af-gated
+        { prompt: "Do you enjoy gardening?",
+          response: "It isn’t only patience. It’s persistence.\nYou fail gently and try again, a little wiser each season." },
+        { prompt: "How did you learn all this?",
+          response: "My grandmother taught me to read soil like a book.\nEvery grain remembers rain and root.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 200 } },
+        { prompt: "You seem calm out here.",
+          response: "Calm comes from rhythm.\nSoil. Water. Light. And gratitude when the sprouts show.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 300 } },
+
+        # Enemies→Lovers arc beats about Sadie (SpA-gated, platonic backstory)
+        # Stage 0–1 (20–100): petty rivalry: trampling, pests
+        { prompt: "How are the neighbors?",
+          response: "Her Pokémon trampled my seedlings again.\nI wish she’d check her fences before dawn.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) <= 100 } },
+
+        # Stage 2 (100–150): major incidents (Tauros + Lily’s overgrowth)
+        { prompt: "Rough week?",
+          response: "A Tauros snapped three trellises… and my vines had crept over the posts.\nI should have pruned sooner.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) > 100 && s <= 150 } },
+
+        # Overwatering → runoff → Sadie’s field mud (Lily admits fault)
+        { prompt: "Any mistakes you’re fixing?",
+          response: "I overwatered trying to save the buds.\nThe runoff slid downhill and turned her field to mud.\nI’m measuring soil moisture now—no more guessing.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 125 && s <= 175 } },
+
+        # Stage 3 (150–175): forced cooperation (pests/weather)
+        { prompt: "Did you two work together?",
+          response: "A Beedrill swarm forced our hands.\nShe’s steady under pressure… I may have misjudged her.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) > 150 && s < 175 } },
+
+        # Stage 4 (175–200): first amends (fences, hedges)
+        { prompt: "Any progress with the boundary?",
+          response: "She repaired the fence without me asking.\nI planted berry hedges to guide her herd away—pretty and practical.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 175 && s < 200 } },
+
+        # Softening (200–250): respect
+        { prompt: "Still arguing?",
+          response: "Less shouting. More listening.\nTurns out we both want the same thing—healthy fields.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 200 && s < 250 } },
+
+        # Near-resolution (250–300): warmth
+        { prompt: "You look… lighter.",
+          response: "She dropped off hay bales to brace my greenhouse.\nI left a basket of jam by her door.\nNeighbors can be wonderful.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 250 && s < 300 } }
       ],
+
       closer: [
-        { text: "Stay rooted, and let yourself grow." }
+        { text: "Stay rooted, and let yourself grow." },
+        { text: "Take care—remember to drink water." },
+        { text: "Thanks for listening… I don’t often get to share.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 500 } }
       ]
     },
+
+    #---------------------------------------------------------------------------
+    # WORK (Berry Shop / Greenhouse / Field passes & CUT item)
+    #---------------------------------------------------------------------------
     work: {
       opener: [
-        { text: "Shhh — the Budew are napping in the shade." }
+        { text: "Shhh—Budew are napping in the shade." },
+        { text: "Welcome! Fresh berries just in." },
+        { text: "I’m pruning the overgrowth—mind the clippings." }
+      ],
+
+      chat: [
+        { prompt: "What do you sell?",
+          response: "Berries, mulch, watering cans… and timed greenhouse access.\nPlease respect the plants while you pick." },
+        { prompt: "What’s the CUT item for?",
+          response: "Responsible pruning.\nClear saplings and keep borders tidy—overgrowth invites trouble." },
+        # Overwatering lesson (ties to runoff)
+        { prompt: "Watering tips?",
+          response: "Check moisture before every pass.\nKindness can drown roots—and flood a neighbor’s field.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 75 } },
+        # Personal dream
+        { prompt: "Your long-term goal?",
+          response: "To cultivate a legendary berry—sweetness born from patience.\nMaybe it already exists, waiting for the right season.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 500 } }
+      ],
+
+      shop: [
+        { prompt: "Buy Berries",          response: "Freshly picked—handle with care.",  script: -> { pbShopGardenerBerries } },
+        { prompt: "Buy Mulch & Tools",     response: "Mulch, watering cans, tags, twine.", script: -> { pbShopGardenerSupplies } },
+        { prompt: "Axe?",        response: "Prune wisely. The forest remembers.",  script: -> { pbGiveItem(:CUTITEM) } },
+        { prompt: "Greenhouse Pass",       response: "Timed access. Pick only what’s ripe.",  script: -> { pbBuyGreenhousePass } }
+      ],
+
+      closer: [
+        { text: "Back to trimming and talking to the trees." },
+        { text: "Come again if you need supplies or a quiet place to breathe." }
+      ]
+    },
+
+    #---------------------------------------------------------------------------
+    # LEISURE (social time; non-shop menu, light activities & dating-gated dates)
+    #---------------------------------------------------------------------------
+    leisure: {
+      opener: [
+        { text: "The breeze is perfect for drying herbs today." },
+        { text: "I was weaving flower garlands—want to try?" },
+        { text: "Care to walk with me? The meadows are lovely at this hour." }
+      ],
+
+      chat: [
+        { prompt: "Do plants like music?",
+          response: "I sing when I’m alone.\nLaugh if you want—the harvest is sweeter." },
+        { prompt: "Collect anything special?",
+          response: "Pressed petals—little postcards from the sun.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 300 } },
+        # Mid-arc report (no NPC cross-talk)
+        { prompt: "Everything peaceful between fields?",
+          response: "Peaceful-ish.\nWe’re learning to set signs and paths so Rapidash won’t spook the flock.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 175 } }
+      ],
+
+      activity: [
+        { prompt: "Forage Together",
+          response: "Stay close to the hedgerow—Combee love the bramble flowers." },
+        { prompt: "Help Re-Pot Seedlings",
+          response: "Gentle hands, steady breath.\nPerfect.",
+          condition: -> { NPCSystem.affection(:GARDENER) >= 150 } }
+      ],
+
+      # Romantic prompts only render if dating_player overlay is active; also placed here for convenience with condition guard.
+      date: [
+        { prompt: "Evening Greenhouse (After Hours)",
+          response: "Lanterns, tea, and berries warm from the vine.",
+          condition: -> { NPCSystem.dating_player?(:GARDENER) } },
+        { prompt: "Orchard Walk (Hand in Hand)",
+          response: "Yes. Your pulse is my favorite rhythm.",
+          condition: -> { NPCSystem.dating_player?(:GARDENER) } }
+      ],
+
+      closer: [
+        { text: "The fields are calling. I’d best get back." },
+        { text: "Thank you—this was a nice break." }
+      ]
+    },
+
+    #---------------------------------------------------------------------------
+    # SEASONAL FLAVORS (light overlays; keep short and stackable)
+    #---------------------------------------------------------------------------
+    spring: {
+      opener: [
+        { text: "New sprouts! There’s nothing more hopeful." },
+        { text: "Spring rains are a blessing… in moderation." }
       ],
       chat: [
-        { prompt: "Do plants really respond to music?", response: "Of course. I swear my Roselia hums along sometimes." }
+        { prompt: "How’s the rain?",
+          response: "Too much is as cruel as too little.\nMulch deep, water slow." },
+        { prompt: "Runoff under control?",
+          response: "I track soil moisture before every pass now.\nNo more guessing, no more muddy neighbors.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 125 } }
+      ]
+    },
+
+    summer: {
+      opener: [
+        { text: "The sun bakes the soil—I water before dawn and after dusk." },
+        { text: "Long days make for long harvests." }
+      ],
+      chat: [
+        { prompt: "Do you rest?",
+          response: "Shade, cold tea, and a berry for courage." },
+        { prompt: "Visitors at dusk?",
+          response: "Rapidash grazes near my rows.\nI don’t shoo her anymore.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 200 } }
+      ]
+    },
+
+    autumn: {
+      opener: [
+        { text: "Autumn makes the berries glow like lanterns." },
+        { text: "Canning season—sweet, sticky work." }
+      ],
+      chat: [
+        { prompt: "Need jars?",
+          response: "If you don’t mind stained fingers.\nThe jam is worth it." },
+        { prompt: "Share harvests?",
+          response: "We traded baskets this week.\nPractical… and maybe something more.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 225 } }
+      ]
+    },
+
+    winter: {
+      opener: [
+        { text: "I keep the greenhouse warm with mulch and hot stones." },
+        { text: "Winter makes me reflective. Did I do enough this year?" }
+      ],
+      chat: [
+        { prompt: "How do you brace for storms?",
+          response: "Rope the frames, stack hay bales against the wind.\nA good neighbor brought extra.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 250 } },
+        { prompt: "Quiet night plans?",
+          response: "Repair tools. Press petals. Label seeds I won’t forget." }
+      ],
+      # Date shows only if dating overlay active
+      date: [
+        { prompt: "Hot-Tea Greenhouse",
+          response: "Steam on the glass and your hand in mine.",
+          condition: -> { NPCSystem.dating_player?(:GARDENER) } }
+      ]
+    },
+
+    #---------------------------------------------------------------------------
+    # RELATIONSHIP STATE OVERLAYS (additive groups)
+    #---------------------------------------------------------------------------
+
+    # Lily is uncommitted; treats player platonically.
+    single: {
+      opener: [
+        { text: "You caught me daydreaming about trellises and tea." }
+      ],
+      chat: [
+        { prompt: "What’s on your mind?",
+          response: "Borders, paths, and how to keep peace between fields.\nIt’s… coming along.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 175 } }
       ],
       closer: [
-        { text: "Back to trimming and talking to the trees." }
+        { text: "Walk safe between the rows." }
       ]
     },
-    fall: {
+
+    # Player dating Lily — romantic lines unlocked.
+    dating_player: {
       opener: [
-        { text: "The leaves fall like memories — bright, soft, and fleeting." }
+        { text: "When I walk the fields, I think of you." },
+        { text: "You always bring the right kind of weather with you." }
+      ],
+      chat: [
+        { prompt: "Spend time together?",
+          response: "Let’s plant side by side.\nRoots tangle, and so do we—gently." },
+        { prompt: "You look happy.",
+          response: "I am. Love makes colors brighter.\nEven the soil looks rich with promise." }
+      ],
+      closer: [
+        { text: "See you soon, my love. Don’t keep me waiting too long." }
       ]
     },
-    rain: {
+
+    # Player married to Lily — cozy domestic notes.
+    married_player: {
       opener: [
-        { text: "Perfect rain for bulb growth. Even Oddish are smiling." }
+        { text: "Home is wherever your boots end up by the door." },
+        { text: "I saved the sweetest berries for you." }
+      ],
+      chat: [
+        { prompt: "Morning routine?",
+          response: "Tea for two. Check the frames.\nKiss you once, then twice for luck." }
+      ],
+      closer: [
+        { text: "Let’s watch the orchard bloom together—season after season." }
+      ]
+    },
+
+    # Lily is dating her default spouse (Sadie). Player is treated as a friend.
+    dating_spouse: {
+      opener: [
+        { text: "Good to see you. The farms are finally in rhythm." }
+      ],
+      chat: [
+        { prompt: "How are things between fields?",
+          response: "We mapped watering days and marked safe paths.\nNo more runoff, no spooked herds.\nIt feels… peaceful.",
+          condition: -> { (s = NPCSystem.spouse_affection(:GARDENER)) >= 200 } },
+        { prompt: "You seem content.",
+          response: "It’s new.\nKindness, shared work, and a fence mended from both sides." }
+      ],
+      closer: [
+        { text: "Thank you for checking in. Friends make the season kinder." }
+      ]
+    },
+
+    # Lily is married to Sadie. Player remains a close friend.
+    married_spouse: {
+      opener: [
+        { text: "You’re family by the fence line now—always welcome." }
+      ],
+      chat: [
+        { prompt: "How’s married life?",
+          response: "Busy hands, quiet evenings.\nWe trade lunches and laughter over the gate." },
+        { prompt: "Any advice for neighbors?",
+          response: "Measure twice, water once.\nListen before you raise your voice.\nAnd plant hedges where words fail." }
+      ],
+      closer: [
+        { text: "May your path be soft underfoot—and your harvest sweet." }
       ]
     }
   })
+
 
   GameData::NPC.set_dialog(:PROGRAMMER, {
     default: {

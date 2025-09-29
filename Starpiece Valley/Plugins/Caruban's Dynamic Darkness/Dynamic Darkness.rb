@@ -83,10 +83,10 @@
 ################################################################################
 module Settings
   # The initial radius of the darkness circle on dark maps
-  INITIAL_DARKNESS_CIRCLE = 64
+  INITIAL_DARKNESS_CIRCLE = 80
 
   # Radius of darkness circle while using Flash
-  FLASH_CIRCLE_RADIUS = 176
+  FLASH_CIRCLE_RADIUS = 208
 
   # Variable ID of initial radius based on Map ID
   # Any radius changes on these map IDs will be reset after the player gets 
@@ -97,7 +97,7 @@ module Settings
   }
 
   # Initial opacity of darkness on dark maps
-  INITIAL_DARKNESS_OPACITY = 230#255
+  INITIAL_DARKNESS_OPACITY = 222#255
 
   # Value of initial opacity based on Map ID
   # This will give a different opacity for every map IDs listed here.
@@ -118,10 +118,10 @@ module Settings
   ]
 
   # Initial value of distance for a flashlight
-  INITIAL_FLASHLIGHT_DIST = 2
+  INITIAL_FLASHLIGHT_DIST = 0
 
   # The initial value of the maximum distance for a flashlight
-  FLASHLIGHT_MAX_DIST = 3
+  FLASHLIGHT_MAX_DIST = 5
 
   # The value of a flashlight's light sources X and Y offset
   # from the centre of the character sprites
@@ -134,6 +134,16 @@ module Settings
     # Map ID => "Custom Darkness Image file"
     50 => "DarkMap_50",
   }
+
+
+
+  # Customs scripts_________________
+
+  # Enable/disable automatic darkness on outdoor maps during certain hours
+  AUTO_NIGHT_OUTDOOR_ENABLED = true
+
+  # Hours (inclusive). Example: 0..4 = 00:00–04:59
+  AUTO_NIGHT_HOURS = (0..4)
 end
 
 ################################################################################
@@ -151,6 +161,17 @@ end
 def pbGetDarknessOpacity
   opacity = Settings::OPACITY_DARK_MAP_BY_ID[$game_map.map_id]
   opacity = Settings::INITIAL_DARKNESS_OPACITY if !opacity
+  # Only ramp during the midnight window if darkness is active (native or auto-night)
+  if (defined?(SV_AutoNight) && SV_AutoNight.dark_active_now?)
+    t = pbGetTimeNow
+    minutes = t.hour * 60 + t.min
+    # Ramp 00:00 -> 02:00 (0..120min). 0.60× at midnight -> 1.00× at 2 AM
+    min_factor = 0.10
+    max_factor = 1.00
+    f = minutes / 120.0
+    factor = min_factor + (max_factor - min_factor) * f
+    return (255 * factor).round
+  end
   return opacity
 end
 
@@ -289,24 +310,35 @@ class DarknessSprite < Sprite
   def radiusMax; return 320; end
 
   def radius=(value)
+    return if disposed?
     @radius = value.round
-    pbSetDarknessRadius(@radius)
+    pbSetDarknessRadius(@radius) if !$game_switches.nil?
     refresh
   end
 
   def moveRadius(value)
+    return if disposed?
     return if value < 0 || value == @radius
     duration = 0.7
-    old_rad = @radius
+    old_rad  = @radius
     pbWait(duration) do |delta_t|
+      break if disposed?
       self.radius = lerp(old_rad, value, duration, delta_t)
     end
-    self.radius = value
+    self.radius = value unless disposed?
   end
 
   def refresh
+    return if disposed?
+    # ensure bitmap exists
+    if !@darkness || @darkness.disposed?
+      @darkness&.dispose
+      @darkness = Bitmap.new(Graphics.width, Graphics.height)
+      self.bitmap = @darkness
+    end
     @darkness.clear
     return if @radius >= radiusMax
+
     # Initial dark screen
     darkness_image = Settings::CUSTOM_IMAGE_DARKNESS[$game_map.map_id]
     if darkness_image && pbResolveBitmap("Graphics/Fogs/#{darkness_image}")
@@ -347,6 +379,8 @@ class DarknessSprite < Sprite
         events_pos.push([event_x,event_y, cradius_e, switch])
       elsif (event.name[/glowalways/i] || event.name[/glowsize\((\d+)\)/i] || event.name[/glowstatic/i] rescue false) && 
             !(event.name[/glowswitch\((\w+)\)/i] rescue false)
+        events_pos.push([event_x, event_y, cradius_e, true])
+      elsif (event.name[/pbNPC/i] rescue false)
         events_pos.push([event_x, event_y, cradius_e, true])
       end
       if (event.name[/flashlight/i] rescue false)
@@ -491,3 +525,154 @@ class DarknessSprite < Sprite
     refresh
   end
 end
+
+
+module SV_AutoNight
+  def self.enabled?
+    Settings::AUTO_NIGHT_OUTDOOR_ENABLED
+  end
+
+  def self.midnight_window?
+    t = pbGetTimeNow
+    Settings::AUTO_NIGHT_HOURS.include?(t.hour)
+  end
+
+  # Should darkness be active on this map now (even if it's not a native dark map)?
+  def self.auto_dark_now?
+    return false unless enabled?
+    meta = $game_map.metadata
+    meta&.outdoor_map && midnight_window?
+  end
+
+  # Unify the notion of "dark right now" for this plugin
+  def self.dark_active_now?
+    meta = $game_map.metadata
+    (meta&.dark_map) || auto_dark_now?
+  end
+
+  def self.ensure_darkness_sprite(scene)
+    return if !$scene.is_a?(Scene_Map) || !scene || !scene.spriteset
+    return if $game_temp.darkness_sprite && !$game_temp.darkness_sprite.disposed?
+    $game_temp.darkness_sprite = DarknessSprite.new
+    scene.spriteset.addUserSprite($game_temp.darkness_sprite)
+    if $PokemonGlobal.flashUsed
+      $game_temp.darkness_sprite.radius = Settings::FLASH_CIRCLE_RADIUS
+    end
+    $PokemonGlobal.darknessRadius = $game_temp.darkness_sprite.radius
+  end
+
+  def self.dispose_darkness_sprite
+    $PokemonGlobal.flashUsed = false
+    $game_temp.darkness_sprite&.dispose
+    $game_temp.darkness_sprite = nil
+    $PokemonGlobal.darknessRadius = nil
+  end
+end
+
+def pbFadeDarknessToBlack(duration = 3.0, dispose_after: true)
+  return unless $scene.is_a?(Scene_Map)
+  #$game_temp.sv_dark_lock = true
+  scene = $scene
+  # Ensure sprite exists
+  if !$game_temp.darkness_sprite || $game_temp.darkness_sprite.disposed?
+    $game_temp.darkness_sprite = DarknessSprite.new
+    scene.spriteset.addUserSprite($game_temp.darkness_sprite)
+  end
+  darkness  = $game_temp.darkness_sprite
+  start_rad = darkness&.radius || 0
+  target    = darkness&.radiusMin || 0
+
+  pbWait(duration) do |dt|
+    break if !darkness || darkness.disposed?
+    darkness.radius = lerp(start_rad, target, duration, dt)
+  end
+  darkness.radius = target if darkness && !darkness.disposed?
+
+  # Prevent any leftover calls from hitting a disposed bitmap during time jumps
+  if dispose_after
+    SV_AutoNight.dispose_darkness_sprite if defined?(SV_AutoNight)
+  end
+ensure
+  #$game_temp.sv_dark_lock = false
+end
+
+# -----------------------------------------------------------------------------
+# Replace the original show_darkness handler to honor auto-night
+# -----------------------------------------------------------------------------
+EventHandlers.add(:on_map_or_spriteset_change, :show_darkness_autonight,
+  proc { |scene, _map_changed|
+    next if !scene || !scene.spriteset
+    if SV_AutoNight.dark_active_now?
+      SV_AutoNight.ensure_darkness_sprite(scene)
+    else
+      SV_AutoNight.dispose_darkness_sprite
+    end
+  }
+)
+
+# -----------------------------------------------------------------------------
+# Keep darkness in sync when the hour changes (no map transfer needed)
+# Lightweight per-frame poll; early-exits fast when state doesn't change.
+# -----------------------------------------------------------------------------
+EventHandlers.add(:on_frame_update, :autonight_tick,
+  proc {
+    #next if $game_temp&.sv_dark_lock
+    next unless $scene.is_a?(Scene_Map)
+    present = ($game_temp.darkness_sprite && !$game_temp.darkness_sprite.disposed?)
+    want    = SV_AutoNight.dark_active_now?
+    next if want == present
+    if want
+      SV_AutoNight.ensure_darkness_sprite($scene)
+    else
+      SV_AutoNight.dispose_darkness_sprite
+    end
+  }
+)
+
+# -----------------------------------------------------------------------------
+# Flash handlers: allow Flash if darkness is currently active (native or auto-night)
+# -----------------------------------------------------------------------------
+HiddenMoveHandlers::CanUseMove.add(:FLASH, proc { |move, pkmn, showmsg|
+  next false if !pbCheckHiddenMoveBadge(Settings::BADGE_FOR_FLASH, showmsg)
+
+  # Prohibitions first
+  if Settings::FLASH_PROHIBITED_MAPS.include?($game_map.map_id) ||
+     Settings::FLASHLIGHT_ONLY_MAPS.include?($game_map.map_id)
+    pbMessage(_INTL("You can't use that here.")) if showmsg
+    next false
+  end
+
+  # Darkness must be active now (native dark_map or auto-night outdoors)
+  is_dark_now = SV_AutoNight.dark_active_now?
+  unless is_dark_now
+    pbMessage(_INTL("You can't use that here.")) if showmsg
+    next false
+  end
+
+  if $PokemonGlobal.flashUsed
+    pbMessage(_INTL("Flash is already being used.")) if showmsg
+    next false
+  end
+  if $game_temp.darkness_sprite && pbGetDarknessRadius >= Settings::FLASH_CIRCLE_RADIUS
+    pbMessage(_INTL("It is already bright here.")) if showmsg
+    next false
+  end
+  next true
+})
+
+HiddenMoveHandlers::UseMove.add(:FLASH, proc { |move, pokemon|
+  darkness = $game_temp.darkness_sprite
+  next false if !darkness || darkness.disposed?
+  if !pbHiddenMoveAnimation(pokemon)
+    pbMessage(_INTL("{1} used {2}!", pokemon.name, GameData::Move.get(move).name))
+  end
+  $PokemonGlobal.flashUsed = true
+  $stats.flash_count += 1
+  duration = 0.7
+  old_rad = darkness.radius
+  pbWait(duration) do |delta_t|
+    darkness.radius = lerp(old_rad, Settings::FLASH_CIRCLE_RADIUS, duration, delta_t)
+  end
+  darkness.radius = Settings::FLASH_CIRCLE_RADIUS
+  next true
+})

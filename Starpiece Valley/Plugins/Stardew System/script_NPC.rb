@@ -1,14 +1,29 @@
 #===============================================================================
 # NPC Logic - Interaction, Affection, Gifts, Activity, Work
 #===============================================================================
+SPOUSE_PAIRS = [
+  [:POKECAFE, :ENGINEER, 100],
+  [:RANCHER, :GARDENER, 30],
+  [:LIBRARIAN, :BIRDKEEPER, 75],
+  [:MUSHROOM, :BUGCATCHER, 120],
+  [:BLACKSMITH, :DIVER, 75],
+  [:ADVENTURER, :BEAUTY, 50],
+  [:PAINTER, :SEAMSTRESS, 900]
+  ]
+
 
 module NPCSystem
   @affection_data = {}
   @relationship_state_data = {}
+  @affection_spouse_pairs = {}   
+  @spouse_affection_data  = {}
   @state_data = {}
   @daily_interacted = {}
   @daily_gifts = {}
   @daily_gifts_detailed = {}
+
+  SPOUSE_DATE_THRESHOLD   = 300
+  SPOUSE_MARRY_THRESHOLD  = 900
 
     # --- id normalization (so symbols/strings behave) ---
   def self._key(id)
@@ -20,7 +35,7 @@ module NPCSystem
   def self._ensure_defaults(id)
     k = _key(id)
     @affection_data[k]           = 50        unless @affection_data.key?(k)
-    @relationship_state_data[k]  = :single  unless @relationship_state_data.key?(k)
+    @relationship_state_data[k]  = :Single  unless @relationship_state_data.key?(k)
     @state_data[k]               = :work    unless @state_data.key?(k)
     k
   end
@@ -45,6 +60,23 @@ module NPCSystem
     @affection_data[k] += amount.to_i
   end
 
+  def self.spouse_affection(npc_id)
+    k = _ensure_defaults(npc_id)
+    @spouse_affection_data[k] ||= 0
+    @spouse_affection_data[k]
+  end
+
+  def self.set_spouse_affection(npc_id, value)
+    k = _ensure_defaults(npc_id)
+    @spouse_affection_data[k] = value.to_i
+  end
+
+  def self.add_spouse_affection(npc_id, amount)
+    k = _ensure_defaults(npc_id)
+    @spouse_affection_data[k] ||= 0
+    @spouse_affection_data[k] += amount.to_i
+  end
+
   # ---------- Relationship State ----------
   # valid examples: :single, :dating_player, :married_player
   def self.relationship_state(npc_id)
@@ -54,7 +86,7 @@ module NPCSystem
 
   def self.set_relationship_state(npc_id, state_sym)
     k = _ensure_defaults(npc_id)
-    @relationship_state_data[k] = (state_sym || :single).to_sym
+    @relationship_state_data[k] = (state_sym || :none).to_sym
   end
 
   # Convenience checks
@@ -62,6 +94,7 @@ module NPCSystem
   def self.dating_player?(npc_id)  = relationship_state(npc_id) == :Dating_Player || relationship_state(npc_id) == :Married_Player
   def self.married_player?(npc_id) = relationship_state(npc_id) == :Married_Player
   def self.dating_spouse?(npc_id)  = relationship_state(npc_id) == :Dating_Spouse || relationship_state(npc_id) == :Married_Spouse
+  def self.married_spouse?(npc_id) = relationship_state(npc_id) == :Married_Spouse
 
   # ---------- Behavior / Schedule State ----------
   # examples: :idle, :work, :home, :leisure, :social, :sleep
@@ -100,9 +133,6 @@ module NPCSystem
     @daily_interacted[_key(npc_id)] = true
   end
 
-  def self.reset_daily_interactions
-    @daily_interacted.clear
-  end
 
   def self.current_season_symbol
     case pbGetSeason
@@ -114,6 +144,66 @@ module NPCSystem
     end
   end
 
+  def self.nightly_npc_update
+    @daily_interacted     ||= {}
+    @daily_gifts          ||= {}
+    @daily_gifts_detailed ||= {}
+    @daily_interacted.clear
+    @daily_gifts.clear
+    @daily_gifts_detailed.clear
+    overnight_spouse_affection
+    puts "🧠 NPC daily update complete."
+  end
+
+  def self.overnight_spouse_affection
+    SPOUSE_PAIRS.each do |npc1_id, npc2_id, num|
+      a = _key(npc1_id)
+      b = _key(npc2_id)
+      next unless a && b
+
+      base = rand(2..5)
+      base -= 1 if dating_player?(a) || dating_player?(b)
+      base -= 1 if affection(a) > spouse_affection(a) || affection(b) > spouse_affection(b)
+      base += 3 if dating_spouse?(a) || dating_spouse?(b)
+
+      add_spouse_affection(a, base)
+      add_spouse_affection(b, base)
+
+      if spouse_affection(a) >= SPOUSE_DATE_THRESHOLD && single?(a) && single?(b)
+        set_relationship_state(a, :Dating_Spouse)
+        set_relationship_state(b, :Dating_Spouse)
+        puts "💞 #{GameData::NPC.try_get(a).name} and #{GameData::NPC.try_get(b).name} are now dating!"
+      end
+      if spouse_affection(a) >= SPOUSE_MARRY_THRESHOLD && dating_spouse?(a) && dating_spouse?(b) && !married_spouse?(a) && !married_spouse?(b)
+        set_relationship_state(a, :Married_Spouse)
+        set_relationship_state(b, :Married_Spouse)
+        puts "💍 #{GameData::NPC.try_get(a).name} and #{GameData::NPC.try_get(b).name} are now married!"
+      end
+    end
+  end
+
+  def self.seed_NPCs
+    a= _key(:MIKU)
+    set_relationship_state(a, :Single)
+    set_spouse_affection(a, 10)
+    SPOUSE_PAIRS.each do |npc1_id, npc2_id, num|
+      a = _key(npc1_id)
+      b = _key(npc2_id)
+      next unless a && b && num
+
+      set_spouse_affection(a, num)
+      set_spouse_affection(b, num)
+
+      if npc1_id == :PAINTER
+        set_relationship_state(a, :Married_Spouse)
+        set_relationship_state(b, :Married_Spouse)
+      else
+        set_relationship_state(a, :Single)
+        set_relationship_state(b, :Single)
+      end
+      puts "💞 Seeded #{GameData::NPC.try_get(a).name} and #{GameData::NPC.try_get(b).name} with #{num} spouse affection."
+    end
+  end
 
   # ---------- Daily Gifts ----------
   def self.track_gift_given(npc_id, weight = 1, item=nil)
@@ -136,24 +226,7 @@ module NPCSystem
   end
 
   def self.gift_limit_reached?(npc_id)
-    (@daily_gifts[npc_id] || 0) >= 5
-  end
-
-
-  def self.reset_daily_gifts
-    # PLACEHOLDER: Overnight “thank-you mail” chance for important gifts.
-    # Example heuristic: if any entry has weight >= 2 (evo stones/fossils/expensive),
-    # roll a small chance to queue mail from this NPC for tomorrow morning.
-    # @daily_gifts_detailed.each do |npc_key, entries|
-    #   next if entries.nil? || entries.empty?
-    #   important = entries.any? { |e| e[:weight].to_i >= 2 }
-    #   if important && rand(100) < 20
-    #     # TODO: enqueue_thank_you_mail(npc_key)  # your mail system hook
-    #   end
-    # end
-
-    @daily_gifts.clear
-    @daily_gifts_detailed.clear
+    (@daily_gifts[_key(npc_id)] || 0) >= 5
   end
 
   def self.gift_type_weight(item)
@@ -225,11 +298,6 @@ module NPCSystem
     pbShowItemDisplay(item, -1)
   end
 
-  # Placeholder - called once per day per NPC
-  def self.daily_npc_update
-    reset_daily_interactions
-    reset_daily_gifts
-  end
 
   def self.talk_to(npc_input)
     npc = npc_input.is_a?(Symbol) || npc_input.is_a?(String) ? GameData::NPC.try_get(npc_input.to_sym) : npc_input
@@ -305,12 +373,16 @@ module NPCSystem
     end
 
     state_key = npc.state.to_s.downcase.to_sym
+    relation_key = npc.relationship_state.to_s.downcase.to_sym
     season_key = current_season_symbol
     free_now   = free_state?(state_key)
 
     # ----- gather candidate lists by source priority -----
     # 1) state bucket
     state_list = (dialog[state_key] && dialog[state_key][type]).is_a?(Array) ? dialog[state_key][type] : []
+
+    # 2) relationship state bucket
+    relation_list = (dialog[relation_key] && dialog[relation_key][type]).is_a?(Array) ? dialog[relation_key][type] : []
 
     # 2) seasonal add-on to default
     season_list = (season_key && dialog[season_key] && dialog[season_key][type]).is_a?(Array) ? dialog[season_key][type] : []
@@ -319,16 +391,16 @@ module NPCSystem
     default_list = (dialog[:default] && dialog[:default][type]).is_a?(Array) ? dialog[:default][type] : []
 
     # nothing at all?
-    if state_list.empty? && season_list.empty? && default_list.empty?
+    if state_list.empty? && season_list.empty? && default_list.empty? && relation_list.empty?
       puts "⚠️ No dialog of type :#{type} for #{npc.id} (state=#{state_key}, season=#{season_key || :none})"
       return
     end
 
     # ----- helpers: condition check + weighting -----
-    condition_true_weight  = 3   # favor entries with :condition == true
+    condition_true_weight  = 6   # favor entries with :condition == true
     condition_nil_weight   = 1   # neutral entries with no :condition
-    source_state_weight    = 4   # source priority: state > seasonal-default > default
-    source_season_weight   = 2
+    source_state_weight    = 6   # source priority: state > seasonal-default > default
+    source_season_weight   = 4
     source_default_weight  = 1
 
     eval_condition = lambda do |entry|
@@ -354,6 +426,7 @@ module NPCSystem
       # build the full candidate pool (order matters for tiebreak randomness)
       pool = []
       state_list.each               { |e| pool << [e, source_state_weight] }
+      relation_list.each               { |e| pool << [e, source_state_weight] }
       season_list.each    { |e| pool << [e, source_season_weight] }
       default_list.each             { |e| pool << [e, source_default_weight] }
 
@@ -436,7 +509,7 @@ module NPCSystem
     end
 
     # DEBUG: see where linear entries are coming from
-    puts "DEBUG LINEAR pool sizes: state=#{state_list.length}, seasonal=#{season_list.length}, default=#{default_list.length}, valid=#{valid.length}"
+    puts "DEBUG LINEAR pool sizes: state=#{state_list.length}, relationship=#{relation_list.length} seasonal=#{season_list.length}, default=#{default_list.length}, valid=#{valid.length}"
 
     # weighted random across merged pool
     weights = valid.map { |(e, srcw)| entry_weight.call(e, srcw) }
@@ -470,9 +543,9 @@ module NPCSystem
 
 
 
-#===============================================================================
-# NPC Scheduling and Spawning
-#===============================================================================
+  #===============================================================================
+  # NPC Scheduling and Spawning
+  #===============================================================================
   def self.spawn_npc(map_id, event_id, sprite, x, y)
     map = $MapFactory.getMap(map_id)
     event = map.events[event_id]
@@ -484,13 +557,6 @@ module NPCSystem
     event.transparent = false
   end
 
-  def self.daily_schedule_update
-    NPCSystem.daily_npc_update
-    #GameData::NPC.each do |npc|
-      #NPCSystem.daily_npc_update(npc.id)
-      #run_schedule_for(npc.id)
-    #end
-  end
 
   def get_schedule_for_today(npc)
     season = $game_variables[SEASON_VAR].downcase.to_sym         # e.g., :spring
@@ -510,21 +576,23 @@ module NPCSystem
 
     {}
   end
-end
 
-def npc_in_state?(npc, state)
-  schedule = get_schedule_for_today(npc)
-  return false if schedule.empty?
 
-  current_hour = pbGetTimeNow.hour
+  def npc_in_state?(npc, state)
+    schedule = get_schedule_for_today(npc)
+    return false if schedule.empty?
 
-  # Get the last activity that started before or at the current hour
-  active_state = schedule
-    .select { |hour, _| hour <= current_hour }
-    .max_by { |hour, _| hour }
-    &.last || :idle
+    current_hour = pbGetTimeNow.hour
 
-  return active_state == state
+    # Get the last activity that started before or at the current hour
+    active_state = schedule
+      .select { |hour, _| hour <= current_hour }
+      .max_by { |hour, _| hour }
+      &.last || :idle
+
+    return active_state == state
+  end
+
 end
 
 def debug_set_all_npcs_relationship
@@ -596,6 +664,18 @@ module GameData
 
     def add_affection(delta)
       NPCSystem.add_affection(@id, delta)
+    end
+
+    def spouse_affection
+      NPCSystem.spouse_affection(@id)
+    end
+
+    def spouse_affection=(val)
+      NPCSystem.set_spouse_affection(@id, val)
+    end
+
+    def add_spouse_affection(delta)
+      NPCSystem.add_spouse_affection(@id, delta)
     end
 
     # Relationship

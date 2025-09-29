@@ -44,7 +44,7 @@ module GameData
       # Advance the time to 6 AM
       UnrealTime.advance_to(06,00,00)
 
-      NPCSystem.daily_schedule_update
+      NPCSystem.nightly_npc_update
 
       # Increment the day counter
       now = pbGetTimeNow
@@ -256,6 +256,7 @@ def pbInitialGameLoading
   # Load NPC data and dialog files
   GameData::NPC.load
   load_dialogs
+  NPCSystem.seed_NPCs
 
 
   GameData::Chicken.load
