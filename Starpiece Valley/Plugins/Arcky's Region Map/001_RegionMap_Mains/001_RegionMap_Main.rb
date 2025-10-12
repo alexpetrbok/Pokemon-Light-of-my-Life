@@ -19,7 +19,7 @@ class PokemonRegionMap_Scene
     @spritesMap       = {}
     @flyMap           = flyMap
     @mode             = flyMap ? 1 : 0
-    @mapMetadata      = $game_map.metadata
+    @mapMetadata      = $game_map.metadata if !@mapMetadata
     @playerPos        = (@mapMetadata) ? @mapMetadata.town_map_position : nil
     getPlayerPosition
     @regionName = @map.name.to_s if !@regionName
@@ -57,6 +57,7 @@ class PokemonRegionMap_Scene
     addBackgroundAndRegionSprite
     getMapObject
     getQuestMapData
+    getTrainerData
     getFlyIconPositions
     addFlyIconSprites
     addUnvisitedMapSprites
@@ -70,6 +71,7 @@ class PokemonRegionMap_Scene
     addQuestIconSprites
     addBerryIconSprites
     addRoamingIconSprites
+    addTrainerIconSprites
     centerMapOnCursor
     refreshFlyScreen
     stopFade { pbUpdate }
@@ -214,7 +216,7 @@ class PokemonRegionMap_Scene
     @sprites["mapbottom"].mapname = getMapName(@mapX, @mapY)
     @sprites["mapbottom"].maplocation = pbGetMapLocation(@mapX, @mapY)
     @sprites["mapbottom"].mapdetails  = pbGetMapDetails(@mapX, @mapY)
-    @sprites["mapbottom"].previewName   = [getPreviewName(@mapX, @mapY), @previewWidth] if @mode == 2 || @mode == 3 || @mode == 4
+    @sprites["mapbottom"].previewName   = [getPreviewName(@mapX, @mapY), @previewWidth] if @mode == 2 || @mode == 3 || @mode == 4 || @mode == 5
   end
 
   def addPlayerIconSprite
@@ -223,7 +225,7 @@ class PokemonRegionMap_Scene
         @spritesMap["player"] = BitmapSprite.new(@mapWidth, @mapHeight, @viewportMap)
         @spritesMap["player"].x = @spritesMap["map"].x
         @spritesMap["player"].y = @spritesMap["map"].y
-        @spritesMap["player"].visible = ARMSettings::ShowPlayerOnRegion[(@regionName.gsub(' ','')).to_sym]
+        @spritesMap["player"].visible = ARMSettings::ShowPlayerOnRegion.fetch(@regionName.gsub(' ','').to_sym, true)
       end
       @spritesMap["player"].z = 60
       pbDrawImagePositions(
@@ -263,6 +265,7 @@ class PokemonRegionMap_Scene
     lastChoiceFly = 0
     lastChoiceQuest = 0
     lastChoiceBerries = 0
+    lastChoiceTrainers = 0
     @zoom = false # for v2.7.0
     @limitCursor = @zoomHash[@zoomIndex][:limits]
     updateMapRange
@@ -275,9 +278,11 @@ class PokemonRegionMap_Scene
       Input.update
       pbUpdate
       @timer += 1 if @timer
+      @iconTimer += 1 if @iconTimer
       toggleButtonBox(opacityBox) if @modeCount >= 2
       updateButtonInfo if @previewBox.isShown && !ARMSettings::ButtonBoxPosition.nil?
       animatePreviewBox if previewAnimation
+      updatePlayerIconZ
       if @zoomTriggered
         @sprites["cursor"].x = lerp(@ZoomValues[:begin][:cursor][:x], @ZoomValues[:end][:cursor][:x], @zoomSpeed, @distPerFrame, System.uptime)
         @sprites["cursor"].y = lerp(@ZoomValues[:begin][:cursor][:y], @ZoomValues[:end][:cursor][:y], @zoomSpeed, @distPerFrame, System.uptime)
@@ -310,6 +315,7 @@ class PokemonRegionMap_Scene
         lastChoiceFly = choice if @mode == 1
         lastChoiceQuest = choice if @mode == 2
         lastChoiceBerries = choice if @mode == 3
+        lastChoiceTrainers = choice if @mode == 5
       end
       if Input.trigger?(Input::CTRL) && @mode == 0 && ARMSettings::UseRegionMapZoom
         if !@zoom
@@ -344,7 +350,7 @@ class PokemonRegionMap_Scene
       cursor[:oldX] = @mapX
       cursor[:oldY] = @mapY
       ox, oy, mox, moy = getDirectionInput(ox, oy, mox, moy)
-      ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries = getMouseInput(ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries) if ARMSettings::UseMouseOnRegionMap
+      ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries, lastChoiceTrainers = getMouseInput(ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries, lastChoiceTrainers) if ARMSettings::UseMouseOnRegionMap
       choice = canSearchLocation(lastChoiceLocation, cursor) if @mode == 0
       choice = canActivateQuickFly(lastChoiceFly, cursor) if @mode == 1
       updateCursorPosition(ox, oy, cursor) if (ox != 0 || oy != 0) && !previewAnimation

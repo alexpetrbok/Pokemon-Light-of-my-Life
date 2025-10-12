@@ -11,7 +11,6 @@ class PokemonRegionMap_Scene
   def getTextPosition
     x = BoxTopLeft || BoxBottomLeft ? 4 : Graphics.width - (4 + @sprites["buttonPreview"].width)
     y = BoxTopLeft || BoxTopRight ? 22 : Graphics.height - (22 + @sprites["buttonPreview"].height)
-
     return x, y
   end
 

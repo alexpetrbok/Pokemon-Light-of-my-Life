@@ -3,6 +3,7 @@ class PokemonRegionMap_Scene
     return getQuestName(x, y) if @mode == 2
     return getBerryName(x, y) if @mode == 3
     return getRoamingName(x, y) if @mode == 4
+    return getTrainerName(x, y) if @mode == 5
   end
 
   def getPreviewBox
@@ -21,7 +22,7 @@ class PokemonRegionMap_Scene
     end
 
     # Return early if the mode is 1 or 4 (no updates required)
-    return if @mode == 1 || @mode == 4
+    return if @mode == 1 || @mode == 4 || @mode == 5
 
     # Update the preview box with the new bitmap
     @sprites["previewBox"].setBitmap(findUsableUI("#{getPreviewGraphic}#{@lineCount}"))

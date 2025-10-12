@@ -325,7 +325,7 @@ end
 def pbShelfPokecafe
   pbShelfMart([
     :PROTEIN, :IRON, :CARBOS, :CALCIUM, :ZINC, :HPUP,
-    :REPEL, :SUPERREPEL, :MAXREPEL
+    :REPEL, :SUPERREPEL, :MAXREPEL, :RARECANDY
   ], speech: "MinimalShelf")
 end
 
@@ -349,7 +349,7 @@ def pbShopCafe
     :MOOMOOMILK, :CASTELIACONE, :LAVACOOKIE, :OLDGATEAU,
     :TINYMUSHROOM, :BIGMUSHROOM, :BALMMUSHROOM,
     :HONEY, :FRESHWATER, :LEMONADE, :SODAPOP,
-    :ENERGYPOWDER, :HEALPOWDER, :COFFEE
+    :ENERGYPOWDER, :HEALPOWDER
   ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
@@ -363,7 +363,7 @@ def pbShopBlacksmith
     :REPEATBALL, :TIMERBALL, :LUXURYBALL, :NETBALL, :DIVEBALL,
     # Field item
     :ROCKSMASHITEM,  # your field item for Rock Smash (consistent with BadgesForItems)
-    
+    :GEODE, :ORE, :WOOD
   ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 
@@ -373,7 +373,8 @@ def pbShopAdventurer
   pbPokemonMart([
     # Exploration
     :REPEL, :SUPERREPEL, :MAXREPEL, :ESCAPEROPE,
-    :DOWSINGMCHN, :DIGITEM,
+    # Field items
+    :DOWSINGMCHN, :DIGITEM, :HEADBUTITEM, :FLASHITEM, :TELEPORTITEM,
     # Stones & treasures
     :FIRESTONE, :WATERSTONE, :THUNDERSTONE, :LEAFSTONE,
     :MOONSTONE, :SUNSTONE, :SHINYSTONE, :DUSKSTONE, :DAWNSTONE, :ICESTONE,
@@ -382,7 +383,7 @@ def pbShopAdventurer
     :DRAGONSCALE,
     # Useful held items
     :BLACKBELT, :HARDSTONE, :MAGNET, :NEVERMELTICE, :SCOPELENS,
-    :EXPSHARE, :FOCUSBAND, :QUICKCLAW, 
+    :EXPSHARE, :FOCUSBAND, :QUICKCLAW 
 
   ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
@@ -392,7 +393,7 @@ end
 def pbShopDiver
   pbPokemonMart([
     :OLDROD, :GOODROD, :SUPERROD, :BAIT,
-    :SURFITEM, :DIVEITEM  # your field items for Surf/Dive per BadgesForItems
+    :SURFITEM, :DIVEITEM  
   ], speech: "MinimalSeller", useCat: false, billEnd: true)
 end
 

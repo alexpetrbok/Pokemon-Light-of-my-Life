@@ -241,7 +241,7 @@ EventHandlers.add(:on_map_or_spriteset_change, :show_darkness,
         $game_temp.darkness_sprite.radius = Settings::FLASH_CIRCLE_RADIUS
       end
       $PokemonGlobal.darknessRadius = $game_temp.darkness_sprite.radius
-    else
+    elsif !map_metadata&.outdoor_map 
       $PokemonGlobal.flashUsed = false
       $game_temp.darkness_sprite&.dispose
       $game_temp.darkness_sprite = nil
@@ -541,13 +541,13 @@ module SV_AutoNight
   def self.auto_dark_now?
     return false unless enabled?
     meta = $game_map.metadata
-    meta&.outdoor_map && midnight_window?
+    meta&.outdoor_map && midnight_window? 
   end
 
   # Unify the notion of "dark right now" for this plugin
   def self.dark_active_now?
     meta = $game_map.metadata
-    (meta&.dark_map) || auto_dark_now?
+    meta&.dark_map || auto_dark_now?
   end
 
   def self.ensure_darkness_sprite(scene)
@@ -580,7 +580,7 @@ def pbFadeDarknessToBlack(duration = 3.0, dispose_after: true)
   end
   darkness  = $game_temp.darkness_sprite
   start_rad = darkness&.radius || 0
-  target    = darkness&.radiusMin || 0
+  target    = 0
 
   pbWait(duration) do |dt|
     break if !darkness || darkness.disposed?
@@ -602,10 +602,11 @@ end
 EventHandlers.add(:on_map_or_spriteset_change, :show_darkness_autonight,
   proc { |scene, _map_changed|
     next if !scene || !scene.spriteset
-    if SV_AutoNight.dark_active_now?
+    if SV_AutoNight.dark_active_now? 
       SV_AutoNight.ensure_darkness_sprite(scene)
-    else
+    elsif !$game_map.metadata&.outdoor_map
       SV_AutoNight.dispose_darkness_sprite
+      $PokemonGlobal.flashUsed = false
     end
   }
 )
@@ -623,7 +624,7 @@ EventHandlers.add(:on_frame_update, :autonight_tick,
     next if want == present
     if want
       SV_AutoNight.ensure_darkness_sprite($scene)
-    else
+    elsif !$game_map.metadata&.outdoor_map
       SV_AutoNight.dispose_darkness_sprite
     end
   }

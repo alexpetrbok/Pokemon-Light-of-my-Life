@@ -62,6 +62,9 @@ module GameData
       produced = ChickenBreeding.nightly_breeding
       puts "🐣 Bred #{produced} new chicks overnight." if produced > 0
       $player.heal_party
+      pbSetPokemonCenter
+
+      pbForceUpdateWeather
 
       $game_variables[UPDATE_LOOP_SWITCH_ID] = true
     end
@@ -252,12 +255,15 @@ end
 
 
 def pbInitialGameLoading
-
+  $player_energy = GameData::PlayerEnergy.new(100)
+  $daily_clock = GameData::DailyClock.new
+  
   # Load NPC data and dialog files
   GameData::NPC.load
   load_dialogs
   NPCSystem.seed_NPCs
 
+  
 
   GameData::Chicken.load
 

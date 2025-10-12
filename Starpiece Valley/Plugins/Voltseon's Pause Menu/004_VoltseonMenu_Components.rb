@@ -212,8 +212,8 @@ class VPM_DateAndTimeHud < Component
     @sprites["energy_bar"].visible = true
 
     # Initialize related custom scripts
-    $player_energy = GameData::PlayerEnergy.new(100)
-    $daily_clock = GameData::DailyClock.new
+    $player_energy = GameData::PlayerEnergy.new(100) if !$player_energy
+    $daily_clock = GameData::DailyClock.new if !$daily_clock
 
     # Show by default
     show

@@ -169,3 +169,68 @@ class PokemonRegionMap_Scene
     return retval
   end
 end
+
+class PokemonPokedexInfo_Scene
+  def messageMap(message, commands = nil, cmdIfCancel = 0, skin = nil, defaultCmd = 0, choiceUpdate = false, filterType, &block)
+    ret = 0
+    msgwindow = pbCreateMessageWindow(nil, skin)
+    msgwindow.z = 100002
+    if commands
+      ret = pbMessageDisplay(msgwindow, message, true,
+                             proc { |msgwindow|
+                               next showCommandsMap(msgwindow, commands, cmdIfCancel, defaultCmd, choiceUpdate, filterType, &block)
+                             }, &block)
+    else
+      pbMessageDisplay(msgwindow, message, &block)
+    end
+    pbDisposeMessageWindow(msgwindow)
+    Input.update
+    return ret
+  end
+
+  def showCommandsMap(msgwindow, commands = nil, cmdIfCancel = 0, defaultCmd = 0, choiceUpdate = false, filterType = "loc")
+    return 0 if !commands
+    cmdwindow = Window_CommandPokemonEx.new(commands, nil, true)
+    cmdwindow.z = 100002
+    cmdwindow.visible = true
+    cmdwindow.resizeToFit(cmdwindow.commands)
+    pbPositionNearMsgWindow(cmdwindow, msgwindow, :right)
+    cmdwindow.index = defaultCmd || 0
+    command = 0
+    sorted = false
+    loop do
+      Graphics.update
+      Input.update
+      cmdwindow.update
+      if choiceUpdate
+        if filterType == "loc"
+          @locChoice = cmdwindow.index
+          handleLocChoice
+        elsif filterType == "encType"
+          @encTypeChoice = cmdwindow.index 
+          handleEncTypeChoice
+        end 
+      end
+      msgwindow&.update
+      yield if block_given?
+      if Input.trigger?(Input::BACK)
+        if cmdIfCancel > 0
+          command = cmdIfCancel - 1
+          break
+        elsif cmdIfCancel < 0
+          command = cmdIfCancel
+          break
+        end
+      end
+      if Input.trigger?(Input::USE)
+        command = cmdwindow.index
+        break
+      end
+      pbUpdateSceneMap
+    end
+    ret = command
+    cmdwindow.dispose
+    Input.update
+    return ret
+  end
+end 

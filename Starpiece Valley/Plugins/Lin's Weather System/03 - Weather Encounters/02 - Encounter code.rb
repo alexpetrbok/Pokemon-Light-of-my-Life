@@ -3,10 +3,51 @@
 #===============================================================================
 
 class PokemonEncounters
+  def find_valid_encounter_type_for_weather(base_type, _fallback_type = nil)
+    time = pbGetTimeNow
+    weather = $game_screen.weather_type
+    types = []
+
+    # Add base encounter type
+    types << base_type.to_s
+
+    # Add time-of-day variants
+    if PBDayNight.isMorning?(time)
+      types << "#{base_type}Morning"
+    elsif PBDayNight.isAfternoon?(time)
+      types << "#{base_type}Afternoon"
+    elsif PBDayNight.isEvening?(time)
+      types << "#{base_type}Evening"
+    elsif PBDayNight.isDay?(time)
+      types << "#{base_type}Day"
+    else
+      types << "#{base_type}Night"
+    end
+
+    # Add weather-based variants
+    if weather && weather != :None
+      types += types.map { |t| "#{t}#{weather}" }
+    end
+
+    # Convert to symbols and remove duplicates
+    types = types.map(&:to_sym).uniq
+
+    # Return first matching valid encounter type
+    valid_types = types.select { |t| GameData::EncounterType.exists?(t) }
+    return valid_types.sample if valid_types.any?
+
+    # Fallback to base_type if valid
+    return base_type if GameData::EncounterType.exists?(base_type)
+
+    return nil
+  end
+
+
+  
   # Checks the defined encounters for the current map and returns the encounter
   # type that the given weather should produce. Only returns an encounter type if
   # it has been defined for the current map.
-  def find_valid_encounter_type_for_weather(base_type, new_type)
+  def find_each_valid_encounter_type_for_weather(base_type, new_type)
     ret = nil
     try_type = nil
     weather = $game_screen.weather_type if $game_screen.weather_type != :None
@@ -14,7 +55,7 @@ class PokemonEncounters
     if try_type && !has_encounter_type?(try_type)
       try_type = (base_type.to_s + weather.to_s).to_sym
     end
-    ret = find_valid_encounter_type_for_season(base_type, new_type, try_type)
+    #ret = find_valid_encounter_type_for_season(base_type, new_type, try_type)
     return ret if ret
     return (has_encounter_type?(new_type)) ? new_type : (has_encounter_type?(base_type)) ? base_type : nil
   end
@@ -25,15 +66,15 @@ class PokemonEncounters
   def find_valid_encounter_type_for_season(base_type, time_type, new_type)
     ret = nil
     try_type = nil
-	if pbIsSummer
-	  season= "Summer"
-	elsif pbIsAutumn 
-	  season= "Autumn"
-	elsif pbIsWinter
-	  season= "Winter"
-	else
-	  season= "Spring"
-	end
+    if pbIsSummer
+      season= "Summer"
+    elsif pbIsAutumn 
+      season= "Autumn"
+    elsif pbIsWinter
+      season= "Winter"
+    else
+      season= "Spring"
+    end
     try_type = (new_type.to_s + season).to_sym
     if try_type && !has_encounter_type?(try_type)
       try_type = (time_type.to_s + season).to_sym

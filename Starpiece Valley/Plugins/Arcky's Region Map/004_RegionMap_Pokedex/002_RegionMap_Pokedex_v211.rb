@@ -8,6 +8,9 @@ if Essentials::VERSION.include?("21")
     BehindUI = ARMSettings::RegionMapBehindUI ? [0, 0, 0, 0] : [16, 32, 48, 64]
     ThemePlugin = PluginManager.installed?("Lin's Pokegear Themes")
     Folder = "Graphics/UI/Town Map/"
+    FilterFollowUp = ARMSettings::FilterMenuType == "followUp"
+    FilterChoice = ARMSettings::FilterMenuType == "choice"
+    FilterDefault = ARMSettings::FilterMenuType == "default"
 
     alias arcky_pbStartScene pbStartScene
     def pbStartScene(*args)
@@ -16,6 +19,18 @@ if Essentials::VERSION.include?("21")
       @viewportMap = Viewport.new(BehindUI[0], BehindUI[2], (Graphics.width - BehindUI[1]), (Graphics.height - BehindUI[3]))
       @viewportMap.z = 99999
       arcky_pbStartScene(*args)
+      setRegionMapGraphic
+      @sprites["areahighlight"] = BitmapSprite.new(@sprites["areamap"].bitmap.width, @sprites["areamap"].bitmap.height, @viewportMap)
+      @sprites["areaText"] = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
+      pbSetSystemFont(@sprites["areaText"].bitmap)
+      makeMapArrows
+      scene = PokemonRegionMap_Scene.new(-1, false)
+      @avRegions = scene.getAvailableRegions
+      refreshAreaVariables
+    end
+
+    def setRegionMapGraphic
+      @sprites["areamap"].dispose
       @sprites["areamap"] = IconSprite.new(0, 0, @viewportMap)
       @sprites["areamap"].setBitmap("Graphics/UI/Town Map/Regions/#{@mapdata.filename}")
       ARMSettings::RegionMapExtras.each do |hidden|
@@ -27,11 +42,11 @@ if Essentials::VERSION.include?("21")
             hidden[3] * ARMSettings::SquareHeight]]
         )
       end
-      @sprites["areahighlight"] = BitmapSprite.new(@sprites["areamap"].bitmap.width, @sprites["areamap"].bitmap.height, @viewportMap)
-      makeMapArrows
+    end 
+
+    def refreshAreaVariables
       mapMetadata = $game_map.metadata
       if !mapMetadata
-        p "There's no mapMetadata for map '#{$game_map.name}' with ID #{$game_map.map_id}. Add it to the map_metadata.txt to fix this error!"
         Console.echo_error _INTL("There's no mapMetadata for map '#{$game_map.name}' with ID #{$game_map.map_id}. \nAdd it to the map_metadata.txt to fix this error!")
       end
       playerPos = mapMetadata && mapMetadata.town_map_position ? mapMetadata.town_map_position : [0, 0, 0]
@@ -68,7 +83,47 @@ if Essentials::VERSION.include?("21")
       end
       @mapX = -(@sprites["areamap"].x / ARMSettings::SquareWidth)
       @mapY = -(@sprites["areamap"].y / ARMSettings::SquareHeight)
-    end
+      @initialLocData, @initialEncTypeData = getEncounterMapAreas
+      @locData = @initialLocData.clone
+      @encTypeData = @initialEncTypeData.clone
+      @initialSpecies = @species.clone
+      @filterMenuActive = false 
+    end 
+
+    def getEncounterMapAreas
+      mapIDs = []
+      mapNames = []
+      typesToMaps = Hash.new { |h, k| h[k] = [] }
+      mapEncounterTypes = []
+      GameData::Encounter.each_of_version($PokemonGlobal.encounter_version) do |enc_data|
+        # Check if Encounter belongs to current encounter table.
+        next if !pbFindEncounter(enc_data.types, @species)
+        map_metadata = GameData::MapMetadata.try_get(enc_data.map)
+        # Check if map is found and if there's no hideEncounter flag.
+        next if !map_metadata || map_metadata.has_flag?("HideEncountersInPokedex")
+        mapPos = map_metadata.town_map_position
+        # Check if map has a mapPosition defined.
+        if mapPos.nil?
+          Console.echoln_li _INTL("#{map_metadata.name} has no mapPosition defined in map_metadata.txt PBS file.")
+          next 
+        end 
+        # Check if map is from current Region.
+        next if mapPos[0] != @region 
+        # Check map name and check if no other maps had already this name.
+        mapName = ARMSettings::LinkPoiToMap.key(map_metadata.id) || map_metadata.name 
+        next if mapNames.include?(mapName)
+        mapNames.push(mapName)
+        mapIDs.push(enc_data.map)
+
+        encounterTypes = enc_data.types.select {|type, species| species.any? {|specie| specie[1] == @species } }
+
+        encounterTypes.each_key do |type|
+          typesToMaps[type] << enc_data.map 
+        end
+      end 
+      #mapEncounterTypes = typesToMaps.map { |type, maps| { type => maps } }
+      return mapIDs, typesToMaps
+    end 
 
     def pbFindEncounter(enc_types, species)
       return false if !enc_types
@@ -82,6 +137,15 @@ if Essentials::VERSION.include?("21")
     # Returns a 1D array of values corresponding to points on the Town Map. Each
     # value is true or false.
     def pbGetEncounterPoints
+      if @species != @initialSpecies
+        @initialLocData, @initialEncTypeData = getEncounterMapAreas
+        @locData = @initialLocData.clone
+        @encTypeData = @initialEncTypeData.clone
+        @initialSpecies = @species.clone
+        @locChoice = nil
+        @encTypeChoice = nil
+        @filterChoice = nil 
+      end 
       # Determine all visible points on the Town Map (i.e. only ones with a
       # defined point in town_map.txt, and which either have no Self Switch
       # controlling their visibility or whose Self Switch is ON)
@@ -94,16 +158,10 @@ if Essentials::VERSION.include?("21")
       town_map_width = @mapWidth / ARMSettings::SquareWidth
       ret = []
       GameData::Encounter.each_of_version($PokemonGlobal.encounter_version) do |enc_data|
-        next if !pbFindEncounter(enc_data.types, @species)   # Species isn't in encounter table
-        # Get the map belonging to the encounter table
+        # Check if Map is in filter. When generating @locData, several checks have already been done.
+        next if !@locData.include?(enc_data.map) || !@encTypeData.any? { |type, maps | maps.include?(enc_data.map) }
         map_metadata = GameData::MapMetadata.try_get(enc_data.map)
-        next if !map_metadata || map_metadata.has_flag?("HideEncountersInPokedex")
         mappos = map_metadata.town_map_position
-        if mappos.nil?
-          Console.echoln_li _INTL("#{map_metadata.name} has no mapPosition defined in map_metadata.txt PBS file.")
-          next
-        end
-        next if mappos[0] != @region   # Map isn't in the region being shown
         # Get the size and shape of the map in the Town Map
         map_size = map_metadata.town_map_size
         map_width = 1
@@ -126,19 +184,23 @@ if Essentials::VERSION.include?("21")
       return ret
     end
 
+    # Called once when switching to Area Page or changing species
     def drawPageArea
       @sprites["areamap"].visible       = true
       @sprites["areahighlight"].visible = true
       @sprites["areaoverlay"].visible   = true
       @sprites["background"].setBitmap(_INTL("Graphics/UI/Pokedex/bg_area"))
-      overlay = @sprites["overlay"].bitmap
+      overlay = @sprites["areaText"].bitmap
+      overlay.clear
       base   = Color.new(88, 88, 80)
       shadow = Color.new(168, 184, 184)
       @sprites["areahighlight"].bitmap.clear
       @sprites["areahighlight"].x = @sprites["areamap"].x
       @sprites["areahighlight"].y = @sprites["areamap"].y
+      @sprites["areahighlight"].z = 20
       @noArea = false
       # Get all points to be shown as places where @species can be encountered
+      # v3.3.0 mapIDs is an array of all game maps, this @species can be encountered.
       points = pbGetEncounterPoints
       # Draw coloured squares on each point of the Town Map with a nest
       pointcolor   = Color.new(0, 248, 248)
@@ -210,7 +272,7 @@ if Essentials::VERSION.include?("21")
       else
         folderUI = "UI/Region#{@region}/"
         bitmap = pbResolveBitmap("#{Folder}#{folderUI}#{image}")
-        if bitmap && RegionUI
+        if bitmap && ARMSettings::ChangeUIOnRegion
           # Use UI Graphics for the Current Region.
           return "#{Folder}#{folderUI}#{image}"
         else
@@ -220,7 +282,150 @@ if Essentials::VERSION.include?("21")
       end
     end
 
+    def showChoiceFilterMenu
+      @lastFilterChoice = 0 if !@filterChoice
+      @filterChoice = messageMap(_INTL("Which filter would you like to use?"),
+        ["Location", "Encounter Type"], -1, nil, @lastFilterChoice) {pbUpdate}
+      if @filterChoice == 0
+        showLocFilterMenu
+      elsif @filterChoice == 1
+        showEncTypeFilterMenu
+      else 
+        @filterChoice = @lastFilterChoice
+      end 
+      @lastFilterChoice = @filterChoice
+    end 
+
+    def showLocFilterMenu
+      return if @initialLocData.length == 0 || @filterMenuActive
+      @filterMenuActive = true 
+      @lastLocChoice = 0 if !@locChoice
+      options = []
+      if FilterFollowUp
+        data = @encTypeData.values.map { |value| value }.flatten
+      else 
+        data = @initialLocData.clone
+      end 
+      data.each do |map| 
+        mapData = GameData::MapMetadata.try_get(map)
+        options.push(ARMSettings::LinkPoiToMap.key(mapData.id) || mapData.name)
+      end 
+      @locChoice = messageMap(_INTL("Choose a Location to Filter the Encounter Area."),
+      options.insert(0, "All").uniq, -1, nil, @lastLocChoice, true, "loc") {pbUpdate}
+      @filterMenuActive = false
+      if @locChoice == -1
+        @locChoice = @lastLocChoice 
+        showChoiceFilterMenu if FilterChoice
+      elsif @locChoice > 0 
+        @locData = [data[@locChoice - 1]]
+      elsif @locChoice == 0
+        resetLocFilter
+      end
+      @lastLocChoice = @locChoice
+      drawPageArea
+    end 
+
+    def resetLocFilter 
+      @locData = @initialLocData.clone 
+    end
+
+    def handleLocChoice 
+      if FilterFollowUp
+        data = @encTypeData.values.map { |value| value }.flatten
+      else 
+        resetEncTypeFilter
+        data = @initialLocData.clone
+      end 
+      if @locChoice != 0
+        @locData = [data[@locChoice - 1]]
+      else 
+        resetLocFilter
+      end
+      drawPageArea
+    end
+
+    def showEncTypeFilterMenu
+      return if @initialEncTypeData.length == 0 || @filterMenuActive
+      @filterMenuActive = true 
+      @lastEncTypeChoice = 0 if !@encTypeChoice
+      options = @initialEncTypeData.keys.map { |type| ARMSettings::EncounterTypes[type] || type.to_s }
+      @encTypeChoice = messageMap(_INTL("Choose an Encounter Type to Filter the Encounter Area."),
+      options.insert(0, "All").uniq, -1, nil, @lastEncTypeChoice, true, "encType") {pbUpdate}
+      @filterMenuActive = false
+      if @encTypeChoice == -1
+        @encTypeChoice = @lastEncTypeChoice 
+        showChoiceFilterMenu if FilterChoice
+      elsif @encTypeChoice > 0
+        key = @initialEncTypeData.keys[@encTypeChoice - 1]
+        @encTypeData = { key => @initialEncTypeData[key] }
+      elsif @encTypeData == 0
+        resetEncTypeFilter
+      end 
+
+      if FilterFollowUp
+        @lastLocChoice = 0 if @lastEncTypeChoice != @encTypeChoice && @encTypeChoice != -1
+      end 
+      @lastEncTypeChoice = @encTypeChoice
+      drawPageArea
+      showLocFilterMenu if FilterFollowUp
+    end 
+
+    def resetEncTypeFilter
+      @encTypeData = @initialEncTypeData.clone
+    end 
+
+    def handleEncTypeChoice
+      resetLocFilter
+      if @encTypeChoice != 0
+        key = @initialEncTypeData.keys[@encTypeChoice - 1]
+        @encTypeData = { key => @initialEncTypeData[key] }
+      else 
+        resetEncTypeFilter
+      end 
+      drawPageArea
+    end 
+
+    def switchAreaRegion
+      echoln("we do this maybe?")
+      @avRegions = @avRegions.sort_by { |index| index[1] }
+      if @avRegions.length >= 3
+        choice = messageMap(_INTL("Which Region would you like to change to?"),
+          @avRegions.map {|mode| "#{mode[0]}"}, -1, nil, @region) { pbUpdate }
+        return if choice == -1 || @region == @avRegions[choice][1]
+        @region = @avRegions[choice][1]
+      else 
+        return if @avRegions.length <= 1
+        @region = @avRegions[0][1] == @region ? @avRegions[1][1] : @avRegions[0][1]
+      end 
+      @mapdata = GameData::TownMap.get(@region)
+      setRegionMapGraphic
+      refreshAreaVariables
+      drawPageArea
+    end 
+
     if PluginManager.installed?("Modular UI Scenes")
+      alias _region_map_pbUpdate pbUpdate 
+      def pbUpdate
+        _region_map_pbUpdate
+        if ARMSettings::ToggleLocFilterButton && Input.trigger?(ARMSettings::ToggleLocFilterButton) && !@filterMenuActive && !FilterFollowUp
+          if @page_id === :page_area
+            if FilterDefault
+              showLocFilterMenu
+            elsif FilterChoice
+              showChoiceFilterMenu 
+            end 
+          end 
+        elsif ARMSettings::ToggleEncTypeFilterButton && Input.trigger?(ARMSettings::ToggleEncTypeFilterButton) && (FilterDefault || FilterFollowUp) && !@filterMenuActive
+          if @page_id == :page_area
+            showEncTypeFilterMenu
+          end 
+        elsif ARMSettings::ToggleRegionSwitchButton && Input.trigger?(ARMSettings::ToggleRegionSwitchButton)
+          if @page_id === :page_area
+            switchAreaRegion
+          end 
+        end
+      end  
+
       def pbRegionMapControls
         return if @noArea
         new_x = @sprites["areamap"].x
@@ -348,6 +553,20 @@ if Essentials::VERSION.include?("21")
               pbPlayCloseMenuSE
               break
             end
+          elsif Input.trigger?(Input::SPECIAL)
+            pbPokedexEntryTextScroll if @page == 1
+          elsif ARMSettings::ToggleLocFilterButton && Input.trigger?(ARMSettings::ToggleLocFilterButton) && !@filterMenuActive && !FilterFollowUp
+            if @page == 2 
+              if FilterDefault
+                showLocFilterMenu 
+              elsif filterChoice
+                showChoiceFilterMenu
+              end 
+            end 
+          elsif ARMSettings::ToggleEncTypeFilterButton && Input.trigger?(ARMSettings::ToggleEncTypeFilterButton) && (FilterDefault || FilterFollowUp) && !@filterMenuActive
+            showEncTypeFilterMenu if @page == 2
+          elsif ARMSettings::ToggleRegionSwitchButton && Input.trigger?(ARMSettings::ToggleRegionSwitchButton)
+            switchAreaRegion if @page == 2
           elsif Input.trigger?(Input::USE)
             case @page
             when 1   # Info
@@ -448,6 +667,12 @@ if Essentials::VERSION.include?("21")
         end
         return @index
       end
+    end
+
+    alias arcky_drawPage drawPage
+    def drawPage(page)
+      @sprites["areaText"].bitmap.clear if @sprites["areaText"]
+      arcky_drawPage(page)
     end
   end
 end

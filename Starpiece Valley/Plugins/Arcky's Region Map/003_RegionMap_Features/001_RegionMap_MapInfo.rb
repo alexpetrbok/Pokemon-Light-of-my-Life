@@ -1,7 +1,7 @@
 class PokemonRegionMap_Scene
   def getMapObject
     @mapInfo = {}
-    if @regionData
+    if @regionData && ARMSettings::UseRegionConnecting
       @mapPoints = []
       @regionData.each do |id, data|
         next unless @avRegions.any? { |_, region| region == id}
@@ -41,10 +41,16 @@ class PokemonRegionMap_Scene
         image: getImagePosition(@mapPoints.clone, mapData.clone),
       }
       unless position[:image].nil?
-        existPos = @mapInfo[mapKey][:positions].find { |p| p[:image][:name] == position[:image][:name] } if @mapInfo[mapKey][:positions].any? { |p| p[:image] }
-        unless existPos.nil?
-          position[:image][:x] = existPos[:image][:x]
-          position[:image][:y] = existPos[:image][:y]
+        imageName = position[:image][:name]
+        posWithSameImage = @mapInfo[mapKey][:positions].select do |p|
+          p[:image] && p[:image][:name] == imageName
+        end
+        minImageCoords = posWithSameImage.map { |p| [p[:image][:x], p[:image][:y]] }.min
+        if (minImageCoords)
+          minImageCoords = [[position[:image][:x], position[:image][:y]], minImageCoords].min
+        end
+        posWithSameImage.each do |p|
+          p[:image][:x], p[:image][:y] = minImageCoords
         end
       end
       # Add flyspot details
@@ -62,7 +68,7 @@ class PokemonRegionMap_Scene
   def getImagePosition(mapPoints, mapData)
     name = "map#{mapData[8]}"
     if mapData[8].nil?
-      #Console.echoln_li _INTL("No Highlight Image defined for point '#{mapData[0]}, #{mapData[1]} - #{mapData[2]}' in PBS file: town_map.txt")
+      Console.echoln_li _INTL("No Highlight Image defined for point '#{mapData[0]}, #{mapData[1]} - #{mapData[2]}' in PBS file: town_map.txt")
       return
     end
     points = mapPoints.select { |point| point[8] == mapData[8] && point[2] == mapData[2] }.map { |point| point [0..1] }

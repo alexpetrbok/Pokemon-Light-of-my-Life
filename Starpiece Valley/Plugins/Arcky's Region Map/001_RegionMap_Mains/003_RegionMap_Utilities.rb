@@ -82,4 +82,34 @@ class PokemonRegionMap_Scene
     return value += @regionData[region][:beginY] if add
     return value -= @regionData[region][:beginY]
   end
+
+  def updatePlayerIconZ
+    @iconTimer = 0 if !@iconTimer
+    return if !@playerPos || @mode == 0 || @mode == 1
+    if @mode === 5
+      trainers = @trainerData.select { |trainer| trainer[:mapX] == @mapX && trainer[:mapY] == @mapY}
+      if trainers.nil? || trainers.length == 0
+        @spritesMap["player"].z = 60 if @spritesMap["player"]
+        @iconTimer = 0
+        return
+      end
+      @playerOnIcon = @playerPos[1] == adjustPosX(@mapX) && @playerPos[2] == adjustPosY(@mapY)
+      trainers.unshift("player")
+      @trainerIndex = (@iconTimer.to_f / (2 * Graphics.frame_rate)) % trainers.length
+      return if @trainerIndex != @trainerIndex.round.to_f
+      @trainerIndex = @trainerIndex.round
+      @spritesMap["TrainerIcons"].z = @playerOnIcon ? 50 : 30
+      if @trainerIndex != 0
+        addTrainerIconSprites(trainers[@trainerIndex])
+        @spritesMap["player"].z = 40 if @playerOnIcon
+      else
+        @spritesMap["player"].z = 60 if @playerOnIcon
+      end
+      getTrainerName(@mapX, @mapY)
+    else
+      if (@iconTimer.to_f / (1 * Graphics.frame_rate)) % 2 == 0
+        @spritesMap["player"].z = @spritesMap["player"].z == 60 ? 40 : 60
+      end
+    end
+  end
 end

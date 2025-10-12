@@ -1,5 +1,5 @@
 class PokemonRegionMap_Scene
-  def getMouseInput(ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries)
+  def getMouseInput(ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries, lastChoiceTrainers)
     return if !ARMSettings::UseMouseOnRegionMap || previewAnimation
     mousePos = Mouse.getMousePos
     if mousePos
@@ -98,7 +98,7 @@ class PokemonRegionMap_Scene
       @oldPosX = mousePos[0] if mox == 0
       @oldPosY = mousePos[1] if moy == 0
     end
-    return ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries
+    return ox, oy, mox, moy, lastChoiceQuest, lastChoiceBerries, lastChoiceTrainers
   end
 
   def convertMouseToMapPos(mousePos)

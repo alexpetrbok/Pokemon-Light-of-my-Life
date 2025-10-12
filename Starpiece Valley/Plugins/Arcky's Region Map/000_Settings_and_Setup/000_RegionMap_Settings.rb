@@ -13,7 +13,7 @@
 
       # true = enabled: Keeps track of visited maps, wild pokemon (seen and caught), trainers and items.
       # false = disabled: In case you would still have issues with this feature, make sure to tell me them.
-      ProgressCounter = false 
+      ProgressCounter = false
 
       # Below I've provided a setting for each counter that the Progress Counter is using.
       # If you wish to not use one or more of these, you can turn them off here (or in case you would have an issue with one of them).
@@ -59,21 +59,23 @@
         # You can link each Point of Interest you have on your Town Map to a certain Game Map ID. (from v2.6 this is also used for renaming Locations used by the Extended Preview)
         # If this map is then visited, the Point of Interest will be revealed, otherwise it'll revealed together with the location.
         # Be careful the name here must match the POI, it's case sensitive! (Only applies for replacing the unvisted POI's with UnvisitedPoiText and revealing them.)
-        #LinkPoiToMap = {
-        #  "Oak's Lab" => 4,
-        #  "Kurt's House" => 6,
-        #  "\v[12]'s house" => 8, # Using a variable will show the content for the Location name in the Extended Preview. This won't effect anything else.
-        #  "Cedolan Dept. Store" => 14,
-        #  "Ice Cave" => 34,
-        #  "Rock Cave 1F" => 49,
-        #  "Rock Cave B1F" => 50,
-        #  "Dungeon" => 51,
-        #  "Diving area" => 70,
-        #  "Cedolan City Gym" => 10
-        #}
-        LinkPoiToMap = {
 
+        LinkPoiToMap = {
+          "Oak's Lab" => 4,
+          "Kurt's House" => 6,
+          "\v[12]'s house" => 8, # Using a variable will show the content for the Location name in the Extended Preview. This won't effect anything else.
+          "Cedolan Dept. Store" => 14,
+          "Ice Cave" => 34,
+          "Rock Cave 1F" => 49,
+          "Rock Cave B1F" => 50,
+          "Dungeon" => 51,
+          "Diving area" => 70,
+          "Cedolan City Gym" => 10
         }
+
+        #LinkPoiToMap = {
+
+        #}
 
       #============================= Fake Locations =============================#
 
@@ -84,26 +86,6 @@
         # When the Current Game Map ID is 14 and Game Variable 98 has a value of 1, the Map Position shown on the Region Map will be 1 for the x value and 1 for the y value on Region 0.
         # It is not recommended to use multiple Game Variables for a same map because it might cause problems. If Game Variable 98 is 3 and Game Variable 99 is 2, there'll be no problem.
         # But you can use the same Game Variable for multiple Maps and they may even have the same value because only the map position of the current Game Map will be used if there's a match.
-        # example:
-        #FakeRegionLocations = {
-        #  14 => {
-        #    98 => {
-        #      1 => [1, 1, 1],
-        #      2 => [0, 2, 2]
-        #    },
-        #    99 => {
-        #      2 => [1, 5, 5]
-        #    }
-        #  },
-        #  70 => {
-        #    98 => {
-        #      3 => [1, 3, 3]
-        #    },
-        #    99 => {
-        #      1 => [0, 4, 4]
-        #    }
-        #  }
-        #}
         FakeRegionLocations = {
 
         }
@@ -118,8 +100,7 @@
         # - Name of the graphic, found in the Graphics/Pictures folder.
         # - The graphic will always (true), never (false) or only when the switch is ON (nil) be shown on a wall map.
         RegionMapExtras = [
-          [0, 51, 16, 15, "mapHiddenBerth"], #last option is set to nil
-          [0, 52, 20, 14, "mapHiddenFaraday", true] #last option is set to true
+
         ]
 
       #======================== Location Search Settings ========================#
@@ -158,7 +139,7 @@
         # Any values higher than 100 will be converted to 100%.
         HighlightOpacity = 90
 
-      #========================== Decoration Settings ===========================#
+      #=========================== Decoration Settings ==========================#
 
         # Add Decoration Graphics above the Region Map Graphic itself which will render above the highlighting of a Location.
         # - region number
@@ -167,10 +148,6 @@
         # - Y coordinate of the graphic on the map, in squares.
         # - Name of the graphic, found in the Graphics/Pictures.
         # - false if you want it to render below. (true by default).
-        #RegionMapDecoration = [
-        #  [0, nil, 8, 6, "mapTrees"],
-        #  [0, 51, 16, 15, "mapTrees"]
-        #]
         RegionMapDecoration = [
 
         ]
@@ -179,7 +156,7 @@
 
         # true = enabled: Allows you to change the Region Name on certain parts of the Region Map
         # false = disabled.
-        UseRegionDistrictsNames = true
+        UseRegionDistrictsNames = false
 
         # - Region Number
         # - [min X, max X]; the minimum X value and the maximum X value, in squares.
@@ -188,50 +165,26 @@
         #    example: [0, 10]; when the cursor is between 0 and 10 (including 0 and 10) the name of the region changes (depending on the X value as well).
         # - Region District Name; this is the name the script will use only when the cursor is inside X and Y range.
         RegionDistricts = [
-          [0, [9, 19],  [4, 6],   _INTL("North Essen")],
-          [0, [15, 15], [7, 7],   _INTL("North Essen")],
-          [0, [16, 19], [7, 7],  _INTL("East Essen")],
-          [0, [15, 19], [8, 11],  _INTL("East Essen")],
-          [0, [9, 19],  [12, 15], _INTL("South Essen")],
-          [0, [9, 12],  [7, 11],  _INTL("West Essen")],
-          [0, [13, 14], [7, 11],  _INTL("Central Essen")],
-          [1, [10, 20], [5, 15],  _INTL("Central Tiall")]
+
         ]
 
         # Link a switch ID to each District (if used). This switch will be turned ON once it's at 100%.
         # You'll need to add a script command containing switchesForDistricts in an event before checking if any switches are turned ON.
         ProgressSwitches = {
-          "Essen" => 106,
-          "North Essen" => 99,
-          "East Essen" => 100,
-          "South Essen" => 101,
-          "West Essen" => 102,
-          "Central Essen" => 103,
-          "Central Tiall" => 104
+
         }
-      #========================= Region Map Connecting =========================#
+
+      #========================= Region Map Connecting ==========================#
 
       # true = enabled: Region Conncting is enabled.
       # false = disabled.
       UseRegionConnecting = false
 
-      RegionConnections = {
-        "Region2" => {
-          0 => {
-            :beginX => 30,
-            :endX => 61,
-            :beginY => 0,
-            :endY => 25
-          },
-          1 => {
-            :beginX => 0,
-            :endX => 29,
-            :beginY => 0,
-            :endY => 25
-          }
-        }
-      }
 
+      RegionConnections = {
+
+      }
+      
     #================================ Fly Settings ================================#
 
       # true = enabled: The player can use Fly on the Town Map. This is only allowed if the player can use fly normally.
@@ -239,6 +192,7 @@
       CanFlyFromTownMap = true
 
       # true or 0 = enabled: This Feature can be used.
+
       # false or -1 = disabled.
       # Switch ID = enabled if this Switch is ON.
       CanQuickFly = true
@@ -255,7 +209,7 @@
 
       # true = enabled: The player is allowed to fly from 1 Region to another.
       # false = disabled: The player can't fly from 1 Region to another.
-      AllowFlyToOtherRegions = true
+      AllowFlyToOtherRegions = false
 
       # Set to which Regions you can fly from the current Region. (Use the name of the region)
       FlyToRegions = {
@@ -264,15 +218,8 @@
       }
 
       # Set from which locations on a Region you can fly to another Region.
-      # If you don't want to use this then make this eaqual to LocationFlyToOtherRegion = {}.
       LocationFlyToOtherRegion = {
-        :Essen => {
-          "Route 8" => [1, 3],
-          "Ingido Plateau" => [3]
-        },
-        :Tiall => {
-          "Tiall Region" => [0, 3]
-        }
+
       }
 
       # true = enabled: When confirming the fly location, screen will fade out and in and you teleport directly to that location instead of the fly animation first.
@@ -291,14 +238,15 @@
         :fly => _INTL("Fly Map"),
         :quest => _INTL("Quest Map"), #requires the "Modern Quest System + UI" plugin to use.
         :berry => _INTL("Berry Map"), #requires the "TDW Berry Planting Improvements" plugin by Authorwrigty12 to use.
-        :roaming => _INTL("Roaming Map") #requires the "Roaming Icons" plugin by -FL- to use.
+        :roaming => _INTL("Roaming Map"), #requires the "Roaming Icons" plugin by -FL- to use.
+        :trainer => _INTL("Trainer Map") #requires rematch setup through the phone.
       }
 
       # true = enabled: When there are 3 or more modes available, you'll be offered a Menu to change modes.
       # false = disabled: There'll be no menu, chaning Modes is done by pressing the button set in ChangeModeButton.
       ChangeModeMenu = true
 
-    #================================ Music Settings ==============================#
+    #=============================== Music Settings ===============================#
 
       # true = enabled: The BGM will change when opening the Region Map.
       # false = disabled: The BGM will not change.
@@ -314,9 +262,9 @@
         [1, "Radio - March"] #Volume and Pitch are both set to 100 by default if not given here.
       ]
 
-    #================================== UI Settings ===============================#
+    #================================= UI Settings ================================#
 
-      #=============================== Map UI options ===========================#
+      #============================= Map UI Settings ============================#
 
         # true = enabled: Expand the Map behind the UI (most commonly used for transparent UI's).
         # false = disabled.
@@ -338,6 +286,8 @@
         # true = enabled: Uses the Special UI in UI/Special
         # false = disabled: Uses the Default UI in UI/Default
         UseSpecialUI = true
+
+      #============================ Map Zoom Settings ===========================#
 
         # true = enabled: Use the Region Map Zoom feature.
         # false = disabled: Don't use the Region Map Zoom feature.
@@ -386,7 +336,7 @@
         ModeNameOffsetX = 0
         ModeNameOffsetY = 0
 
-      #============================ Text Color Settings =========================#
+      #=========================== Text Color Settings ==========================#
 
         # Change the color for each Text individually (optional).
         # Color used for the Region and Distric Name Text.
@@ -405,14 +355,14 @@
         ModeTextMain = Color.new(248, 248, 248)
         ModeTextShadow = Color.new(0, 0, 0)
 
-      #=============================== Menu Settings ============================#
+      #============================== Menu Settings =============================#
 
         # Change the max options that'll show at the same time when seeing any choice menu.
         # Mainly used for the Quick Fly, Region Changing and Quest Preview.
         # This will prevent the screen being filled with all the location names incase they are long.
         MaxOptionsChoiceMenu = 4
 
-      #============================== Cursor Settings ===========================#
+      #============================= Cursor Settings ============================#
 
         # true = enabled: The map will move (if possible) when the cursor is 1 position away from the direction's edge of the screen.
         #   example: When you want to move to the Right, the map will start moving once the cursor is 1 tile away from the Right edge of the screen.
@@ -424,7 +374,7 @@
         # false = disabled: The Cursor will be placed on the Top Left on the Region Map when there's no Map Position defined for the Game Map the Region Map was opened from.
         CenterCursorByDefault = true
 
-      #============================Mouse Support Settings========================#
+      #========================== Mouse Support Settings ========================#
         # true = enabled: The mouse can be used for certain Actions on the Region Map.
         # false = disabled.
         UseMouseOnRegionMap = true
@@ -435,6 +385,7 @@
 
         # Set the mouse button for selecting a location and interacting with it (same function as pressing USE key)
         MouseButtonSelectLocation = Input::MOUSELEFT
+        
         # Set the mouse button for moving the map (press this button and drag the mouse to move the map) and for closing a preview (same function as pressing BACK key)
         MouseButtonMoveMap = Input::MOUSERIGHT
 
@@ -618,12 +569,6 @@
         # Add an array of other maps to a map so that the items on the maps in the array are counted toward the total items.
         # In the example below, map 3, 4 and 8 are linked to map 2 so the items findable on 3, 4 and 8 will be counted toward the total items findable on map 2.
         # You can do this for each map of those in the array as well.
-        #CountItemsToMainMap = {
-        #  2 => [3, 4, 8],
-        #  3 => [2, 4, 8],
-        #  4 => [2, 3, 8],
-        #  8 => [2, 3, 4]
-        #}
         CountItemsToMainMap = {
 
         }
@@ -677,7 +622,7 @@
 
         # true = enabled: The Icons for the Unseen Species will be shown but will have a black color overlay.
         # false = disabled: The Icons for the Unseen Species will be shown with a ? Icon.
-        UseSpritesForUnseenSpecies = false
+        UseSpritesForUnseenSpecies = true
 
         # Change the Color Unseen Species Icons will have when the Setting above is set to true (if false, this setting has no effect).
         UnseenSpeciesColor = Color.new(0, 0, 0)
@@ -761,5 +706,33 @@
         # false or -1 = disabled.
         # Switch ID = enabled when the Switch is ON.
         ShowRoamingIcons = true
+
+      #=======================Trainer Rematches Preview Settings=================#
+        # true or 0 = enabled: Trainer Icons will be shown on the Region Map (Trainer Mode).
+        # false or -1 = disabled.
+        # Switch ID = enabled when the Switch is ON.
+        ShowTrainerIcons = true
+
+        # Define your Trainer Rematches here by giving a name, the trainer class, event ID and mapID.
+        # You can either use a self switch of the event itself or a Game Switch to trigger 1 or more Trainer Rematches at once.
+        TrainerRematchesConfig = {
+
+        }
+
+    #=============================== Pokedex Settings =============================#   
+      # Choose which button will activate Region Switching on the Pokedex Area Section (nil means disabled)
+      ToggleRegionSwitchButton = Input::ACTION 
+
+      # Choose which button will activate the Location Filter Menu on the Pokedex Area Section (nil mean disabled)
+      ToggleLocFilterButton = Input::SPECIAL
+
+      # Choose which button will activate the Encounter Type Filter Menu on the Pokedex Area Section (nil means disabled)
+      ToggleEncTypeFilterButton = Input::JUMPDOWN
+
+      # "default" = location filter and encounter type filter trigger separatly
+      # "choice" = choice menu with which filter to choose and apply.
+      # "followUp" = follow up choice menu with the Encounter Type filter first, then the Location Filter
+      FilterMenuType = "default"
+
   end
 #======================================= The End ======================================#

@@ -3,14 +3,13 @@ class PokemonRegionMap_Scene
     getAvailableRegions if !@avRegions
     @avRegions = @avRegions.sort_by { |index| index[1] }
     @avRegions = checkConnectedRegions
-    #return if ARMSettings::UseRegionConnecting
     if @avRegions.length >= 3
       choice = messageMap(_INTL("Which Region would you like to change to?"),
         @avRegions.map { |mode| "#{mode[0]}" }, -1, nil, @region) { pbUpdate }
       return if choice == -1 || @region == @avRegions[choice][1]
       @region = @avRegions[choice][1]
     else
-      return if @avRegions.length < 1
+      return if @avRegions.length <= 1
       @region = @avRegions[0][1] == @region ? @avRegions[1][1] : @avRegions[0][1]
     end
     @choiceMode = 0
@@ -36,6 +35,8 @@ class PokemonRegionMap_Scene
       next if @avRegions.include?([name, region[0]])
       @avRegions << [pbGetMessageFromHash(ScriptTexts, name), region[0]]
     end
+    # Return avRegions for the pokedex call, normal call is not needed.
+    return @avRegions
   end
 
   def refreshRegionMap

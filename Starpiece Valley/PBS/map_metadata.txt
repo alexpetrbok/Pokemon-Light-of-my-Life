@@ -111,6 +111,7 @@ Bicycle = true
 Name = Farm
 Outdoor = true
 Bicycle = true
+MapPosition = 0,22,16
 BattleBack = BEACH
 WildBattleBGM = XY 016 Battle! (Wild Pokemon)
 TrainerBattleBGM = XY 021 Battle! (Trainer Battle)
@@ -120,41 +121,49 @@ Environment = None
 Name = Lake
 Outdoor = true
 Bicycle = true
+MapPosition = 0,25,8
 #-------------------------------
 [048]   # Town
 Name = Town
 Outdoor = true
 Bicycle = true
+MapPosition = 0,14,8
 #-------------------------------
 [076]   # Estuary
 Name = River Estuary
 Outdoor = true
 Bicycle = true
+MapPosition = 0,4,9
 #-------------------------------
 [077]   # Swamp
 Name = Swamp
 Outdoor = true
 Bicycle = true
+MapPosition = 0,17,3
 #-------------------------------
-[078]   # Lab
+[078]   # Beach
 Name = Lab
 Outdoor = true
 Bicycle = true
+MapPosition = 0,4,2
 #-------------------------------
 [079]   # Meadows
 Name = Bug Meadows
 Outdoor = true
 Bicycle = true
+MapPosition = 0,24,3
 #-------------------------------
 [080]   # Hot Springs
 Name = Mountain Path
 Outdoor = true
 Bicycle = true
+MapPosition = 0,14,17
 #-------------------------------
 [081]   # Mines
 Name = Mines
 Outdoor = true
 Bicycle = true
+MapPosition = 0,5,17
 #-------------------------------
 [087]   # Cave Dungeon 1
 Name = Cave Dungeon 1

@@ -1,13 +1,10 @@
 ﻿#-------------------------------
 [0]
-Name = Soam Region
 Filename = mapRegion0.png
-Point = 41,28,Home,Your House,136,013,034,,
-Point = 41,23,Canopy Creek,Pokemon Daycare,042,022,028,,mapSize1x1
-Point = 39,24,Leafeon Sanctuary,,076,026,017,,mapSize1x1Eevee
-Point = 29,18,Cascadia,,083,015,032,,mapSize1x1
-Point = 32,16,Espeon Sanctuary,,111,026,015,,mapSize1x1Eevee
-Point = 29,27,BloomWater Town,,125,013,039,,mapSize1x1
-Point = 35,27,Vaporeon Sanctuary,,142,051,023,,mapSize1x1Eevee
-Point = 12,4,Magaii Isle,Department Store and Casino,099,058,020,
-Point = 7,2,Flareon Sanctuary,,102,037,021,,mapSize1x1Eevee
+Name = Pelipper Town
+Point = 22,16,Your House,Home ,42,27,29,,
+Point = 14,18,Hot Springs,,80,38,58,,
+Point = 5,16,Mines,,81,53,32,,
+Point = 14,9,Town Pokecenter,Pokecenter,48,40,45,,
+Point = 26,3,Meadows,Bug Catching Contest,79,40,53,,
+Point = 6,2,Beach,Lab,78,66,41,,

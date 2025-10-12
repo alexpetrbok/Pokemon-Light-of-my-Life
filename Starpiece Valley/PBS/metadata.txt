@@ -2,8 +2,8 @@
 #-------------------------------
 [0]
 StartMoney = 3000
-StartItemStorage = POTION
-Home = 82,23,4,2
+StartItemStorage = POTION,ORANBERRY
+Home = 82,23,3,2
 StorageCreator = Pokemon
 WildBattleBGM = Battle wild
 TrainerBattleBGM = Battle trainer

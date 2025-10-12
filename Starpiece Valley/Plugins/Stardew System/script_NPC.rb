@@ -499,6 +499,7 @@ module NPCSystem
     # Merge all three sources; seasonal/default carry lower weights.
     candidates = []
     state_list.each            { |e| candidates << [e, source_state_weight] }
+    relation_list.each            { |e| candidates << [e, source_state_weight] }
     season_list.each { |e| candidates << [e, source_season_weight] }
     default_list.each          { |e| candidates << [e, source_default_weight] }
 
@@ -782,6 +783,7 @@ def pbNPC(id, interaction_type = :talk)
   unless pbResolveBitmap("Graphics/Trainers/#{portrait}")
     portrait = npc.id
   end
+  Rf.set_speaker(npc.name)
   Rf.new_portrait(portrait)
 
   # Handle daily affection bonus
@@ -791,6 +793,7 @@ def pbNPC(id, interaction_type = :talk)
 
   # Close portraits
   Rf.close_portrait
+  Rf.clear_speaker
 end
 
 def debug_print_all_npcs

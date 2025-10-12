@@ -12,51 +12,162 @@ NamePlural = Souldew Rings
 Pocket = 1
 Price = 100000
 Description = A beautiful pair of rings soul-bonded together, a symbol of deep commitment and love. Given to your soulmate to propose marriage. 
-#-------------------------------
-[CUTITEM]
-Name = Axe
-NamePlural = Axes
-Pocket = 8
-Price = 0
-FieldUse = Direct
-Flags = KeyItem
-Description = A sturdy axe for chopping small trees and gathering wood. Uses energy with each swing.
-#-------------------------------
-[ROCKSMASHITEM]
-Name = Pickaxe
-NamePlural = Pickaxes
-Pocket = 8
-Price = 0
-FieldUse = Direct
-Flags = KeyItem
+#------------------------------- 
+[CUTITEM] 
+Name = Axe 
+NamePlural = Axes 
+Pocket = 8 
+Price = 0 
+FieldUse = Direct 
+Flags = KeyItem 
+Description = A sturdy axe for chopping small trees and gathering wood. Uses energy with each swing. 
+#------------------------------- 
+[ROCKSMASHITEM] 
+Name = Pickaxe 
+NamePlural = Pickaxes 
+Pocket = 8 
+Price = 0 
+FieldUse = Direct 
+Flags = KeyItem 
 Description = A heavy pickaxe for breaking rocks and collecting stone. Uses energy with each strike.
 #-------------------------------
-[DAYCARESIGHT]
-Name = Day-Care Sight
-NamePlural = Day-Care Sights
+[STRENGTHITEM]
+Name = EXO-Suit
+NamePlural = EXO-Suits
 Pocket = 8
-Price = 0
+Price = 20000
 FieldUse = Direct
 Flags = KeyItem
-Description = A visor that can be use to see Pokémon in Day-Care to monitor their growth.
+Description = A power-assisted suit that lets you move heavy boulders and obstacles. Uses energy while active.
+#-------------------------------
+[HEADBUTTITEM]
+Name = Hard Helmet
+NamePlural = Hard Helmets
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A reinforced helmet for ramming trees or weak walls. May dislodge berries or Pokémon; uses energy.
+#-------------------------------
+[SURFITEM]
+Name = Poké-Float
+NamePlural = Poké-Floats
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A floating mat that lets you cross deep water when inflated. Uses energy when deployed.
+#-------------------------------
+[DIVEITEM]
+Name = Rebreather
+NamePlural = Rebreathers
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A compact diving apparatus for exploring underwater areas. Consumes energy while submerged.
+#-------------------------------
+[FLASHITEM]
+Name = Firefly Lantern
+NamePlural = Firefly Lanterns
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A glowing lantern filled with luminous Pokémon fireflies. Illuminates dark places using a small amount of energy.
+#-------------------------------
+[FLYITEM]
+Name = Flight Ticket
+NamePlural = Flight Tickets
+Pocket = 1
+Price = 100
+FieldUse = Direct
+Consumable = true
+Description = A single-use ticket for fast air travel to a known town. The ticket is used up on departure.
+#-------------------------------
+[DIGITEM]
+Name = Dungeon Kit
+NamePlural = Dungeon Kits
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A set of digging tools and an escape rope for tunneling out of caves or excavating dig spots. Costs energy per use.
+#-------------------------------
+[TELEPORTITEM]
+Name = Crystal Ball
+NamePlural = Crystal Balls
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A mystic orb that allows the use of your psychic powers. 
+#-------------------------------
+[WATERFALLITEM]
+Name = Climbing Gloves
+NamePlural = Climbing Gloves
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = Rugged gloves with traction pads for scaling cliffs and waterfalls.
+#-------------------------------
+[SWEETSCENTITEM]
+Name = Perfume
+NamePlural = Perfumes
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A fragrant scent that attracts nearby wild Pokémon, increasing encounter rate. Costs energy to disperse.
+#-------------------------------
+[REPELITEM]
+Name = Ranger Repel
+NamePlural = Ranger Repels
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A field device that emits calming waves to keep wild Pokémon at bay. Can lower or stop encounters.
+#-------------------------------
+[SADDLEITEM]
+Name = Saddle
+NamePlural = Saddles
+Pocket = 8
+Price = 20000
+FieldUse = Direct
+Flags = KeyItem
+Description = A comfortable saddle, allows riding Pokémon for fast travel on land.
 #-------------------------------
 [EEVEECHANGER]
 Name = Eevee Changer
 NamePlural = Eevee Changers
 Pocket = 8
-Price = 0
+Price = 20000
 FieldUse = OnPokemon
 Flags = KeyItem
 Description = An item that will allow you to switch between forms of Eevee!
 #-------------------------------
-[EGGHATCHER]
-Name = Egg Hatcher
-NamePlural = Egg Hatchers
-Pocket = 8
-Price = 0
-FieldUse = Direct
-Flags = KeyItem
-Description = An Egg Hatcher in which to keep up to 6 eggs until they hatch.
+[WOOD]
+Name = Wood
+NamePlural = Wood
+Pocket = 1
+Price = 50
+Description = A bundle of lumber useful for crafting and upgrades.
+#-------------------------------
+[ORE]
+Name = Ore
+NamePlural = Ore
+Pocket = 1
+Price = 120
+Description = A chunk of raw ore that can be smelted or traded.
+#-------------------------------
+[GEODE]
+Name = Geode
+NamePlural = Geodes
+Pocket = 1
+Price = 1000
+Description = A mysterious rock that might hide something valuable inside.
 #-------------------------------
 [MILK]
 Name = Milk
@@ -83,7 +194,6 @@ FieldUse = OnPokemon
 BattleUse = OnPokemon
 Flags = Fling_90
 Description = Soda Pop + Milk = Pilk. I wouldn't want to drink it.
-
 #-------------------------------
 [YOINKBALL]
 Name = Yoink Ball

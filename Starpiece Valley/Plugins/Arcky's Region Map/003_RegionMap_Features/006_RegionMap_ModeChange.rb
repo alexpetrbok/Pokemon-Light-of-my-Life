@@ -12,6 +12,7 @@ class PokemonRegionMap_Scene
     @spritesMap["QuestIcons"].visible = @spritesMap["QuestSelect"].visible = @mode == 2 if QuestPlugin && ARMSettings::ShowQuestIcons
     @spritesMap["BerryIcons"].visible = @mode == 3 if BerryPlugin && allowShowingBerries
     @spritesMap["RoamingIcons"].visible = @mode == 4 if enableMode(ARMSettings::ShowRoamingIcons)
+    @spritesMap["TrainerIcons"].visible = @mode == 5 if enableMode(ARMSettings::ShowTrainerIcons)
     @spritesMap["highlight"].bitmap.clear if @spritesMap["highlight"]
     colorCurrentLocation
   end
@@ -55,6 +56,11 @@ class PokemonRegionMap_Scene
           mode: 4,
           text: pbGetMessageFromHash(ScriptTexts, "#{ARMSettings::ModeNames[:roaming]}"),
           condition: enableMode(ARMSettings::ShowRoamingIcons) && $PokemonGlobal.roamPosition.any? { |roamPos| getActiveRoaming(roamPos) && getRoamingTownMapPos(roamPos) }
+        },
+        :trainer => {
+          mode: 5,
+          text: pbGetMessageFromHash(ScriptTexts, "#{ARMSettings::ModeNames[:trainer]}"),
+          condition: enableMode(ARMSettings::ShowTrainerIcons) && @trainerData.length > 0
         }
       }
       @modeCount = @modeInfo.values.count { |mode| mode[:condition] }
@@ -122,7 +128,7 @@ class PokemonRegionMap_Scene
     end
     @sprites["modeName"].bitmap.clear
     refreshFlyScreen
-    @sprites["mapbottom"].previewName = [getPreviewName(@mapX, @mapY), @previewWidth] if @mode == 2 || @mode == 3 || @mode == 4
+    @sprites["mapbottom"].previewName = [getPreviewName(@mapX, @mapY), @previewWidth] if @mode == 2 || @mode == 3 || @mode == 4 || @mode == 5
     @sprites["buttonName"].bitmap.clear
   end
 end

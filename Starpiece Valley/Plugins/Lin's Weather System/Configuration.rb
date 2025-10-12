@@ -17,8 +17,8 @@ module WeatherConfig
 
   # Define the min and max amount of time (in hours) before the weather changes.
   # Set the same number to not randomize the amount of time before the weather changes.
-  CHANGE_TIME_MIN = 8		# Default: 1
-  CHANGE_TIME_MAX = 12		# Default: 4
+  CHANGE_TIME_MIN = 200		# Default: 1
+  CHANGE_TIME_MAX = 1200		# Default: 4
 
   # Set to true to if you want to force the weather to change when interacting with certain events.
   # Use pbForceUpdateWeather in an event to update all zone weathers.
@@ -94,9 +94,7 @@ module WeatherConfig
   # The maps within each zone will have the same weather at the same time.
   # Each zone may have a different weather than the others.
   ZONE_MAPS = [
-    [42, 43, 77, 79],  # Zone 1: Farm, Lake, Swamp, Bug Meadows
-    [48, 78, 76],       # Zone 2: Town, Lab, River Estuary
-    [80, 81]            # Zone 3: Mountain Path, Mines
+    [42, 43, 77, 79, 48, 78, 76, 80, 81]  # Zone 1: Farm, Lake, Swamp, Bug Meadows Zone 2: Town, Beach, River Estuary Zone 3: Mountain Path, Hot Springs           
   ]
 #===============================================================================
 # * Map Display
@@ -106,9 +104,7 @@ module WeatherConfig
   # In Map ID you have to put the ID of the map the name corresponds to, like in ZONE_MAPS.
   MAPS_POSITIONS = [
     #{"Map Name" => Map ID},
-    {"Lappet Town" => 2, "Route 1" => 5},
-    {"Cedolan City" => 7},
-    {"Route 2" => 21}
+    {"Lappet Town" => 2, "Route 1" => 5}
   ]
 
   # A hash for the plugin to display the proper weather image on the map.
@@ -134,32 +130,24 @@ module WeatherConfig
   # Probability of weather in spring.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_SPRING = [
-    [30, 40, 5, 0, 0, 0, 10, 15, 0],  # Zone 1
-    [20, 30, 10, 0, 0, 0, 5, 20, 15],  # Zone 2
-    [20, 20, 10, 10, 0, 0, 5, 15, 20]  # Zone 3
+    [50, 20, 5, 0, 0, 0, 5, 10, 10],  
   ]
 
   # Probability of weather in summer.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_SUMMER = [
-    [20, 30, 10, 0, 0, 0, 5, 35, 0],   # Zone 1
-    [10, 20, 20, 0, 0, 0, 10, 30, 10], # Zone 2
-    [10, 10, 20, 0, 0, 0, 10, 40, 10]  # Zone 3
+    [50, 10, 10, 0, 0, 0, 0, 30, 0],   
   ]
 
   # Probability of weather in autumn.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_AUTUMN = [
-    [40, 20, 5, 0, 0, 0, 5, 10, 20],   # Zone 1
-    [30, 20, 10, 0, 0, 0, 5, 15, 20],  # Zone 2
-    [20, 10, 10, 10, 0, 0, 5, 15, 30]  # Zone 3
+    [40, 5, 0, 5, 0, 10, 0, 10, 30],   
   ]
 
   # Probability of weather in winter.
   # Order: None, Rain, Storm, Snow, Blizzard, Sandstorm, HeavyRain, Sun/Sunny, Fog
   ZONE_WEATHER_WINTER = [
-    [30, 10, 0, 30, 5, 0, 0, 10, 15],  # Zone 1
-    [20, 10, 5, 20, 0, 0, 0, 10, 35],  # Zone 2
-    [10, 5, 0, 40, 20, 0, 0, 5, 20]    # Zone 3
+    [30, 10, 0, 30, 10, 0, 0, 10, 10],  
   ]
 end

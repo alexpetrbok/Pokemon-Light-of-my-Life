@@ -731,7 +731,7 @@ class PokemonRegionMap_Scene
     text << [formsDefeated.to_s, x, y, :center, @base, @shadow] if totalDefeated != 0 && formsDefeated.is_a?(Numeric)
 
     x = @rasterX + 250
-    text << [totalDefeated.to_s, x, y, :center, @base, @shadow] if (totalDefeated != defeated || (totalCaught != caught || totalSeen != seen))  || (formsDefeated.is_a?(Numeric) && formsDefeated != 0)
+    text << [totalDefeated.to_s, x, y, :center, @base, @shadow] if (totalDefeated != defeated && (totalCaught != caught || totalSeen != seen))  || (formsDefeated.is_a?(Numeric) && formsDefeated != 0)
 
     x = @rasterX + 150
     text << [defeated.to_s, x, y, :center, @base, @shadow] if defeated != 0 || totalDefeated != 0
@@ -745,7 +745,7 @@ class PokemonRegionMap_Scene
     text << [formsCaught.to_s, x, y, :center, @base, @shadow] if totalCaught != 0 && formsCaught.is_a?(Numeric)
 
     x = @rasterX + 250
-    text << [totalSeen.to_s, x, y, :center, @base, @shadow] if totalCaught != caught || (formsCaught.is_a?(Numeric) && formsCaught != 0)
+    text << [totalCaught.to_s, x, y, :center, @base, @shadow] if (totalCaught != caught) || (formsCaught.is_a?(Numeric) && formsCaught != 0)
 
     x = @rasterX + 150
     text << [caught.to_s, x, y, :center, @base, @shadow] if caught != 0 || totalCaught != 0

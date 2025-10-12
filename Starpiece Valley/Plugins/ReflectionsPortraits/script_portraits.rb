@@ -36,7 +36,7 @@ module Rf
       main_outline.y = main_sprite.y - 4  # <-- Align outline with main sprite
     end 
 
-    Rf.set_speaker(main_char.to_s)  # Set NPC1 as the speaker
+    #Rf.set_speaker(main_char.to_s)  # Set NPC1 as the speaker
 
     # Secondary characters (left-aligned with mirroring)
     secondary_chars = characters[1..3]

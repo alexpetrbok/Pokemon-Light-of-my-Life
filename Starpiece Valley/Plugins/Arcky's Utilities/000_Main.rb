@@ -229,6 +229,7 @@ def mergeArrayToString(array)
 end
 
 def getDateFromString(date)
+  date = Time.now if date.nil?
   dateArray = date.split('-')
   return Time.local(dateArray[0], dateArray[1], dateArray[2])
 end
@@ -376,5 +377,14 @@ def pbWait(duration)
     Graphics.update
     Input.update
     pbUpdateSceneMap if $amount.nil? || $amount.empty?
+  end
+end
+
+def setCurrency(currency)
+  if ["money", "gold", "coins", "battle points", "bp"].any? { |value| value == currency.downcase }
+    return currency
+  else
+    Console.echoln_li _INTL("#{currency} is an invalid currency!")
+    return "money"
   end
 end
